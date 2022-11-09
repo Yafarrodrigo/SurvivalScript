@@ -25,8 +25,14 @@ class UI{
             const list = document.createElement('ul')
             this.game.map.allTileTypes[type].options.forEach( option => {
                 const newItem = document.createElement('li')
-                newItem.innerText = option.desc
-                newItem.onclick = (e) => {e.preventDefault(); this.hideMenus(); this.game.actions[option.actionName]()}
+                newItem.innerText = option.name
+                newItem.onclick = (e) => {
+                    e.preventDefault()
+                    this.hideMenus()
+                    if(!container.classList.contains("disabled")){
+                        this.game.actions[option.actionCode](this.game, option.desc)
+                    }
+                }
                 newItem.oncontextmenu = (e) => e.preventDefault()
                 list.append(newItem)
             })
@@ -44,8 +50,8 @@ class UI{
         const list = document.createElement('ul')
         this.game.player.options.forEach( option => {
             const newItem = document.createElement('li')
-            newItem.innerText = option.desc
-            newItem.onclick = (e) => {e.preventDefault(); this.hideMenus(); this.game.actions[option.actionName]()}
+            newItem.innerText = option.name
+            newItem.onclick = (e) => {e.preventDefault(); this.hideMenus(); this.game.actions[option.actionCode](this.game, option.desc)}
             newItem.oncontextmenu = (e) => e.preventDefault()
             list.append(newItem)
         })
@@ -56,7 +62,7 @@ class UI{
         return allMenus
     }
 
-    showMenu(e: MouseEvent, tileType: string, options:{actionName: string,desc: string}[]){
+    showMenu(e: MouseEvent, tileType: string, options:{actionCode: string,desc: string}[]){
         const type = tileType+"Menu"
         this.menus[type].style.top = e.offsetY + "px"
         this.menus[type].style.left = e.offsetX + "px"
@@ -66,6 +72,14 @@ class UI{
             this.showMenu(e, tileType, options)
         }
         else{
+            const {x,y} = this.game.cursorPos
+            const {x: px, y:py} = this.game.player.position
+            if(x > px+1 || x < px-1 || y > py+1 || y < py-1){
+                console.log("muy lejos");
+                this.menus[type].classList.add("disabled")
+            }else{
+                this.menus[type].classList.remove("disabled")
+            }
             this.menus[type].style.display = "block"
         }
         this.activeMenu = this.menus[type]

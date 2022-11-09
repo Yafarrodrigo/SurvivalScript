@@ -18,7 +18,7 @@ class Game {
     }
     clock: ReturnType<typeof setInterval> | null
     ui: UI
-    actions: {[key:string]: () => void}
+    actions: {[key:string]: (game:Game,desc:string) => void}
 
     constructor(){
         this.graphics = new Graphics(this, 800,600)

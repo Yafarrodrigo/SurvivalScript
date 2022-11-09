@@ -7,7 +7,7 @@ class Player{
         x:number,
         y:number
     }
-    options:{actionName: string,desc: string}[]
+    options:{actionCode: string,name:string,desc: string}[]
 
     constructor(game: Game){
         this.game = game
@@ -16,9 +16,9 @@ class Player{
             y: Math.floor(Math.random()*game.graphics.tilesPerColumn)
         }
         this.options = [
-            {actionName: "wait", desc: "wait"},
-            {actionName: "sit", desc: "sit"},
-            {actionName: "startCampfire", desc: "start camfire"}
+            {actionCode: "wait",name:"wait", desc: "waiting"},
+            {actionCode: "sit",name:"sit", desc: "siting"},
+            {actionCode: "startCampfire",name:"start campfire", desc: "starting camfire"}
         ]
     }
 

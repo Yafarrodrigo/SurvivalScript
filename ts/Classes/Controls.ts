@@ -79,13 +79,7 @@ class Controls{
         this.game.graphics.canvas.oncontextmenu = (e) => {
             e.preventDefault();
             const {x,y} = this.game.cursorPos
-            const {x: px, y:py} = this.game.player.position
 
-            if(x > px+1 || x < px-1 || y > py+1 || y < py-1){
-                console.log("muy lejos");
-                return
-            }
-            
             if(this.game.cursorPos.x === this.game.player.position.x &&
                 this.game.cursorPos.y === this.game.player.position.y){
                     this.game.ui.showMenu(e, "player", this.game.player.options)
