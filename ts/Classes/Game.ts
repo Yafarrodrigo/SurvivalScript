@@ -3,6 +3,7 @@ import Graphics from './Graphics.js'
 import Map from './Map.js'
 import Player from './Player.js'
 import UI from './UI.js'
+import ACTIONS from '../Actions.js'
 
 class Game {
     width: number = 800
@@ -17,6 +18,7 @@ class Game {
     }
     clock: ReturnType<typeof setInterval> | null
     ui: UI
+    actions: {[key:string]: () => void}
 
     constructor(){
         this.graphics = new Graphics(this, 800,600)
@@ -27,6 +29,7 @@ class Game {
         this.clock = null
         this.ui = new UI(this)
 
+        this.actions = ACTIONS
         this.graphics.update()
     }
 

@@ -7,6 +7,7 @@ class Player{
         x:number,
         y:number
     }
+    options:{actionName: string,desc: string}[]
 
     constructor(game: Game){
         this.game = game
@@ -14,6 +15,11 @@ class Player{
             x: Math.floor(Math.random()*game.graphics.tilesPerRow),
             y: Math.floor(Math.random()*game.graphics.tilesPerColumn)
         }
+        this.options = [
+            {actionName: "wait", desc: "wait"},
+            {actionName: "sit", desc: "sit"},
+            {actionName: "startCampfire", desc: "start camfire"}
+        ]
     }
 
     move(dir: "up" | "down" | "left" | "right"){

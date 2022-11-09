@@ -5,13 +5,18 @@ class Tile{
     color: string
     x: number
     y: number
+    options: {
+        actionName: string,
+        desc: string
+    }[]
 
-    constructor(id:number, type:string, color:string, x:number, y:number){
+    constructor(id:number, type:string, color:string, x:number, y:number, options:{actionName: string,desc: string}[]){
         this.id = id
         this.type = type
         this.color = color
         this.x = x
         this.y = y
+        this.options = options
     }
 }
 
