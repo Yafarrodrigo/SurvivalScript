@@ -9,16 +9,23 @@ class Map{
     constructor(tilesPerColumn: number, tilesPerRow: number){
         // MAP GEN
         const perlin = new Perlin(0.5,0.5)
-        perlin.setSeed(5000)
+        const n1 = 23//Math.floor(Math.random()*100)           //  tweak for map gen
+        const n2 = 8923//Math.floor(Math.random()*10000)           //  tweak for map gen
+        const seed = 4339//Math.floor(Math.random()*10000)
+        perlin.setSeed(seed)    //  tweak for map gen
+        console.log({n1,n2, seed});
+        
         const newMap = []
         for(let y = 0; y < tilesPerColumn; y++){
             for(let x = 0; x < tilesPerRow; x++){
 
-                let rndValue = Math.abs(perlin.noise(x/1000+x/25,y/1000+y/25))
+
+                let rndValue = Math.abs(perlin.noise(x/n1+x/n2,y/n1+y/n2))
 
                 let color:string
                 let tileType:string
                 let options:{actionCode:string, name:string,desc:string}[] = []
+                let walkable = true
                 // AGUA
                 if(rndValue < 0.05){
                     color = "MediumTurquoise"
@@ -27,9 +34,10 @@ class Map{
                         {actionCode:"fish",name:"fish", desc: "fishing"},
                         {actionCode:"drink",name:"drink", desc: "drinking water"}
                     ]
+                    walkable = false
                 }
                 // ARENA
-                else if(rndValue < 0.1){
+                else if(rndValue < 0.15){
                     color = "khaki"
                     tileType = "sand"
                     options = [
@@ -54,9 +62,10 @@ class Map{
                         {actionCode:"gatherFruits",name:"gather fruits", desc: "gathering fruits from trees"},
                         {actionCode:"gatherSap",name:"gather sap", desc: "gathering sap from trees"}
                     ]
+                    walkable = false
                 }
 
-                let newTile = new Tile(y+(x*y),tileType,color,x,y,options)
+                let newTile = new Tile(y+(x*y),tileType,color,x,y,walkable,options)
                 newMap.push(newTile)
             }
         }

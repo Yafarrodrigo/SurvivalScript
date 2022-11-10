@@ -14,7 +14,7 @@ class Graphics{
         this.game = game
         this.width = width
         this.height = height
-        this.tileSize = 40
+        this.tileSize = 25
         this.tilesPerRow = this.width / this.tileSize
         this.tilesPerColumn = this.height / this.tileSize
 

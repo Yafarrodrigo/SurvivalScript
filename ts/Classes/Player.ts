@@ -1,4 +1,5 @@
 import Game from "./Game.js"
+import Inventory from "./Inventory.js"
 
 class Player{
 
@@ -8,36 +9,53 @@ class Player{
         y:number
     }
     options:{actionCode: string,name:string,desc: string}[]
+    inventory: Inventory
 
     constructor(game: Game){
         this.game = game
-        this.position = {
+        let startingPos = {
             x: Math.floor(Math.random()*game.graphics.tilesPerRow),
             y: Math.floor(Math.random()*game.graphics.tilesPerColumn)
         }
+        while(this.game.map.getTile(startingPos.x,startingPos.y).walkable !== true){
+            startingPos = {
+                x: Math.floor(Math.random()*game.graphics.tilesPerRow),
+                y: Math.floor(Math.random()*game.graphics.tilesPerColumn)
+            }
+        }
+        this.position = startingPos
         this.options = [
             {actionCode: "wait",name:"wait", desc: "waiting"},
             {actionCode: "sit",name:"sit", desc: "siting"},
             {actionCode: "startCampfire",name:"start campfire", desc: "starting camfire"}
         ]
+        this.inventory = new Inventory()
     }
 
     move(dir: "up" | "down" | "left" | "right"){
         switch(dir){
             case "up":{
-                this.position.y -= 1
+                if(this.game.map.getTile(this.position.x,this.position.y-1).walkable === true){
+                    this.position.y -= 1
+                }
                 break
             }
             case "down":{
-                this.position.y += 1
+                if(this.game.map.getTile(this.position.x,this.position.y+1).walkable === true){
+                    this.position.y += 1
+                }
                 break
             }
             case "left":{
-                this.position.x -= 1
+                if(this.game.map.getTile(this.position.x-1,this.position.y).walkable === true){
+                    this.position.x -= 1
+                }
                 break
             }
             case "right":{
-                this.position.x += 1
+                if(this.game.map.getTile(this.position.x+1,this.position.y).walkable === true){
+                    this.position.x += 1
+                }
                 break
             }
         }
