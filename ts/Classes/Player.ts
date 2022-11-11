@@ -58,6 +58,7 @@ class Player{
                 }
                 break
             }
+            default: return
         }
     }
 }

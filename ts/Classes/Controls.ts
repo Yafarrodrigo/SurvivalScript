@@ -69,6 +69,10 @@ class Controls{
              
             if(canvas.id === "game-canvas"){
                 this.game.ui.hideMenus()
+
+                // test click en el game!
+                /* const {x,y} = this.game.cursorPos
+                this.game.map.changeTile(x,y, "water") */
             }
         }
 
@@ -79,6 +83,7 @@ class Controls{
         this.game.graphics.canvas.oncontextmenu = (e) => {
             e.preventDefault();
             const {x,y} = this.game.cursorPos
+            this.game.lastClickedTile = this.game.map.getTile(x,y)
 
             if(this.game.cursorPos.x === this.game.player.position.x &&
                 this.game.cursorPos.y === this.game.player.position.y){

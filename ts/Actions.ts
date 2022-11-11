@@ -8,17 +8,30 @@ function showDesc(txt:string){
 }
 
 const ACTIONS = {
-    fish: (game:Game, desc:string) => showDesc(desc),
-    drink: (game:Game, desc:string) => showDesc(desc),
-    gatherSand: (game:Game, desc:string) => showDesc(desc),
-    gatherBranches: (game:Game, desc:string) => showDesc(desc),
-    gatherSticks: (game:Game, desc:string) => showDesc(desc),
-    gatherRocks: (game:Game, desc:string) => showDesc(desc),
-    gatherFruits: (game:Game, desc:string) => showDesc(desc),
-    gatherSap: (game:Game, desc:string) => showDesc(desc),
-    wait: (game:Game, desc:string) => showDesc(desc),
-    sit: (game:Game, desc:string) => showDesc(desc),
-    startCampfire: (game:Game, desc:string) => showDesc(desc)
+    fish: (game:Game) => {},
+    drink: (game:Game) => {},
+    gatherSand: (game:Game) => {},
+    gatherSmallRocks: (game:Game) => {},
+    gatherSticks: (game:Game) => {
+        const rndQty = Math.floor(Math.random()*3)+1
+        game.player.inventory.addItem("mat_wood_small_stick", rndQty)
+        game.player.inventory.update()
+        console.log(`gathered ${rndQty} small sticks`);
+        
+    },
+    gatherGrassFibers: (game:Game) => {
+        const rndQty = Math.floor(Math.random()*3)+1
+        game.player.inventory.addItem("mat_grass_fiber", rndQty)
+        game.player.inventory.update()
+        console.log(`gathered ${rndQty} fibers`);
+        
+    },
+    gatherWorms: (game:Game) => {},
+    gatherLongStick: (game:Game) => {},
+    gatherFruits: (game:Game) => {},
+    gatherSap: (game:Game) => {}
+    
+
 }
 
 export default ACTIONS

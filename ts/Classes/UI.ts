@@ -51,7 +51,11 @@ class UI{
         this.game.player.options.forEach( option => {
             const newItem = document.createElement('li')
             newItem.innerText = option.name
-            newItem.onclick = (e) => {e.preventDefault(); this.hideMenus(); this.game.actions[option.actionCode](this.game, option.desc)}
+            newItem.onclick = (e) => {
+                e.preventDefault()
+                this.hideMenus()
+                this.game.actions[option.actionCode](this.game, option.desc)
+            }
             newItem.oncontextmenu = (e) => e.preventDefault()
             list.append(newItem)
         })

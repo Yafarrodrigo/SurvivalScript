@@ -8,4 +8,8 @@ h1.textContent = ""
 h1.id = "info"
 document.body.append(h1)
 
+const itemList = document.createElement('ul')
+itemList.id = "itemList"
+document.body.append(itemList)
+
 console.log(game);
