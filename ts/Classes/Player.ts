@@ -29,7 +29,7 @@ class Player{
             {actionCode: "sit",name:"sit", desc: "siting"},
             {actionCode: "startCampfire",name:"start campfire", desc: "starting camfire"}
         ]
-        this.inventory = new Inventory()
+        this.inventory = new Inventory(this.game)
     }
 
     move(dir: "up" | "down" | "left" | "right"){

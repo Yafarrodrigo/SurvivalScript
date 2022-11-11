@@ -1,37 +1,51 @@
 import Game from "./Classes/Game.js"
 
-function showDesc(txt:string){
-    document.getElementById('info')!.textContent = "..."+txt
-    setTimeout(()=>{
-        document.getElementById('info')!.textContent = ""
-    },2000)
-}
-
 const ACTIONS = {
-    fish: (game:Game) => {},
-    drink: (game:Game) => {},
-    gatherSand: (game:Game) => {},
-    gatherSmallRocks: (game:Game) => {},
+    fish: (game:Game) => {
+        if(game.player.inventory.has("tool_fishingRod",1) && game.player.inventory.has("cons_bait_worm",1)){
+            game.player.inventory.removeItem("cons_bait_worm", 1)
+            game.player.inventory.addItem("cons_food_fish", 1)
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 fish`);
+            game.player.inventory.update()
+        }
+        else{
+            console.log("nope");
+        }
+    },
+    gatherSmallRocks: (game:Game) => {
+        const rndQty = Math.floor(Math.random()*3)+1
+        game.player.inventory.addItem("mat_stone_small_rock", rndQty)
+        game.player.inventory.update()
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+${rndQty} small rocks`);
+        
+    },
     gatherSticks: (game:Game) => {
         const rndQty = Math.floor(Math.random()*3)+1
         game.player.inventory.addItem("mat_wood_small_stick", rndQty)
         game.player.inventory.update()
-        console.log(`gathered ${rndQty} small sticks`);
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+${rndQty} small sticks`);
         
     },
     gatherGrassFibers: (game:Game) => {
         const rndQty = Math.floor(Math.random()*3)+1
         game.player.inventory.addItem("mat_grass_fiber", rndQty)
         game.player.inventory.update()
-        console.log(`gathered ${rndQty} fibers`);
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+${rndQty} fibers`);
         
     },
-    gatherWorms: (game:Game) => {},
-    gatherLongStick: (game:Game) => {},
-    gatherFruits: (game:Game) => {},
-    gatherSap: (game:Game) => {}
-    
-
+    gatherWorms: (game:Game) => {
+        const rndQty = Math.floor(Math.random()*3)+1
+        game.player.inventory.addItem("cons_bait_worm", rndQty)
+        game.player.inventory.update()
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+${rndQty} worms`);
+        
+    },
+    gatherLongStick: (game:Game) => {
+        game.player.inventory.addItem("mat_wood_stick", 1)
+        game.player.inventory.update()
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 long stick`);
+        
+    }
 }
 
 export default ACTIONS

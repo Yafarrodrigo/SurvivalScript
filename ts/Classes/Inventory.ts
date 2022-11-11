@@ -1,21 +1,22 @@
 import _ITEMS from "../AllItems.js"
+import Game from "./Game.js"
+import Item from "./Item.js"
 
 class Inventory{
-    
+
+    game:Game
     items:{
-        [key:string]: {
-            name:string,
-            qty:number
-        }
+        [key:string]: Item
     }
 
-    constructor(){
+    constructor(game:Game){
+        this.game = game
         this.items = {}
     }
 
     addItem(itemId:string, qty: number){
         if(_ITEMS[itemId]){
-            this.items.hasOwnProperty(itemId) ? this.items[itemId].qty += qty : this.items[itemId] = {..._ITEMS[itemId], qty: 1}
+            this.items.hasOwnProperty(itemId) ? this.items[itemId].qty += qty : this.items[itemId] = new Item(itemId,qty)
         }
         else{
             console.log("no existe el item!");
@@ -33,6 +34,7 @@ class Inventory{
                 delete this.items[itemId]
             }
         }
+        this.game.ui.update()
     }
 
     has(itemId:string, qty:number){
@@ -49,8 +51,7 @@ class Inventory{
             newLi.textContent = `${this.items[item].name}, ${this.items[item].qty}`
             itemList.append(newLi)
         }
-        console.log(this.items);
-        
+        this.game.ui.update()
     }
 }
 

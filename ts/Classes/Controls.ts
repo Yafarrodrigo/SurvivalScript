@@ -73,11 +73,18 @@ class Controls{
                 // test click en el game!
                 /* const {x,y} = this.game.cursorPos
                 this.game.map.changeTile(x,y, "water") */
+                this.game.crafting.craft("mat_crafted_string")
+                this.game.crafting.craft("mat_crafted_rope")
+                this.game.crafting.craft("mat_crafted_hook")
+                this.game.crafting.craft("tool_fishingRod")
             }
         }
 
         document.onmousemove = (e) => {
-            this.updateCursorPos(this.getMousePos(e))         
+            const newMousePos = this.getMousePos(e)
+            this.updateCursorPos(newMousePos)  
+            const tile = this.game.map.getTile(newMousePos.x,newMousePos.y)
+            this.game.ui.updateTileName(tile.type)
         }
 
         this.game.graphics.canvas.oncontextmenu = (e) => {
@@ -90,7 +97,7 @@ class Controls{
                     this.game.ui.showMenu(e, "player", this.game.player.options)
             }else{
                 const {type,options} = this.game.map.getTile(x,y)
-                this.game.ui.showMenu(e, type, options)  
+                if(options.length) this.game.ui.showMenu(e, type, options)  
             }
         }
     }
