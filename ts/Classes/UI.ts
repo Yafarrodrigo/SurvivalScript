@@ -10,6 +10,8 @@ class UI{
     gameContainer: HTMLElement
     inventoryOpened: boolean
     inventoryPanel: HTMLDivElement | null
+    craftingOpened: boolean
+    craftingPanel: HTMLDivElement | null
 
     constructor(game: Game){
         this.game = game
@@ -19,6 +21,33 @@ class UI{
         this.inventoryPanel = null
         this.activeMenu = null
         this.inventoryOpened = false
+        this.craftingOpened = false
+        this.craftingPanel = null
+    }
+
+    openCrafting(){
+
+        if(this.craftingOpened) return
+
+        const container = document.createElement('div')
+        container.id = "crafting-panel"
+        container.oncontextmenu = (e) => e.preventDefault()
+
+        const header = document.createElement('div')
+        header.id = "crafting-header"
+        container.append(header)
+        header.oncontextmenu = (e) => e.preventDefault()
+
+        const h3 = document.createElement("h3")
+        h3.id = "crafting-name"
+        h3.textContent = "Crafting"
+        header.append(h3)
+        h3.oncontextmenu = (e) => e.preventDefault()
+
+
+        this.gameContainer.append(container)
+        this.craftingPanel = container
+        this.craftingOpened = true
     }
 
     openInventory(){
@@ -27,18 +56,22 @@ class UI{
 
         const container = document.createElement('div')
         container.id = "inventory-panel"
+        container.oncontextmenu = (e) => e.preventDefault()
 
         const header = document.createElement('div')
         header.id = "inventory-header"
         container.append(header)
+        header.oncontextmenu = (e) => e.preventDefault()
 
         const h3 = document.createElement("h3")
         h3.id = "inventory-name"
         h3.textContent = "Inventory"
         header.append(h3)
+        h3.oncontextmenu = (e) => e.preventDefault()
 
         const itemsContainer = document.createElement('div')
         itemsContainer.id = "inventory-items-container"
+        itemsContainer.oncontextmenu = (e) => e.preventDefault()
         
         // items
         const allItems = this.game.player.inventory.items
@@ -47,6 +80,7 @@ class UI{
             newItem.classList.add('inventory-item')
             newItem.id = allItems[item].id
             newItem.textContent = `${allItems[item].name}(${allItems[item].qty})`
+            newItem.oncontextmenu = (e) => e.preventDefault()
             itemsContainer.append(newItem)
         }
 
@@ -61,6 +95,16 @@ class UI{
             this.gameContainer.removeChild(this.inventoryPanel)
             this.inventoryPanel = null
             this.inventoryOpened = false
+            this.closeCrafting()
+        }
+    }
+
+    closeCrafting(){
+        if(this.craftingOpened && this.craftingPanel){
+            this.gameContainer.removeChild(this.craftingPanel)
+            this.craftingPanel = null
+            this.craftingOpened = false
+            this.closeInventory()
         }
     }
 

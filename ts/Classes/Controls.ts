@@ -65,6 +65,13 @@ class Controls{
                     this.game.ui.openInventory()
                 }
             }
+            else if (e.code == 'KeyC'){
+                if(this.game.ui.craftingOpened){
+                    this.game.ui.closeCrafting()
+                }else{
+                    this.game.ui.openCrafting()
+                }
+            }
 
             this.game.ui.hideMenus()
         }
