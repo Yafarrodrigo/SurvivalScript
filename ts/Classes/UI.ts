@@ -8,13 +8,60 @@ class UI{
     activeMenu: HTMLDivElement | null
     infoPanel: HTMLDivElement
     gameContainer: HTMLElement
+    inventoryOpened: boolean
+    inventoryPanel: HTMLDivElement | null
 
     constructor(game: Game){
         this.game = game
         this.gameContainer = document.getElementById('game-container')!
         this.menus = this.createAllMenus()
         this.infoPanel = this.createInfoPanel()
+        this.inventoryPanel = null
         this.activeMenu = null
+        this.inventoryOpened = false
+    }
+
+    openInventory(){
+
+        if(this.inventoryOpened) return
+
+        const container = document.createElement('div')
+        container.id = "inventory-panel"
+
+        const header = document.createElement('div')
+        header.id = "inventory-header"
+        container.append(header)
+
+        const h3 = document.createElement("h3")
+        h3.id = "inventory-name"
+        h3.textContent = "Inventory"
+        header.append(h3)
+
+        const itemsContainer = document.createElement('div')
+        itemsContainer.id = "inventory-items-container"
+        
+        // items
+        const allItems = this.game.player.inventory.items
+        for(let item in allItems){
+            const newItem = document.createElement('div')
+            newItem.classList.add('inventory-item')
+            newItem.id = allItems[item].id
+            newItem.textContent = `${allItems[item].name}(${allItems[item].qty})`
+            itemsContainer.append(newItem)
+        }
+
+        container.append(itemsContainer)    
+        this.gameContainer.append(container)
+        this.inventoryPanel = container
+        this.inventoryOpened = true
+    }
+
+    closeInventory(){
+        if(this.inventoryOpened && this.inventoryPanel){
+            this.gameContainer.removeChild(this.inventoryPanel)
+            this.inventoryPanel = null
+            this.inventoryOpened = false
+        }
     }
 
     updateTileName(tileType:string){        
@@ -170,5 +217,4 @@ class UI{
         this.updateInventory()
     }
 }
-
 export default UI

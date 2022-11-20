@@ -58,6 +58,13 @@ class Controls{
                     player.move("right")
                 }
             }
+            else if (e.code == 'KeyI'){
+                if(this.game.ui.inventoryOpened){
+                    this.game.ui.closeInventory()
+                }else{
+                    this.game.ui.openInventory()
+                }
+            }
 
             this.game.ui.hideMenus()
         }

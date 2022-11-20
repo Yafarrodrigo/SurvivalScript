@@ -94,6 +94,55 @@ canvas{
     background-color: #222;
 }
 
+#inventory-panel{
+    position: absolute;
+    background-color: #222;
+    width: 650px;
+    height: 450px;
+    margin: 60px;
+    border-radius: 5px;
+    user-select: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 15px 1px black;
+}
+
+#inventory-header{
+    background-color: #666;
+    width: 100%;
+    height: 35px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 1px solid black;
+}
+
+#inventory-name{
+    margin-top: 5px;
+    margin-left: 10px;
+    text-align: left;
+}
+
+#inventory-items-container{
+    background-color: #444;
+    width: 98%;
+    height: 90%;
+    border-radius: 5px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.inventory-item{
+    width: 75px;
+    height: 75px;
+    margin: 5px;
+    border: 2px solid black;
+    color: white;
+    cursor: pointer;
+    background-color: #666;
+}
+
 .context-menu{
     position: absolute;
     background-color: #222;

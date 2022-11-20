@@ -12,6 +12,11 @@ class Inventory{
     constructor(game:Game){
         this.game = game
         this.items = {}
+
+        this.addItem('cons_bait_worm', 5)
+        this.addItem('tool_fishingRod', 1)
+        this.addItem('mat_grass_fiber', 15)
+        this.addItem('mat_wood_stick', 7)
     }
 
     addItem(itemId:string, qty: number){
