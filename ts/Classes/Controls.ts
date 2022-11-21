@@ -38,22 +38,22 @@ class Controls{
             e = e || window.event;
             const { player } = this.game
             
-            if (e.code == 'ArrowUp') {    // up arrow
+            if (e.code == 'ArrowUp' || e.code == 'KeyW') {    // up arrow
                 if(player.position.y - 1 >= 0){
                     player.move("up")
                 }
             }
-            else if (e.code == 'ArrowDown') {   // down arrow
+            else if (e.code == 'ArrowDown' || e.code == 'KeyS') {   // down arrow
                 if(player.position.y + 1 < this.game.graphics.tilesPerColumn){
                     player.move("down")
                 }                
             }
-            else if (e.code == 'ArrowLeft') {   // left arrow
+            else if (e.code == 'ArrowLeft' || e.code == 'KeyA') {   // left arrow
                 if(player.position.x - 1 >= 0){
                     player.move("left")
                 }                
             }
-            else if (e.code == 'ArrowRight') {   // right arrow
+            else if (e.code == 'ArrowRight' || e.code == 'KeyD') {   // right arrow
                 if(player.position.x + 1 < this.game.graphics.tilesPerRow){
                     player.move("right")
                 }
@@ -70,6 +70,14 @@ class Controls{
                     this.game.ui.closeCrafting()
                 }else{
                     this.game.ui.openCrafting()
+                }
+            }
+            else if (e.code == 'Escape'){
+                if(this.game.ui.inventoryOpened){
+                    this.game.ui.closeInventory()
+                }
+                if(this.game.ui.craftingOpened){
+                    this.game.ui.closeCrafting()
                 }
             }
 
@@ -94,8 +102,6 @@ class Controls{
         document.onmousemove = (e) => {
             const newMousePos = this.getMousePos(e)
             this.updateCursorPos(newMousePos)  
-            const tile = this.game.map.getTile(newMousePos.x,newMousePos.y)
-            this.game.ui.updateTileName(tile.type)
         }
 
         this.game.graphics.canvas.oncontextmenu = (e) => {

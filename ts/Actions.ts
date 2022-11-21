@@ -19,6 +19,12 @@ const ACTIONS = {
         game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+${rndQty} small rocks`);
         
     },
+    gatherRock: (game:Game) => {
+        game.player.inventory.addItem("mat_stone_rock", 1)
+        game.player.inventory.update()
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 rock`);
+        
+    },
     gatherSticks: (game:Game) => {
         const rndQty = Math.floor(Math.random()*3)+1
         game.player.inventory.addItem("mat_wood_small_stick", rndQty)
@@ -45,7 +51,19 @@ const ACTIONS = {
         game.player.inventory.update()
         game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 long stick`);
         
-    }
+    },
+    chopDownTree: (game:Game) => {
+        if(!game.lastClickedTile) return
+        if(game.player.inventory.has('tool_hatchet', 1)){
+            game.map.changeTile(game.lastClickedTile.x,game.lastClickedTile.y,"grass")
+            game.player.inventory.addItem("mat_wood_log", 1)
+            game.player.inventory.update()
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 wood log`);
+        }
+        else{
+            console.log("necesitas hacha!");
+        }
+    },
 }
 
 export default ACTIONS

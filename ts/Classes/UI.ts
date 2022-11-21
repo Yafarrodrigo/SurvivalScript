@@ -7,7 +7,6 @@ class UI{
     game: Game
     menus: {[key:string]:HTMLDivElement}
     activeMenu: HTMLDivElement | null
-    infoPanel: HTMLDivElement
     gameContainer: HTMLElement
     inventoryOpened: boolean
     inventoryPanel: HTMLDivElement | null
@@ -19,7 +18,6 @@ class UI{
         this.game = game
         this.gameContainer = document.getElementById('game-container')!
         this.menus = this.createAllMenus()
-        this.infoPanel = this.createInfoPanel()
         this.inventoryPanel = null
         this.activeMenu = null
         this.inventoryOpened = false
@@ -67,7 +65,8 @@ class UI{
             if(_ITEMS[item].crafted){
                 const newItem = document.createElement('div')
                 newItem.classList.add('crafting-item')
-                newItem.textContent = `${_ITEMS[item].name}`
+                let playerQty = this.game.player.inventory.items[item] ? this.game.player.inventory.items[item].qty : 0
+                newItem.textContent = `${_ITEMS[item].name}(${playerQty})`
                 newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
                 newItem.oncontextmenu = (e) => e.preventDefault()
                 newItem.id = _ITEMS[item].id
@@ -78,6 +77,9 @@ class UI{
         const itemInfo = document.createElement('div')
         itemInfo.id = "crafting-selected-item-info"
         itemInfo.oncontextmenu = (e) => e.preventDefault()
+        itemInfo.style.display = "grid"
+        itemInfo.style.alignContent = "center"
+        itemInfo.style.justifyContent = "center"
         craftingZone.append(itemInfo)
 
         const craftReqs = document.createElement('div')
@@ -98,8 +100,30 @@ class UI{
         this.craftingOpened = true
     }
 
+    updateCraftingItemInfo(){
+        if(!this.selectedItem) return
+
+        const container = document.getElementById('crafting-selected-item-info') as HTMLDivElement
+        container.innerHTML = ""
+
+        const centerDiv = document.createElement('div')
+        centerDiv.style.width = "90%"
+        centerDiv.style.margin = "5%"
+
+        const itemName = document.createElement('h3')
+        itemName.id = "selected-item-name"
+        itemName.textContent = this.selectedItem.name
+
+        const itemDesc = document.createElement('p')
+        itemDesc.id = "selected-item-desc"
+        itemDesc.textContent = this.selectedItem.desc
+
+        centerDiv.append(itemName, itemDesc)
+        container.append(centerDiv)
+    }
+
     updateReqs(){
-        if(this.selectedItem === null || this.craftingOpened === false) return
+        if(this.selectedItem === null) return
 
         const reqsContainer = document.getElementById("item-reqs-container") as HTMLDivElement
         reqsContainer.innerHTML = ""
@@ -173,70 +197,6 @@ class UI{
             this.craftingOpened = false
             this.selectedItem = null
             this.closeInventory()
-        }
-    }
-
-    updateTileName(tileType:string){        
-        const elem = document.getElementById('tile-name')!
-        elem.textContent = tileType
-    }
-
-    createInfoPanel(){
-        const container = document.createElement('div')
-        container.id = "info-panel"
-        
-        const status = document.createElement('div')
-        status.id = "player-status"
-        container.append(status)
-
-        const tileName = document.createElement('div')
-        tileName.id = "tile-name-container"
-        const nameDiv = document.createElement('div')
-        nameDiv.id = "tile-name"
-        nameDiv.textContent = "grass"
-        tileName.append(nameDiv)
-        container.append(tileName)
-
-        const inventory = document.createElement('div')
-        inventory.id = "inventory"
-        for(let item in this.game.player.inventory.items){
-            const {name, qty} = this.game.player.inventory.items[item]
-            const elem = document.createElement('div')
-            elem.classList.add('item')
-            const nameElem = document.createElement('span')
-            nameElem.classList.add('item-name') 
-            nameElem.textContent = name
-            elem.append(nameElem)
-            const qtyElem = document.createElement('span')
-            qtyElem.classList.add('item-qty') 
-            qtyElem.textContent = qty.toString()
-            elem.append(qtyElem)
-
-            inventory.append(elem)
-        }
-        container.append(inventory)
-        
-        this.gameContainer.append(container)
-        return container
-    }
-
-    updateInventory(){
-        const inventory = document.getElementById('inventory')!
-        inventory.innerHTML = ""
-        for(let item in this.game.player.inventory.items){
-            const {name, qty} = this.game.player.inventory.items[item]
-            const elem = document.createElement('div')
-            elem.classList.add('item')
-            const nameElem = document.createElement('span')
-            nameElem.classList.add('item-name') 
-            nameElem.textContent = name
-            elem.append(nameElem)
-            const qtyElem = document.createElement('span')
-            qtyElem.classList.add('item-qty') 
-            qtyElem.textContent = qty.toString()
-            elem.append(qtyElem)
-
-            inventory.append(elem)
         }
     }
 
@@ -326,8 +286,10 @@ class UI{
     }
 
     update(){
-        this.updateInventory()
-        this.updateReqs()
+        if(this.craftingOpened){
+            this.updateCraftingItemInfo()
+            this.updateReqs()
+        }  
     }
 }
 export default UI
