@@ -13,7 +13,8 @@ const _ITEMS: ItemsDict =  {
         name: "small stick",
         reqMats: [],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: false
     },
     mat_wood_stick:{
         id:"mat_wood_stick",
@@ -21,7 +22,8 @@ const _ITEMS: ItemsDict =  {
         name: "stick",
         reqMats: [],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: false
     },
     mat_stone_small_rock:{
         id:"mat_stone_small_rock",
@@ -29,7 +31,8 @@ const _ITEMS: ItemsDict =  {
         name: "small rock",
         reqMats: [],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: false
     },
     mat_stone_rock:{
         id:"mat_stone_rock",
@@ -37,7 +40,8 @@ const _ITEMS: ItemsDict =  {
         name: "rock",
         reqMats: [],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: false
     },
     mat_grass_fiber:{
         id:"mat_grass_fiber",
@@ -45,7 +49,8 @@ const _ITEMS: ItemsDict =  {
         name: "grass fiber",
         reqMats: [],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: false
     },
     mat_crafted_string:{
         id:"mat_crafted_string",
@@ -53,7 +58,8 @@ const _ITEMS: ItemsDict =  {
         name: "string",
         reqMats:[{id:"mat_grass_fiber", qty: 5}],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: true
     },
     mat_crafted_rope:{
         id:"mat_crafted_rope",
@@ -61,7 +67,8 @@ const _ITEMS: ItemsDict =  {
         name: "rope",
         reqMats:[{id:"mat_crafted_string", qty: 3}],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: true
     },
     mat_crafted_hook:{
         id:"mat_crafted_hook",
@@ -69,7 +76,8 @@ const _ITEMS: ItemsDict =  {
         name: "hook",
         reqMats:[{id:"mat_stone_small_rock", qty: 1}],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: true
     },
     cons_bait_worm:{
         id:"cons_bait_worm",
@@ -77,7 +85,8 @@ const _ITEMS: ItemsDict =  {
         name: "worm",
         reqMats: [],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: false
     },
     cons_food_fish:{
         id:"cons_food_fish",
@@ -85,7 +94,8 @@ const _ITEMS: ItemsDict =  {
         name: "fish",
         reqMats: [],
         reqCons: [],
-        qty: 0
+        qty: 0,
+        crafted: false
     },
     tool_fishingRod:{
         id:"tool_fishingRod",
@@ -99,7 +109,8 @@ const _ITEMS: ItemsDict =  {
         reqCons:[
             {id:"cons_bait_worm", qty: 1}
         ],
-        qty: 0
+        qty: 0,
+        crafted: true
     }
 
 }

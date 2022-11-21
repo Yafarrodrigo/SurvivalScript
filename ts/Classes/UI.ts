@@ -1,5 +1,6 @@
 import Game from "./Game.js"
 import _ITEMS from "../AllItems.js"
+import Item from "./Item.js"
 
 class UI{
 
@@ -12,6 +13,7 @@ class UI{
     inventoryPanel: HTMLDivElement | null
     craftingOpened: boolean
     craftingPanel: HTMLDivElement | null
+    selectedItem: Item | null
 
     constructor(game: Game){
         this.game = game
@@ -23,6 +25,7 @@ class UI{
         this.inventoryOpened = false
         this.craftingOpened = false
         this.craftingPanel = null
+        this.selectedItem = null
     }
 
     openCrafting(){
@@ -44,10 +47,72 @@ class UI{
         header.append(h3)
         h3.oncontextmenu = (e) => e.preventDefault()
 
+        const middleDiv = document.createElement('div')
+        middleDiv.style.display = "flex"
+        middleDiv.style.marginTop = "5px"
+        middleDiv.style.height = "90%"
 
+        const itemsContainer = document.createElement('div')
+        itemsContainer.id = "crafting-items-container"
+        itemsContainer.oncontextmenu = (e) => e.preventDefault()
+        middleDiv.append(itemsContainer)
+
+        const craftingZone = document.createElement('div')
+        craftingZone.id = "crafting-zone"
+        craftingZone.oncontextmenu = (e) => e.preventDefault()
+        middleDiv.append(craftingZone)
+
+        // items to craft
+        for(let item in _ITEMS){
+            if(_ITEMS[item].crafted){
+                const newItem = document.createElement('div')
+                newItem.classList.add('crafting-item')
+                newItem.textContent = `${_ITEMS[item].name}`
+                newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
+                newItem.oncontextmenu = (e) => e.preventDefault()
+                newItem.id = _ITEMS[item].id
+                itemsContainer.append(newItem)
+            }
+        }
+
+        const itemInfo = document.createElement('div')
+        itemInfo.id = "crafting-selected-item-info"
+        itemInfo.oncontextmenu = (e) => e.preventDefault()
+        craftingZone.append(itemInfo)
+
+        const craftReqs = document.createElement('div')
+        craftReqs.id = "item-reqs-container"
+        craftReqs.oncontextmenu = (e) => e.preventDefault()
+        craftingZone.append(craftReqs)
+
+        const craftButton = document.createElement('button')
+        craftButton.id = "craft-button"
+        craftButton.textContent = "Craft!"
+        craftButton.onclick = (e) => {e.preventDefault(); if(this.selectedItem){this.game.crafting.craft(this.selectedItem.id)}}
+        craftButton.oncontextmenu = (e) => e.preventDefault()
+        craftingZone.append(craftButton)
+
+        container.append(middleDiv)
         this.gameContainer.append(container)
         this.craftingPanel = container
         this.craftingOpened = true
+    }
+
+    updateReqs(){
+        if(this.selectedItem === null || this.craftingOpened === false) return
+
+        const reqsContainer = document.getElementById("item-reqs-container") as HTMLDivElement
+        reqsContainer.innerHTML = ""
+        this.selectedItem.reqMats.forEach(mat => {
+            const newReq = document.createElement('div')
+            newReq.classList.add('req')
+            let playerQty = this.game.player.inventory.items[mat.id] ? this.game.player.inventory.items[mat.id].qty : 0
+            if(playerQty < mat.qty) newReq.classList.add('insufficient')
+            newReq.textContent = `${_ITEMS[mat.id].name} (${mat.qty}/${playerQty})`
+            newReq.oncontextmenu = (e) => e.preventDefault()
+            newReq.id = "req|"+mat.id
+            reqsContainer.append(newReq)
+        })
     }
 
     openInventory(){
@@ -80,7 +145,8 @@ class UI{
             newItem.classList.add('inventory-item')
             newItem.id = allItems[item].id
             newItem.textContent = `${allItems[item].name}(${allItems[item].qty})`
-            newItem.oncontextmenu = (e) => e.preventDefault()
+            newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
+            newItem.oncontextmenu = (e:MouseEvent) => e.preventDefault()
             itemsContainer.append(newItem)
         }
 
@@ -95,6 +161,7 @@ class UI{
             this.gameContainer.removeChild(this.inventoryPanel)
             this.inventoryPanel = null
             this.inventoryOpened = false
+            this.selectedItem = null
             this.closeCrafting()
         }
     }
@@ -104,6 +171,7 @@ class UI{
             this.gameContainer.removeChild(this.craftingPanel)
             this.craftingPanel = null
             this.craftingOpened = false
+            this.selectedItem = null
             this.closeInventory()
         }
     }
@@ -259,6 +327,7 @@ class UI{
 
     update(){
         this.updateInventory()
+        this.updateReqs()
     }
 }
 export default UI

@@ -131,6 +131,7 @@ canvas{
     margin: auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 #crafting-panel{
@@ -160,6 +161,74 @@ canvas{
     margin-top: 5px;
     margin-left: 10px;
     text-align: left;
+}
+
+#crafting-items-container{
+    background-color: #444;
+    margin: auto;
+    width: 415px;
+    height: 100%;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+#crafting-selected-item-info{
+    background-color: #666;
+    margin: 3px;
+    width: 208px;
+    height: 100px;
+}
+
+#item-reqs-container{
+    background-color: #666;
+    margin: 3px;
+    width: 208px;
+    height: 250px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+#craft-button{
+    margin: 3px;
+    width: 208px;
+    height: 40px;
+}
+
+.req{
+    width: 60px;
+    height: 60px;
+    margin: 4px;
+    border: 2px solid black;
+    color: white;
+    background-color: #666;
+}
+
+.insufficient{
+    background-color: #f995;
+    border: 1px solid red;
+}
+
+#crafting-zone{
+    background-color: #444;
+    margin: auto;
+    width: 215px;
+    height: 100%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.crafting-item{
+    width: 75px;
+    height: 75px;
+    margin: 4px;
+    border: 2px solid black;
+    color: white;
+    cursor: pointer;
+    background-color: #666;
 }
 
 

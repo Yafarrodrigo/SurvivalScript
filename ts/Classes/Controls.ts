@@ -87,10 +87,7 @@ class Controls{
                 // test click en el game!
                 /* const {x,y} = this.game.cursorPos
                 this.game.map.changeTile(x,y, "water") */
-                this.game.crafting.craft("mat_crafted_string")
-                this.game.crafting.craft("mat_crafted_rope")
-                this.game.crafting.craft("mat_crafted_hook")
-                this.game.crafting.craft("tool_fishingRod")
+
             }
         }
 

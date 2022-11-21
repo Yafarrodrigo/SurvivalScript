@@ -14,6 +14,7 @@ class Item {
         qty: number
     }[]
     qty: number
+    crafted: boolean
 
     constructor(itemId:string, qty:number){
         this.id = itemId
@@ -22,6 +23,7 @@ class Item {
         this.reqMats =  _ITEMS[itemId].reqMats
         this.reqCons =  _ITEMS[itemId].reqCons
         this.qty =  qty
+        this.crafted = _ITEMS[itemId].crafted
     }
 }
 
