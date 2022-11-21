@@ -17,6 +17,7 @@ class Graphics{
     treesImg: HTMLImageElement
     playerImg: HTMLImageElement
     messages: {x:number,y:number, text:string, timer:number, alpha:number}[]
+    errors: {x:number,y:number, text:string, timer:number, alpha:number}[]
 
     constructor(game: Game, width: number, height: number){
         this.game = game
@@ -45,6 +46,7 @@ class Graphics{
         this.ctxFx = newCanvasFx.getContext('2d')!
 
         this.messages = []
+        this.errors = []
 
         this.init()
     }
@@ -130,12 +132,57 @@ class Graphics{
         })
     }
 
+    error(text:string){
+        /* this.errors.push({x: 750,y: 100,text,timer:85,alpha:1}) */
+        this.errors.push({x:this.game.player.position.x*this.tileSize,y: (this.game.player.position.y*this.tileSize) - 15,text,timer:75,alpha:0.75})
+    }
+
+    drawErrors(){
+        this.errors.forEach( error => {
+            if(error.timer <= 0){
+                this.errors = this.errors.filter( error => error.timer >= 0)
+                return
+            }else{
+                error.timer--
+                error.y -= 1
+                if(error.timer < 30){
+                    error.alpha -= 0.05
+                }
+            }
+
+            let txtWidth = this.ctxFx.measureText(error.text).width
+            this.ctxFx.fillStyle = `rgb(255,50,50,${error.alpha})`
+            this.roundRect(this.ctxFx, error.x - txtWidth/3 - 10, error.y-25, txtWidth+25, 32)
+            this.ctxFx.font = "20px Arial";
+            this.ctxFx.fillStyle = `rgb(255,255,255,${error.alpha})`
+            this.ctxFx.fillText(error.text, error.x - txtWidth/3, error.y); 
+        })
+    }
+
+    roundRect(ctx:CanvasRenderingContext2D ,x: number,y: number,width: number,height: number,r:number = 5) {
+        const radius = {tl: r, tr: r, br: r, bl: r};
+        ctx.beginPath();
+        ctx.moveTo(x + radius.tl, y);
+        ctx.lineTo(x + width - radius.tr, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+        ctx.lineTo(x + width, y + height - radius.br);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+        ctx.lineTo(x + radius.bl, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+        ctx.lineTo(x, y + radius.tl);
+        ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+        ctx.closePath();
+
+        ctx.fill();
+      }
+
     update(){
         this.ctxFx.clearRect(0,0,this.width,this.height)
         this.drawMap()
         this.drawPlayer()
         this.drawTileHover()
         this.drawMessages()
+        this.drawErrors()
     }
 }
 

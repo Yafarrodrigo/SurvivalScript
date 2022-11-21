@@ -13,6 +13,12 @@ canvas{
     image-rendering: optimizeQuality;
 }
 
+#controls{
+    position: absolute;
+    top: 10px;
+    left: 825px;
+}
+
 #game-canvas-fx{
     position: absolute;
     pointer-events: none;
@@ -183,12 +189,12 @@ canvas{
 
 #item-reqs-container{
     background-color: #666;
-    margin: 3px;
+    margin: 5px;
     width: 208px;
     height: 250px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 #craft-button{
@@ -198,17 +204,37 @@ canvas{
 }
 
 .req{
+    position: relative;
     width: 60px;
     height: 60px;
     margin: 4px;
     border: 2px solid black;
     color: white;
     background-color: #666;
+    background-size: cover;
+}
+
+.req-name{
+    padding: 2px;
+    width: fit-content;
+    pointer-events: none;
+}
+
+.req-qty{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 3px;
+    pointer-events: none;
+    background-color: #fffc;
+    border-radius: 5px;
+    padding: 3px;
+    color: black;
 }
 
 .insufficient{
     background-color: #f995;
-    border: 1px solid red;
+    box-shadow: inset 0px 0px 5px 3px rgb(255, 50, 50);
 }
 
 #crafting-zone{
@@ -222,24 +248,61 @@ canvas{
 }
 
 .crafting-item{
+    position: relative;
     width: 75px;
     height: 75px;
     margin: 4px;
+    padding: 3px;
     border: 2px solid black;
     color: white;
     cursor: pointer;
     background-color: #666;
+    background-size: cover;
+}
+
+.crafting-item-name{
+    padding: 2px;
+    width: fit-content;
+    pointer-events: none;
+}
+
+.crafting-item-qty{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 3px;
+    pointer-events: none;
+    background-color: #fffc;
+    border-radius: 5px;
+    padding: 3px;
+    color: black;
 }
 
 
 .inventory-item{
+    position: relative;
     width: 75px;
     height: 75px;
     margin: 5px;
-    border: 2px solid black;
+    padding: 3px;
     color: white;
     cursor: pointer;
     background-color: #666;
+    background-size: cover;
+}
+
+.inventory-item-name{
+    padding: 2px;
+    width: fit-content;
+    pointer-events: none;
+}
+
+.inventory-item-qty{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 3px;
+    pointer-events: none;
 }
 
 .context-menu{

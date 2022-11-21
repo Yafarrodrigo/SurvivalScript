@@ -49,7 +49,7 @@ class UI{
         middleDiv.style.display = "flex"
         middleDiv.style.marginTop = "5px"
         middleDiv.style.height = "90%"
-
+        
         const itemsContainer = document.createElement('div')
         itemsContainer.id = "crafting-items-container"
         itemsContainer.oncontextmenu = (e) => e.preventDefault()
@@ -66,10 +66,24 @@ class UI{
                 const newItem = document.createElement('div')
                 newItem.classList.add('crafting-item')
                 let playerQty = this.game.player.inventory.items[item] ? this.game.player.inventory.items[item].qty : 0
-                newItem.textContent = `${_ITEMS[item].name}(${playerQty})`
+                !this.game.crafting.matCheck(_ITEMS[item].id) && newItem.classList.add('insufficient')
+
+                const nameDiv = document.createElement('div')
+                nameDiv.classList.add('crafting-item-name')
+                nameDiv.textContent = `${_ITEMS[item].name}`
+                newItem.append(nameDiv)
+
                 newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
                 newItem.oncontextmenu = (e) => e.preventDefault()
                 newItem.id = _ITEMS[item].id
+                newItem.style.backgroundImage = `URL(${_ITEMS[item].icon})`
+
+                const qtyDiv = document.createElement('div')
+                qtyDiv.textContent = `(${playerQty})`
+                qtyDiv.classList.add('crafting-item-qty')
+
+                newItem.append(qtyDiv)
+
                 itemsContainer.append(newItem)
             }
         }
@@ -132,9 +146,22 @@ class UI{
             newReq.classList.add('req')
             let playerQty = this.game.player.inventory.items[mat.id] ? this.game.player.inventory.items[mat.id].qty : 0
             if(playerQty < mat.qty) newReq.classList.add('insufficient')
-            newReq.textContent = `${_ITEMS[mat.id].name} (${mat.qty}/${playerQty})`
+
+            const nameDiv = document.createElement('div')
+            nameDiv.textContent = `${_ITEMS[mat.id].name}`
+            nameDiv.classList.add('req-name')
+            newReq.append(nameDiv)
+
             newReq.oncontextmenu = (e) => e.preventDefault()
             newReq.id = "req|"+mat.id
+            newReq.style.backgroundImage = `URL(${_ITEMS[mat.id].icon})`
+
+            const qtyDiv = document.createElement('div')
+            qtyDiv.textContent = `(${mat.qty}/${playerQty})`
+            qtyDiv.classList.add('req-qty')
+
+            newReq.append(qtyDiv)
+
             reqsContainer.append(newReq)
         })
     }
@@ -168,7 +195,17 @@ class UI{
             const newItem = document.createElement('div')
             newItem.classList.add('inventory-item')
             newItem.id = allItems[item].id
-            newItem.textContent = `${allItems[item].name}(${allItems[item].qty})`
+            const nameDiv = document.createElement('div')
+            nameDiv.textContent = `${allItems[item].name}`
+            nameDiv.classList.add('inventory-item-name')
+            newItem.append(nameDiv)
+            newItem.style.backgroundImage = `URL(${allItems[item].icon})`
+
+            const qtyDiv = document.createElement('div')
+            qtyDiv.textContent = `(${allItems[item].qty})`
+            qtyDiv.classList.add('inventory-item-qty')
+
+            newItem.append(qtyDiv)
             newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
             newItem.oncontextmenu = (e:MouseEvent) => e.preventDefault()
             itemsContainer.append(newItem)
@@ -178,6 +215,23 @@ class UI{
         this.gameContainer.append(container)
         this.inventoryPanel = container
         this.inventoryOpened = true
+    }
+
+    updateCraftingWindow(){
+        const items = document.getElementsByClassName('crafting-item')
+        for(let i = 0; i < items.length; i++){
+            const elem = document.getElementById(items[i].id) as HTMLDivElement
+            const elemQty = elem.lastChild as HTMLDivElement
+
+            const playerQty = this.game.player.inventory.items[items[i].id] ? this.game.player.inventory.items[items[i].id].qty : 0
+            elemQty.textContent = `(${playerQty})`
+
+            if(!this.game.crafting.matCheck(items[i].id)){
+                elem.classList.add('insufficient')
+            }else{
+                elem.classList.remove('insufficient')
+            }
+        }
     }
 
     closeInventory(){
@@ -287,8 +341,9 @@ class UI{
 
     update(){
         if(this.craftingOpened){
-            this.updateCraftingItemInfo()
             this.updateReqs()
+            this.updateCraftingWindow()
+            this.updateCraftingItemInfo()
         }  
     }
 }

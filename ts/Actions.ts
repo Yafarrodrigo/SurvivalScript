@@ -9,7 +9,7 @@ const ACTIONS = {
             game.player.inventory.update()
         }
         else{
-            console.log("nope");
+            game.graphics.error("need a bait !");
         }
     },
     gatherSmallRocks: (game:Game) => {
@@ -47,9 +47,13 @@ const ACTIONS = {
         
     },
     gatherLongStick: (game:Game) => {
-        game.player.inventory.addItem("mat_wood_stick", 1)
-        game.player.inventory.update()
-        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 long stick`);
+        if(game.player.inventory.has('tool_stoneKnife', 1) || game.player.inventory.has('tool_hatchet', 1) ){
+            game.player.inventory.addItem("mat_wood_stick", 1)
+            game.player.inventory.update()
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 long stick`);
+        }else{
+            game.graphics.error("must have a hatchet or a knife !");
+        }
         
     },
     chopDownTree: (game:Game) => {
@@ -61,9 +65,19 @@ const ACTIONS = {
             game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 wood log`);
         }
         else{
-            console.log("necesitas hacha!");
+            game.graphics.error("must have a hatchet !");
         }
     },
+    wait: (game:Game) => {
+        game.graphics.error("work in progress :(")
+    },
+    sit: (game:Game) => {
+        game.graphics.error("work in progress :(")
+    },
+    startCampfire: (game:Game) => {
+        game.graphics.error("work in progress :(")
+    }
+    
 }
 
 export default ACTIONS

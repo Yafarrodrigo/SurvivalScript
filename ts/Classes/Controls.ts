@@ -92,9 +92,7 @@ class Controls{
             if(canvas.id === "game-canvas"){
                 this.game.ui.hideMenus()
 
-                // test click en el game!
-                /* const {x,y} = this.game.cursorPos
-                this.game.map.changeTile(x,y, "water") */
+                // TESTING CON CLICK !
 
             }
         }

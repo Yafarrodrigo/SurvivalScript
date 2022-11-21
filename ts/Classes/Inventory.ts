@@ -12,6 +12,8 @@ class Inventory{
     constructor(game:Game){
         this.game = game
         this.items = {}
+
+        this.addItem('mat_wood_stick', 5)
     }
 
     addItem(itemId:string, qty: number){

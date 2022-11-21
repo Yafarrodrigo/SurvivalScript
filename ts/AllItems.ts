@@ -15,7 +15,8 @@ const _ITEMS: ItemsDict =  {
         reqMats: [],
         reqCons: [],
         qty: 0,
-        crafted: false
+        crafted: false,
+        icon: "./assets/items/small-stick.png"
     },
     mat_wood_stick:{
         id:"mat_wood_stick",
@@ -25,7 +26,8 @@ const _ITEMS: ItemsDict =  {
         reqMats: [],
         reqCons: [],
         qty: 0,
-        crafted: false
+        crafted: false,
+        icon: "./assets/items/stick.png"
     },
     mat_wood_log:{
         id:"mat_wood_log",
@@ -35,7 +37,8 @@ const _ITEMS: ItemsDict =  {
         reqMats: [],
         reqCons: [],
         qty: 0,
-        crafted: false
+        crafted: false,
+        icon: "./assets/items/log.png"
     },
     mat_stone_small_rock:{
         id:"mat_stone_small_rock",
@@ -45,7 +48,8 @@ const _ITEMS: ItemsDict =  {
         reqMats: [],
         reqCons: [],
         qty: 0,
-        crafted: false
+        crafted: false,
+        icon: "./assets/items/small-rock.png"
     },
     mat_stone_rock:{
         id:"mat_stone_rock",
@@ -55,7 +59,8 @@ const _ITEMS: ItemsDict =  {
         reqMats: [],
         reqCons: [],
         qty: 0,
-        crafted: false
+        crafted: false,
+        icon: "./assets/items/rock.png"
     },
     mat_grass_fiber:{
         id:"mat_grass_fiber",
@@ -65,7 +70,8 @@ const _ITEMS: ItemsDict =  {
         reqMats: [],
         reqCons: [],
         qty: 0,
-        crafted: false
+        crafted: false,
+        icon: "./assets/items/grass-fiber.png"
     },
     mat_crafted_string:{
         id:"mat_crafted_string",
@@ -75,7 +81,8 @@ const _ITEMS: ItemsDict =  {
         reqMats:[{id:"mat_grass_fiber", qty: 5}],
         reqCons: [],
         qty: 0,
-        crafted: true
+        crafted: true,
+        icon: "./assets/items/string.png"
     },
     mat_crafted_rope:{
         id:"mat_crafted_rope",
@@ -85,7 +92,8 @@ const _ITEMS: ItemsDict =  {
         reqMats:[{id:"mat_crafted_string", qty: 3}],
         reqCons: [],
         qty: 0,
-        crafted: true
+        crafted: true,
+        icon: "./assets/items/rope.png"
     },
     mat_crafted_hook:{
         id:"mat_crafted_hook",
@@ -95,7 +103,8 @@ const _ITEMS: ItemsDict =  {
         reqMats:[{id:"mat_stone_small_rock", qty: 1}],
         reqCons: [],
         qty: 0,
-        crafted: true
+        crafted: true,
+        icon: "./assets/items/hook.png"
     },
     cons_bait_worm:{
         id:"cons_bait_worm",
@@ -105,7 +114,8 @@ const _ITEMS: ItemsDict =  {
         reqMats: [],
         reqCons: [],
         qty: 0,
-        crafted: false
+        crafted: false,
+        icon: "./assets/items/bait-worm.png"
     },
     cons_food_fish:{
         id:"cons_food_fish",
@@ -115,7 +125,8 @@ const _ITEMS: ItemsDict =  {
         reqMats: [],
         reqCons: [],
         qty: 0,
-        crafted: false
+        crafted: false,
+        icon: "./assets/items/fish.png"
     },
     tool_fishingRod:{
         id:"tool_fishingRod",
@@ -131,7 +142,8 @@ const _ITEMS: ItemsDict =  {
             {id:"cons_bait_worm", qty: 1}
         ],
         qty: 0,
-        crafted: true
+        crafted: true,
+        icon: "./assets/items/fishing-rod.png"
     },
     tool_hatchet:{
         id:"tool_hatchet",
@@ -145,7 +157,22 @@ const _ITEMS: ItemsDict =  {
         ],
         reqCons:[],
         qty: 0,
-        crafted: true
+        crafted: true,
+        icon: "./assets/items/hatchet.png"
+    },
+    tool_stoneKnife:{
+        id:"tool_stoneKnife",
+        type: "tool",
+        name: "Stone knife",
+        desc: "A sharpened stone to use as a knife",
+        reqMats:[
+            {id:"mat_stone_small_rock", qty: 1},
+            {id:"mat_stone_rock", qty: 1}
+        ],
+        reqCons:[],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/stone-knife.png"
     }
 
 }
