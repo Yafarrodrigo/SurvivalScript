@@ -39,24 +39,16 @@ class Controls{
             const { player } = this.game
             
             if (e.code == 'ArrowUp' || e.code == 'KeyW') {    // up arrow
-                if(player.position.y - 1 >= 0){
-                    player.move("up")
-                }
+                player.move("up")
             }
             else if (e.code == 'ArrowDown' || e.code == 'KeyS') {   // down arrow
-                if(player.position.y + 1 < this.game.graphics.tilesPerColumn){
-                    player.move("down")
-                }                
+                player.move("down")     
             }
             else if (e.code == 'ArrowLeft' || e.code == 'KeyA') {   // left arrow
-                if(player.position.x - 1 >= 0){
-                    player.move("left")
-                }                
+                player.move("left")
             }
             else if (e.code == 'ArrowRight' || e.code == 'KeyD') {   // right arrow
-                if(player.position.x + 1 < this.game.graphics.tilesPerRow){
-                    player.move("right")
-                }
+                player.move("right")
             }
             else if (e.code == 'KeyI'){
                 if(this.game.ui.inventoryOpened){
@@ -80,6 +72,26 @@ class Controls{
                     this.game.ui.closeCrafting()
                 }
             }
+            else if (e.code == 'KeyM'){
+                if(this.game.graphics.fullMap === true){
+                    this.game.graphics.fullMap = false
+                }
+                else{
+                    this.game.graphics.fullMap = true
+                }
+            }
+            else if (e.code == 'KeyB'){
+                if(this.game.placingBuilding === true){
+                    this.game.placingBuilding = false
+                    this.game.buildingToPlace = null
+                }
+                else{
+                    if(this.game.player.inventory.has('building_wooden_floor', 1)){
+                        this.game.placingBuilding = true
+                        this.game.buildingToPlace = 'building_wooden_floor'
+                    }
+                }                
+            }
 
             this.game.ui.hideMenus()
         }
@@ -87,25 +99,60 @@ class Controls{
 
         // MOUSE
         document.onclick = (e) => {
+            if(this.game.graphics.fullMap) return
             const canvas = e.target as HTMLCanvasElement
              
             if(canvas.id === "game-canvas"){
                 this.game.ui.hideMenus()
 
+                if(this.game.player.inventory.has(this.game.buildingToPlace!,1)){
+                    if(this.game.placingBuilding){
+                        const cursorPos = this.game.cursorPos
+                        const x = cursorPos.x + this.game.graphics.offsetX
+                        const y = cursorPos.y + this.game.graphics.offsetY
+    
+                        const pX = this.game.player.position.x
+                        const pY = this.game.player.position.y
+    
+    
+                        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && this.game.map.getTile(x,y).type !== "woodenFloor"){
+                            this.game.map.changeTile(x,y,"woodenFloor")
+                            this.game.player.inventory.removeItem(this.game.buildingToPlace!,1)
+
+                            if(!this.game.player.inventory.has(this.game.buildingToPlace!,1)){
+                                this.game.placingBuilding = false
+                                this.game.buildingToPlace = null
+                            }
+                        }
+                        else{
+                            this.game.graphics.error("can't build there !")
+                        }
+                    }     
+                }
+                else{
+                    this.game.placingBuilding = false
+                    this.game.buildingToPlace = null
+                }
                 // TESTING CON CLICK !
 
             }
         }
 
         document.onmousemove = (e) => {
+            if(this.game.graphics.fullMap) return
             const newMousePos = this.getMousePos(e)
             this.updateCursorPos(newMousePos)  
         }
 
         this.game.graphics.canvas.oncontextmenu = (e) => {
             e.preventDefault();
-            const {x,y} = this.game.cursorPos
-            this.game.lastClickedTile = this.game.map.getTile(x,y)
+            if(this.game.graphics.fullMap) return
+            const cursorPos = this.game.cursorPos
+            const x = cursorPos.x + this.game.graphics.offsetX
+            const y = cursorPos.y + this.game.graphics.offsetY
+
+            this.game.lastClickedTile = this.game.map.getTile(x,y)  
+                      
 
             if(this.game.cursorPos.x === this.game.player.position.x &&
                 this.game.cursorPos.y === this.game.player.position.y){

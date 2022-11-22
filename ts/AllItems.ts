@@ -173,6 +173,20 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/stone-knife.png"
+    },
+    building_wooden_floor:{
+        id:"building_wooden_floor",
+        type: "building",
+        name: "Wooden Floor",
+        desc: "A wooden floor made of logs",
+        reqMats:[
+            {id:"mat_wood_log", qty: 5},
+            {id:"mat_crafted_rope", qty: 2}
+        ],
+        reqCons:[],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/wooden-floor.png"
     }
 
 }

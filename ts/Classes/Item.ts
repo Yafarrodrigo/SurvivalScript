@@ -3,7 +3,7 @@ import _ITEMS from "../AllItems.js"
 class Item {
 
     id:string
-    type: "material" | "consumible" | "tool"
+    type: "material" | "consumible" | "tool" | "building"
     name:string
     desc:string
     reqMats: {

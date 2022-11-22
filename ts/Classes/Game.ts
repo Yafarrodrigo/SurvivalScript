@@ -6,6 +6,7 @@ import UI from './UI.js'
 import ACTIONS from '../Actions.js'
 import Tile from './Tile.js'
 import Crafting from './Crafting.js'
+import Item from './Item.js'
 
 class Game {
     width: number = 800
@@ -23,10 +24,12 @@ class Game {
     ui: UI
     actions: {[key:string]: (game:Game,desc:string) => void}
     lastClickedTile: Tile | null
+    placingBuilding: boolean
+    buildingToPlace: string | null
 
     constructor(){
         this.graphics = new Graphics(this, 800,600)
-        this.map = new Map(this.graphics.tilesPerColumn, this.graphics.tilesPerRow)
+        this.map = new Map(this, 3200, 2400)
         this.player = new Player(this)
         this.controls = new Controls(this)
         this.crafting = new Crafting(this)
@@ -34,6 +37,8 @@ class Game {
         this.lastClickedTile = null
         this.clock = null
         this.ui = new UI(this)
+        this.placingBuilding = false
+        this.buildingToPlace = null
 
         this.actions = ACTIONS
         this.graphics.update()

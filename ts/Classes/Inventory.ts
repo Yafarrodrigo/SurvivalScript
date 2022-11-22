@@ -13,7 +13,7 @@ class Inventory{
         this.game = game
         this.items = {}
 
-        this.addItem('mat_wood_stick', 5)
+        this.addItem('building_wooden_floor', 5)
     }
 
     addItem(itemId:string, qty: number){
@@ -43,17 +43,6 @@ class Inventory{
         if(!this.items.hasOwnProperty(itemId)) return false
         if(this.items[itemId].qty >= qty) return true
         else return false
-    }
-
-    update(){
-        const itemList = document.getElementById('itemList')!
-        itemList.innerHTML = ""
-        for(let item in this.items){
-            const newLi = document.createElement('li')
-            newLi.textContent = `${this.items[item].name}, ${this.items[item].qty}`
-            itemList.append(newLi)
-        }
-        this.game.ui.update()
     }
 }
 

@@ -2,9 +2,7 @@ import _TILES from "../AllTiles.js"
 
 class Tile{
 
-    id: number
     type: string
-    color: string
     x: number
     y: number
     options: {
@@ -13,15 +11,15 @@ class Tile{
         desc: string
     }[]
     walkable: boolean
+    visible: boolean
 
     constructor(type:string, x:number, y:number){
-        this.id = Math.floor(Math.random()*10000)
         this.type = type
-        this.color = _TILES[type].color
         this.x = x
         this.y = y
         this.options = _TILES[type].options
         this.walkable = _TILES[type].walkable
+        this.visible = false
     }
 }
 

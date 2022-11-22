@@ -1,7 +1,6 @@
 interface TilesDict {
     [key:string]: {
         type:string,
-        color:string,
         walkable:boolean,
         options:{
             actionCode:string,
@@ -15,7 +14,6 @@ const _TILES: TilesDict = {
 
     water:{
         type: "water",
-        color: "MediumTurquoise",
         walkable: false,
         options: [
             {actionCode:"fish",name:"fish", desc: "fishing"},
@@ -23,13 +21,11 @@ const _TILES: TilesDict = {
     },
     sand:{
         type: "sand",
-        color: "khaki",
         walkable: true,
         options: []
     },
     grass:{
         type: "grass",
-        color: "MediumSeaGreen",
         walkable: true,
         options: [
             {actionCode:"gatherSmallRocks",name:"gather small rocks", desc: "gathering small rocks from the ground"},
@@ -41,12 +37,21 @@ const _TILES: TilesDict = {
     },
     trees:{
         type: "trees",
-        color: "ForestGreen",
         walkable: false,
         options: [
             {actionCode:"gatherLongStick",name:"gather long stick", desc: "gathering a long stick from trees"},
             {actionCode:"chopDownTree",name:"chop tree down", desc: "chops the tree"}
         ]
+    },
+    woodenFloor:{
+        type: "woodenFloor",
+        walkable: true,
+        options: []
+    },
+    gameEdge:{
+        type: "gameEdge",
+        walkable: false,
+        options: []
     }
 }
 

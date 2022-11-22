@@ -23,7 +23,8 @@ class Player{
                 y: Math.floor(Math.random()*game.graphics.tilesPerColumn)
             }
         }
-        this.position = startingPos
+        this.position = startingPos        
+        
         this.options = [
             {actionCode: "wait",name:"wait", desc: "waiting"},
             {actionCode: "sit",name:"sit", desc: "siting"},
@@ -33,28 +34,56 @@ class Player{
     }
 
     move(dir: "up" | "down" | "left" | "right"){
+        const x = this.position.x
+        const y = this.position.y
+       
         switch(dir){
             case "up":{
-                if(this.game.map.getTile(this.position.x,this.position.y-1).walkable === true){
+                if(this.game.map.getTile(x,y-1).walkable === true){
                     this.position.y -= 1
+                    if( y <= 5 ){
+                        this.game.graphics.offsetY -= 1
+                        if(this.game.graphics.offsetY <= 0){
+                            this.game.graphics.offsetY = 0
+                        }
+                    }
                 }
                 break
             }
             case "down":{
-                if(this.game.map.getTile(this.position.x,this.position.y+1).walkable === true){
+                if(this.game.map.getTile(x,y+1).walkable === true){
                     this.position.y += 1
+                    if( (y - this.game.graphics.offsetY) >= (this.game.graphics.tilesPerColumn - 5)){
+                        this.game.graphics.offsetY += 1
+                        
+                        if(this.game.graphics.offsetY >= (this.game.map.tilesPerColumn)){
+                            this.game.graphics.offsetY = this.game.map.tilesPerColumn
+                        }
+                    }
                 }
                 break
             }
             case "left":{
-                if(this.game.map.getTile(this.position.x-1,this.position.y).walkable === true){
+                if(this.game.map.getTile(x-1,y).walkable === true){
                     this.position.x -= 1
+                    if( x <= 5){
+                        this.game.graphics.offsetX -= 1
+                        if(this.game.graphics.offsetX <= 0){
+                            this.game.graphics.offsetX = 0
+                        }
+                    }          
                 }
                 break
             }
             case "right":{
-                if(this.game.map.getTile(this.position.x+1,this.position.y).walkable === true){
+                if(this.game.map.getTile(x+1,y).walkable === true){
                     this.position.x += 1
+                    if( (x - this.game.graphics.offsetX) >= (this.game.graphics.tilesPerRow - 5)){
+                        this.game.graphics.offsetX += 1
+                        if(this.game.graphics.offsetX >= (this.game.map.tilesPerRow)){
+                            this.game.graphics.offsetX = this.game.map.tilesPerRow
+                        }
+                    }
                 }
                 break
             }

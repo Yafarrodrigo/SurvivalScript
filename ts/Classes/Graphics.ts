@@ -1,3 +1,4 @@
+import _ITEMS from "../AllItems.js"
 import Game from "./Game.js"
 
 class Graphics{
@@ -5,8 +6,11 @@ class Graphics{
     width: number
     height: number
     tileSize: 25 | 40 | 50
+    offsetX: number
+    offsetY: number
     tilesPerRow: number
     tilesPerColumn: number
+    fullMap: boolean
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
     canvasFx: HTMLCanvasElement
@@ -16,8 +20,11 @@ class Graphics{
     sandImg: HTMLImageElement
     treesImg: HTMLImageElement
     playerImg: HTMLImageElement
+    woodenFloorImg: HTMLImageElement
     messages: {x:number,y:number, text:string, timer:number, alpha:number}[]
     errors: {x:number,y:number, text:string, timer:number, alpha:number}[]
+
+    debugTilePositions: boolean
 
     constructor(game: Game, width: number, height: number){
         this.game = game
@@ -26,6 +33,11 @@ class Graphics{
         this.tileSize = 25
         this.tilesPerRow = this.width / this.tileSize
         this.tilesPerColumn = this.height / this.tileSize
+
+        this.offsetX = 0
+        this.offsetY = 0
+
+        this.fullMap = false
 
         this.grassImg = new Image()
         this.grassImg.src = "./assets/grass0.jpg"
@@ -37,6 +49,8 @@ class Graphics{
         this.sandImg.src = "./assets/sand.jpg"
         this.playerImg = new Image()
         this.playerImg.src = "./assets/player.png"
+        this.woodenFloorImg = new Image()
+        this.woodenFloorImg.src = "./assets/wooden-floor.png"
 
         const newCanvas = document.createElement('canvas')
         this.canvas = newCanvas
@@ -47,7 +61,8 @@ class Graphics{
 
         this.messages = []
         this.errors = []
-
+        
+        this.debugTilePositions = false
         this.init()
     }
     
@@ -63,9 +78,52 @@ class Graphics{
 
         this.ctx.fillStyle = "black"
         this.ctx.fillRect(0,0,this.width,this.height)
+
     }
 
     drawMap(){
+        this.game.map.tiles.forEach( tile => {
+            const X = (tile.x - this.offsetX) * this.tileSize
+            const Y = (tile.y - this.offsetY) * this.tileSize
+            if(X < 0 || X > this.width || Y < 0 || Y > this.height) return
+            let img
+            switch(tile.type){
+                case "grass":{
+                    img = this.grassImg
+                    break
+                }
+                case "sand":{
+                    img = this.sandImg
+                    break
+                }
+                case "water":{
+                    img = this.waterImg
+                    break
+                }
+                case "trees":{
+                    img = this.treesImg
+                    break
+                }
+                case "woodenFloor":{
+                    img = this.woodenFloorImg
+                    break
+                }
+                default: img = this.grassImg
+            }
+            tile.visible = true
+            this.ctx.drawImage(img,X,Y,this.tileSize,this.tileSize)
+            if(this.debugTilePositions){
+                this.ctxFx.font = "10px Arial";
+                this.ctxFx.fillStyle = `black`
+                this.ctxFx.fillText(`x${tile.x}`, X+7, Y+10);
+                this.ctxFx.fillText(`y${tile.y}`, X+7, Y+20);
+            }
+        })
+    }
+
+    drawFullMap(){
+        this.ctx.fillStyle = "black"
+        this.ctx.fillRect(0,0,this.width,this.height)
         this.game.map.tiles.forEach( tile => {
             let img
             switch(tile.type){
@@ -88,15 +146,21 @@ class Graphics{
                 default: img = this.grassImg
             }
 
-            this.ctx.drawImage(img,tile.x * this.tileSize,tile.y * this.tileSize,this.tileSize,this.tileSize)
+            this.ctx.drawImage(img,(tile.x * 6)+12,(tile.y * 6)+12, 6, 6)
         })
     }
 
     drawPlayer(){
         const {x,y} = this.game.player.position
+        this.ctx.drawImage(
+        this.playerImg, (x-this.offsetX) * this.tileSize, (y-this.offsetY )* this.tileSize, this.tileSize, this.tileSize)
+    }
+
+    drawPlayerInFullMap(){
+        const {x,y} = this.game.player.position
 
         this.ctx.drawImage(
-        this.playerImg, x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize)
+        this.playerImg, x * 6, y * 6, this.tileSize, this.tileSize)
     }
 
     drawTileHover(){
@@ -159,6 +223,23 @@ class Graphics{
         })
     }
 
+    showBuildingToPlace(){
+        const cursorPos = this.game.cursorPos
+        const x = cursorPos.x + this.game.graphics.offsetX
+        const y = cursorPos.y + this.game.graphics.offsetY
+
+        const pX = this.game.player.position.x
+        const pY = this.game.player.position.y
+
+        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && this.game.map.getTile(x,y).type !== "woodenFloor"){
+            this.ctx.drawImage(this.woodenFloorImg ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
+        }else{
+            this.ctx.drawImage(this.woodenFloorImg ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
+            this.ctx.fillStyle = "rgba(255,0,0,0.5)"
+            this.ctx.fillRect(cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
+        }
+    }
+
     roundRect(ctx:CanvasRenderingContext2D ,x: number,y: number,width: number,height: number,r:number = 5) {
         const radius = {tl: r, tr: r, br: r, bl: r};
         ctx.beginPath();
@@ -178,11 +259,22 @@ class Graphics{
 
     update(){
         this.ctxFx.clearRect(0,0,this.width,this.height)
-        this.drawMap()
-        this.drawPlayer()
-        this.drawTileHover()
-        this.drawMessages()
-        this.drawErrors()
+        if(this.fullMap === true){
+            this.drawFullMap()
+            this.drawPlayerInFullMap()
+        }
+        else{
+            this.drawMap()
+            this.drawPlayer()
+            this.drawTileHover()
+            this.drawMessages()
+            this.drawErrors()
+            if(this.game.placingBuilding){
+                this.showBuildingToPlace()
+            }
+        }
+        
+        
     }
 }
 
