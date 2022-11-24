@@ -12,8 +12,6 @@ class Inventory{
     constructor(game:Game){
         this.game = game
         this.items = {}
-
-        this.addItem('building_wooden_floor', 5)
     }
 
     addItem(itemId:string, qty: number){
