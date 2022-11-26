@@ -111,6 +111,7 @@ class Graphics{
                 default: img = this.grassImg
             }
             tile.visible = true
+            tile.unknown = false
             this.ctx.drawImage(img,X,Y,this.tileSize,this.tileSize)
             if(this.debugTilePositions){
                 this.ctxFx.font = "10px Arial";
@@ -125,28 +126,34 @@ class Graphics{
         this.ctx.fillStyle = "black"
         this.ctx.fillRect(0,0,this.width,this.height)
         this.game.map.tiles.forEach( tile => {
-            let img
-            switch(tile.type){
-                case "grass":{
-                    img = this.grassImg
-                    break
+            if(!tile.unknown){
+                let img
+                switch(tile.type){
+                    case "grass":{
+                        img = this.grassImg
+                        break
+                    }
+                    case "sand":{
+                        img = this.sandImg
+                        break
+                    }
+                    case "water":{
+                        img = this.waterImg
+                        break
+                    }
+                    case "trees":{
+                        img = this.treesImg
+                        break
+                    }
+                    default: img = this.grassImg
                 }
-                case "sand":{
-                    img = this.sandImg
-                    break
-                }
-                case "water":{
-                    img = this.waterImg
-                    break
-                }
-                case "trees":{
-                    img = this.treesImg
-                    break
-                }
-                default: img = this.grassImg
+                this.ctx.drawImage(img,(tile.x * 6)+12,(tile.y * 6)+12, 6, 6)
+            }
+            else{
+                this.ctx.fillStyle = "#111"
+                this.ctx.fillRect((tile.x * 6)+12,(tile.y * 6)+12, 6, 6)
             }
 
-            this.ctx.drawImage(img,(tile.x * 6)+12,(tile.y * 6)+12, 6, 6)
         })
     }
 

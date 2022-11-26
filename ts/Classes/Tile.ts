@@ -12,6 +12,7 @@ class Tile{
     }[]
     walkable: boolean
     visible: boolean
+    unknown: boolean
 
     constructor(type:string, x:number, y:number){
         this.type = type
@@ -20,6 +21,7 @@ class Tile{
         this.options = _TILES[type].options
         this.walkable = _TILES[type].walkable
         this.visible = false
+        this.unknown = true
     }
 }
 

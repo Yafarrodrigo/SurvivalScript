@@ -144,11 +144,13 @@ class Controls{
             const x = cursorPos.x + this.game.graphics.offsetX
             const y = cursorPos.y + this.game.graphics.offsetY
 
+            console.log(x,y);
+            
+
             this.game.lastClickedTile = this.game.map.getTile(x,y)  
                       
 
-            if(this.game.cursorPos.x === this.game.player.position.x &&
-                this.game.cursorPos.y === this.game.player.position.y){
+            if(x === this.game.player.position.x && y === this.game.player.position.y){
                     this.game.ui.showMenu(e, "player", this.game.player.options)
             }else{
                 const {type,options} = this.game.map.getTile(x,y)

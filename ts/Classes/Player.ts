@@ -34,6 +34,9 @@ class Player{
     }
 
     move(dir: "up" | "down" | "left" | "right"){
+
+        if(this.game.graphics.fullMap) return
+
         const x = this.position.x
         const y = this.position.y
        
@@ -41,7 +44,7 @@ class Player{
             case "up":{
                 if(this.game.map.getTile(x,y-1).walkable === true){
                     this.position.y -= 1
-                    if( y <= 5 ){
+                    if( y - this.game.graphics.offsetY <= 7 ){
                         this.game.graphics.offsetY -= 1
                         if(this.game.graphics.offsetY <= 0){
                             this.game.graphics.offsetY = 0
@@ -53,7 +56,7 @@ class Player{
             case "down":{
                 if(this.game.map.getTile(x,y+1).walkable === true){
                     this.position.y += 1
-                    if( (y - this.game.graphics.offsetY) >= (this.game.graphics.tilesPerColumn - 5)){
+                    if( (y - this.game.graphics.offsetY) >= (this.game.graphics.tilesPerColumn - 7)){
                         this.game.graphics.offsetY += 1
                         
                         if(this.game.graphics.offsetY >= (this.game.map.tilesPerColumn)){
@@ -66,7 +69,7 @@ class Player{
             case "left":{
                 if(this.game.map.getTile(x-1,y).walkable === true){
                     this.position.x -= 1
-                    if( x <= 5){
+                    if( x - this.game.graphics.offsetX <= 7){
                         this.game.graphics.offsetX -= 1
                         if(this.game.graphics.offsetX <= 0){
                             this.game.graphics.offsetX = 0
@@ -78,7 +81,7 @@ class Player{
             case "right":{
                 if(this.game.map.getTile(x+1,y).walkable === true){
                     this.position.x += 1
-                    if( (x - this.game.graphics.offsetX) >= (this.game.graphics.tilesPerRow - 5)){
+                    if( (x - this.game.graphics.offsetX) >= (this.game.graphics.tilesPerRow - 7)){
                         this.game.graphics.offsetX += 1
                         if(this.game.graphics.offsetX >= (this.game.map.tilesPerRow)){
                             this.game.graphics.offsetX = this.game.map.tilesPerRow
