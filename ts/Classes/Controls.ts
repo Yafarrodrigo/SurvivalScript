@@ -31,12 +31,17 @@ class Controls{
         this.game.cursorPos = newPos        
     }
 
+    cancelConstructionMode(){
+        this.game.placingBuilding = false
+        this.game.buildingToPlace = null
+    }
+
     init(){
         // KEYBOARD
         const checkKey = (e:KeyboardEvent) => {
             
             e = e || window.event;
-            const { player } = this.game
+            const { player, ui } = this.game
             
             if (e.code == 'ArrowUp' || e.code == 'KeyW') {    // up arrow
                 player.move("up")
@@ -51,91 +56,79 @@ class Controls{
                 player.move("right")
             }
             else if (e.code == 'KeyI'){
-                if(this.game.ui.inventoryOpened){
-                    this.game.ui.closeInventory()
-                }else{
-                    this.game.ui.openInventory()
-                }
+                ui.toggleWindow('inventory')
             }
             else if (e.code == 'KeyC'){
-                if(this.game.ui.craftingOpened){
-                    this.game.ui.closeCrafting()
-                }else{
-                    this.game.ui.openCrafting()
-                }
+                ui.toggleWindow('crafting')
             }
             else if (e.code == 'Escape'){
-                if(this.game.ui.inventoryOpened){
-                    this.game.ui.closeInventory()
-                }
-                if(this.game.ui.craftingOpened){
-                    this.game.ui.closeCrafting()
-                }
+                ui.closeAllWindows()
             }
             else if (e.code == 'KeyM'){
-                if(this.game.graphics.fullMap === true){
-                    this.game.graphics.fullMap = false
-                }
-                else{
-                    this.game.graphics.fullMap = true
-                }
+                ui.showMap()
             }
+
+            /* 
+            
+            reworkear el building!
+            reworkear el building!
+            reworkear el building!
+            
+            */
             else if (e.code == 'KeyB'){
                 if(this.game.placingBuilding === true){
-                    this.game.placingBuilding = false
-                    this.game.buildingToPlace = null
+                    this.cancelConstructionMode()
                 }
                 else{
-                    if(this.game.player.inventory.has('building_wooden_floor', 1)){
+                    if(player.inventory.has('building_wooden_floor', 1)){
                         this.game.placingBuilding = true
                         this.game.buildingToPlace = 'building_wooden_floor'
                     }
                 }                
             }
 
-            this.game.ui.hideMenus()
+            ui.hideMenus()
         }
+
         document.onkeydown = checkKey;
 
         // MOUSE
         document.onclick = (e) => {
             if(this.game.graphics.fullMap) return
             const canvas = e.target as HTMLCanvasElement
+            if(canvas.id !== "game-canvas") return
              
-            if(canvas.id === "game-canvas"){
-                this.game.ui.hideMenus()
+            const { player,graphics, ui, map } = this.game
+            ui.hideMenus()
 
-                if(this.game.player.inventory.has(this.game.buildingToPlace!,1)){
-                    if(this.game.placingBuilding){
-                        const cursorPos = this.game.cursorPos
-                        const x = cursorPos.x + this.game.graphics.offsetX
-                        const y = cursorPos.y + this.game.graphics.offsetY
-    
-                        const pX = this.game.player.position.x
-                        const pY = this.game.player.position.y
-    
-    
-                        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && this.game.map.getTile(x,y).type !== "woodenFloor"){
-                            this.game.map.changeTile(x,y,"woodenFloor")
-                            this.game.player.inventory.removeItem(this.game.buildingToPlace!,1)
+            if(player.inventory.has(this.game.buildingToPlace!,1)){
+                if(this.game.placingBuilding){
+                    const cursorPos = this.game.cursorPos
+                    const x = cursorPos.x + graphics.offsetX
+                    const y = cursorPos.y + graphics.offsetY
 
-                            if(!this.game.player.inventory.has(this.game.buildingToPlace!,1)){
-                                this.game.placingBuilding = false
-                                this.game.buildingToPlace = null
-                            }
+                    const pX = player.position.x
+                    const pY = player.position.y
+
+
+                    if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && map.getTile(x,y).type !== "woodenFloor"){
+                        map.changeTile(x,y,"woodenFloor")
+                        player.inventory.removeItem(this.game.buildingToPlace!,1)
+
+                        if(!player.inventory.has(this.game.buildingToPlace!,1)){
+                            this.cancelConstructionMode()
+        
                         }
-                        else{
-                            this.game.graphics.error("can't build there !")
-                        }
-                    }     
-                }
-                else{
-                    this.game.placingBuilding = false
-                    this.game.buildingToPlace = null
-                }
-                // TESTING CON CLICK !
-
+                    }
+                    else{
+                        graphics.error("can't build there !")
+                    }
+                }     
             }
+            else{
+                this.cancelConstructionMode()
+            }
+            // TESTING CON CLICK !
         }
 
         document.onmousemove = (e) => {

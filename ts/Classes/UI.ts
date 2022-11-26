@@ -240,7 +240,6 @@ class UI{
             this.inventoryPanel = null
             this.inventoryOpened = false
             this.selectedItem = null
-            this.closeCrafting()
         }
     }
 
@@ -250,7 +249,6 @@ class UI{
             this.craftingPanel = null
             this.craftingOpened = false
             this.selectedItem = null
-            this.closeInventory()
         }
     }
 
@@ -336,6 +334,46 @@ class UI{
         if(this.activeMenu !== null){
             this.activeMenu.style.display = "none"
             this.activeMenu = null
+        }
+    }
+
+    showMap(){
+        if(this.game.graphics.fullMap === true){
+            this.game.graphics.fullMap = false
+        }
+        else{
+            this.game.graphics.fullMap = true
+        }
+    }
+
+    closeAllWindows(){
+        if(this.inventoryOpened){
+            this.closeInventory()
+        }
+        if(this.craftingOpened){
+            this.closeCrafting()
+        }
+    }
+
+    toggleWindow(window: "inventory" | "crafting"){
+        switch(window){
+            case "inventory":{
+                if(this.game.ui.inventoryOpened){
+                    this.game.ui.closeInventory()
+                }else{
+                    this.game.ui.openInventory()
+                }
+                break
+            }
+
+            case "crafting":{
+                if(this.craftingOpened){
+                    this.closeCrafting()
+                }else{
+                    this.openCrafting()
+                }
+                break
+            }
         }
     }
 
