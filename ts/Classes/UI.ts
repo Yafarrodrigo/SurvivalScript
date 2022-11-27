@@ -323,7 +323,6 @@ class UI{
             const py = playerPos.y - this.game.graphics.offsetY
 
             if(x  > px+1 || x < px-1 || y > py+1 || y < py-1){
-                console.log("muy lejos");
                 this.menus[type].classList.add("disabled")
             }else{
                 this.menus[type].classList.remove("disabled")

@@ -61,6 +61,9 @@ class Controls{
             else if (e.code == 'KeyC'){
                 ui.toggleWindow('crafting')
             }
+            else if (e.code == 'KeyT'){
+                player.torchInHand === true ? player.torchInHand = false : player.torchInHand = true
+            }
             else if (e.code == 'Escape'){
                 ui.closeAllWindows()
             }

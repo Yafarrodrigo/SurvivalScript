@@ -37,7 +37,6 @@ class Crafting{
             this.game.player.inventory.removeItem(req.id, req.qty)
         })
         this.game.graphics.drawGatherInfo(this.game.player.position.x, this.game.player.position.y, `+1 ${_ITEMS[itemId].name}`);
-        this.game.player.inventory.update()
     }
 }
 

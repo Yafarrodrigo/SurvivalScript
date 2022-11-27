@@ -22,31 +22,36 @@ const ACTIONS = {
     },
     gatherRock: (game:Game) => {
         game.player.inventory.addItem("mat_stone_rock", 1)
-        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 rock`);
+        const playerQty = game.player.inventory.items["mat_stone_rock"].qty
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} rocks`);
         
     },
     gatherSticks: (game:Game) => {
         const rndQty = Math.floor(Math.random()*3)+1
         game.player.inventory.addItem("mat_wood_small_stick", rndQty)
-        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+${rndQty} small sticks`);
+        const playerQty = game.player.inventory.items["mat_wood_small_stick"].qty
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} small sticks`);
         
     },
     gatherGrassFibers: (game:Game) => {
         const rndQty = Math.floor(Math.random()*3)+1
         game.player.inventory.addItem("mat_grass_fiber", rndQty)
-        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+${rndQty} fibers`);
+        const playerQty = game.player.inventory.items["mat_grass_fiber"].qty
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} grass fibers`);
         
     },
     gatherWorms: (game:Game) => {
         const rndQty = Math.floor(Math.random()*3)+1
         game.player.inventory.addItem("cons_bait_worm", rndQty)
-        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+${rndQty} worms`);
+        const playerQty = game.player.inventory.items["cons_bait_worm"].qty
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} worms`);
         
     },
     gatherLongStick: (game:Game) => {
         if(game.player.inventory.has('tool_stoneKnife', 1) || game.player.inventory.has('tool_hatchet', 1) ){
             game.player.inventory.addItem("mat_wood_stick", 1)
-            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 long stick`);
+            const playerQty = game.player.inventory.items["mat_wood_stick"].qty
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} long sticks`);
         }else{
             game.graphics.error("must have a hatchet or a knife !");
         }
@@ -57,7 +62,8 @@ const ACTIONS = {
         if(game.player.inventory.has('tool_hatchet', 1)){
             game.map.changeTile(game.lastClickedTile.x,game.lastClickedTile.y,"grass")
             game.player.inventory.addItem("mat_wood_log", 1)
-            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `+1 wood log`);
+            const playerQty = game.player.inventory.items["mat_wood_log"].qty
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} wood logs`);
         }
         else{
             game.graphics.error("must have a hatchet !");

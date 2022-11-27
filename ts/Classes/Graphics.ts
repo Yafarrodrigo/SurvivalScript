@@ -11,8 +11,16 @@ class Graphics{
     tilesPerRow: number
     tilesPerColumn: number
     fullMap: boolean
+    nightAlpha: number
+    nightTint:{
+        r: number
+        g: number
+        b: number
+    }
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
+    timeCanvas: HTMLCanvasElement
+    timeCtx: CanvasRenderingContext2D
     canvasFx: HTMLCanvasElement
     ctxFx: CanvasRenderingContext2D
     grassImg: HTMLImageElement
@@ -38,6 +46,12 @@ class Graphics{
         this.offsetY = 0
 
         this.fullMap = false
+        this.nightTint = {
+            r: 0,
+            g: 0,
+            b: 15,
+        }
+        this.nightAlpha = 0
 
         this.grassImg = new Image()
         this.grassImg.src = "./assets/grass0.jpg"
@@ -55,6 +69,9 @@ class Graphics{
         const newCanvas = document.createElement('canvas')
         this.canvas = newCanvas
         this.ctx = newCanvas.getContext('2d')!
+        const timeCanvas = document.createElement('canvas')
+        this.timeCanvas = timeCanvas
+        this.timeCtx = timeCanvas.getContext('2d')!
         const newCanvasFx = document.createElement('canvas')
         this.canvasFx = newCanvasFx
         this.ctxFx = newCanvasFx.getContext('2d')!
@@ -71,10 +88,14 @@ class Graphics{
         this.canvasFx.width = this.width
         this.canvas.height = this.height
         this.canvasFx.height = this.height
+        this.timeCanvas.width = this.width
+        this.timeCanvas.height = this.height
         this.canvas.id = 'game-canvas'
         this.canvasFx.id = 'game-canvas-fx'
+        this.timeCanvas.id = 'game-canvas-time'
         document.getElementById("game-container")!.append(this.canvas)
         document.getElementById("game-container")!.append(this.canvasFx)
+        document.getElementById("game-container")!.append(this.timeCanvas)
 
         this.ctx.fillStyle = "black"
         this.ctx.fillRect(0,0,this.width,this.height)
@@ -181,7 +202,11 @@ class Graphics{
     }
 
     drawGatherInfo(x:number,y:number, text:string){
-        this.messages.push({x:x*this.tileSize,y: y*this.tileSize,text,timer:20,alpha:1})
+        this.messages.push({
+            x: (x - this.offsetX) * this.tileSize,
+            y: (y - this.offsetY) * this.tileSize,text,
+            timer:20,
+            alpha:1})
     }
 
     drawMessages(){
@@ -204,8 +229,12 @@ class Graphics{
     }
 
     error(text:string){
-        /* this.errors.push({x: 750,y: 100,text,timer:85,alpha:1}) */
-        this.errors.push({x:this.game.player.position.x*this.tileSize,y: (this.game.player.position.y*this.tileSize) - 15,text,timer:75,alpha:0.75})
+        this.errors.push({
+            x:(this.game.player.position.x - this.offsetX)*this.tileSize,
+            y: ((this.game.player.position.y - this.offsetY)*this.tileSize) - 15,text,
+            timer:75,
+            alpha:0.75
+        })
     }
 
     drawErrors(){
@@ -247,6 +276,52 @@ class Graphics{
         }
     }
 
+    timeOfDayFilter(){
+
+        const {x:px,y:py} = this.game.player.position
+        
+        switch(this.game.timeOfDay){
+            case "dawn":{
+                (this.nightAlpha - 0.001) > 0 ? this.nightAlpha -= 0.001 : this.nightAlpha = 0
+                break
+            }
+            case "dusk":{
+                (this.nightAlpha + 0.001) < 0.9 ? this.nightAlpha += 0.001 : this.nightAlpha = 0.9
+                break
+            }
+            case "day":{
+                this.nightAlpha = 0
+                break
+            }
+            case "night":{
+                this.nightAlpha = 0.9
+                break
+            }
+        }
+
+        if(this.game.player.torchInHand){
+            const gradient = this.timeCtx.createRadialGradient(
+                (px - this.offsetX) * this.tileSize,
+                (py - this.offsetY) * this.tileSize,
+                this.tileSize,
+                (px - this.offsetX) * this.tileSize,
+                (py - this.offsetY) * this.tileSize,
+                350
+            )
+            gradient.addColorStop(0, "rgba(255,75,0,1)")
+            gradient.addColorStop(0.66, "rgba(255,75,0,0.5)")
+            gradient.addColorStop(1, "rgba(255,75,0,0)")
+    
+            this.timeCtx.fillStyle = gradient
+            this.timeCtx.fillRect(0,0,this.width,this.height)
+
+            this.timeCtx.globalCompositeOperation = 'source-out';
+        }
+        
+        this.timeCtx.fillStyle = `rgba(${this.nightTint.r},${this.nightTint.g},${this.nightTint.b},${this.nightAlpha})`
+        this.timeCtx.fillRect(0,0,this.width,this.height)
+    }
+
     roundRect(ctx:CanvasRenderingContext2D ,x: number,y: number,width: number,height: number,r:number = 5) {
         const radius = {tl: r, tr: r, br: r, bl: r};
         ctx.beginPath();
@@ -262,10 +337,12 @@ class Graphics{
         ctx.closePath();
 
         ctx.fill();
-      }
+    }
 
     update(){
         this.ctxFx.clearRect(0,0,this.width,this.height)
+        this.timeCtx.clearRect(0,0,this.width,this.height)
+
         if(this.fullMap === true){
             this.drawFullMap()
             this.drawPlayerInFullMap()
@@ -279,9 +356,8 @@ class Graphics{
             if(this.game.placingBuilding){
                 this.showBuildingToPlace()
             }
+            this.timeOfDayFilter()
         }
-        
-        
     }
 }
 

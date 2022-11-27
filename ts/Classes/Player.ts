@@ -10,6 +10,7 @@ class Player{
     }
     options:{actionCode: string,name:string,desc: string}[]
     inventory: Inventory
+    torchInHand: boolean
 
     constructor(game: Game){
         this.game = game
@@ -31,6 +32,7 @@ class Player{
             {actionCode: "startCampfire",name:"start campfire", desc: "starting camfire"}
         ]
         this.inventory = new Inventory(this.game)
+        this.torchInHand = true
     }
 
     move(dir: "up" | "down" | "left" | "right"){

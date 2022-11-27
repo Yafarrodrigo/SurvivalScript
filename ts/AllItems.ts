@@ -174,6 +174,20 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/stone-knife.png"
     },
+    tool_torch:{
+        id:"tool_torch",
+        type: "tool",
+        name: "Torch",
+        desc: "A torch made of a stick and strings",
+        reqMats:[
+            {id:"mat_crafted_string", qty: 3},
+            {id:"mat_wood_stick", qty: 1}
+        ],
+        reqCons:[],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/stick.png"    // TODO (cambiar img)
+    },
     building_wooden_floor:{
         id:"building_wooden_floor",
         type: "building",
@@ -186,7 +200,7 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/wooden-floor.png"
+        icon: "./assets/items/log.png"
     }
 
 }
