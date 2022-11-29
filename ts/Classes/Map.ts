@@ -10,18 +10,18 @@ class Map{
     tilesPerRow: number
     tilesPerColumn: number
 
-    tileSize: 25 | 40 | 50
+    tileSize: number
     tiles: Tile[]
     allTileTypes:{[key:string]: Tile}
     
 
     constructor(game:Game, width: number, height:number){
         this.game = game
-        this.tileSize = 25
+        this.tileSize = 32
         this.width = width
         this.height = height
-        this.tilesPerRow = this.width / this.tileSize
-        this.tilesPerColumn = this.height / this.tileSize
+        this.tilesPerRow = Math.floor(this.width / this.tileSize)
+        this.tilesPerColumn = Math.floor(this.height / this.tileSize)
         // MAP GEN
         const perlin = new Perlin(0.5,0.5)
         const n1 = Math.floor(Math.random()*50)+100         //  tweak for map gen

@@ -16,7 +16,11 @@ canvas{
 #controls{
     position: absolute;
     top: 10px;
-    left: 825px;
+    left: 1300px;
+}
+
+#game-canvas{
+    position: absolute;
 }
 
 #game-canvas-fx{

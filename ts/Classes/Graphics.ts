@@ -5,10 +5,13 @@ class Graphics{
     game: Game
     width: number
     height: number
-    tileSize: 25 | 40 | 50
-    offsetX: number
-    offsetY: number
+    tileSize: number
+    mapTileSize: number
     tilesPerRow: number
+    offsetY: number
+    offsetX: number
+    fullMapOffsetX: number
+    fullMapOffsetY: number
     tilesPerColumn: number
     fullMap: boolean
     nightAlpha: number
@@ -38,12 +41,15 @@ class Graphics{
         this.game = game
         this.width = width
         this.height = height
-        this.tileSize = 25
-        this.tilesPerRow = this.width / this.tileSize
-        this.tilesPerColumn = this.height / this.tileSize
+        this.tileSize = 32
+        this.mapTileSize = 10
+        this.tilesPerRow = Math.floor(this.width / this.tileSize)
+        this.tilesPerColumn = Math.floor(this.height / this.tileSize)
 
         this.offsetX = 0
         this.offsetY = 0
+        this.fullMapOffsetX = 0
+        this.fullMapOffsetY = 0
 
         this.fullMap = false
         this.nightTint = {
@@ -86,9 +92,9 @@ class Graphics{
     init(){
         this.canvas.width = this.width
         this.canvasFx.width = this.width
+        this.timeCanvas.width = this.width
         this.canvas.height = this.height
         this.canvasFx.height = this.height
-        this.timeCanvas.width = this.width
         this.timeCanvas.height = this.height
         this.canvas.id = 'game-canvas'
         this.canvasFx.id = 'game-canvas-fx'
@@ -168,14 +174,42 @@ class Graphics{
                     }
                     default: img = this.grassImg
                 }
-                this.ctx.drawImage(img,(tile.x * 6)+12,(tile.y * 6)+12, 6, 6)
+                this.ctx.drawImage(img,((tile.x - this.fullMapOffsetX) * this.mapTileSize),((tile.y - this.fullMapOffsetY) * this.mapTileSize), this.mapTileSize, this.mapTileSize)
             }
             else{
                 this.ctx.fillStyle = "#111"
-                this.ctx.fillRect((tile.x * 6)+12,(tile.y * 6)+12, 6, 6)
+                this.ctx.fillRect(((tile.x - this.fullMapOffsetX) * this.mapTileSize),((tile.y - this.fullMapOffsetY) * this.mapTileSize), this.mapTileSize, this.mapTileSize)
             }
 
         })
+    }
+
+    moveMap(dir:string){
+        switch(dir){
+            case "up":{
+                if(this.fullMapOffsetY - 5 >= 0){
+                    this.fullMapOffsetY -= 5
+                }
+                break
+            }
+            case "down":{
+                if(this.fullMapOffsetY + 5 <= 50){
+                    this.fullMapOffsetY += 5
+                }
+                break
+            }
+            case "left":{
+                if(this.fullMapOffsetX - 5 >= 0){
+                    this.fullMapOffsetX -= 5
+                }
+                break
+            }
+            case "right":{
+                if(this.fullMapOffsetX + 5 <= 70)
+                this.fullMapOffsetX += 5
+                break
+            }
+        }
     }
 
     drawPlayer(){
@@ -188,7 +222,7 @@ class Graphics{
         const {x,y} = this.game.player.position
 
         this.ctx.drawImage(
-        this.playerImg, x * 6, y * 6, this.tileSize, this.tileSize)
+        this.playerImg, ((x - this.fullMapOffsetX) * this.mapTileSize), ((y - this.fullMapOffsetY) * this.mapTileSize), this.tileSize, this.tileSize)
     }
 
     drawTileHover(){
@@ -279,6 +313,7 @@ class Graphics{
     timeOfDayFilter(){
 
         const {x:px,y:py} = this.game.player.position
+
         
         switch(this.game.timeOfDay){
             case "dawn":{
@@ -301,25 +336,26 @@ class Graphics{
 
         if(this.game.player.torchInHand){
             const gradient = this.timeCtx.createRadialGradient(
-                (px - this.offsetX) * this.tileSize,
-                (py - this.offsetY) * this.tileSize,
+                ((px - this.offsetX) * this.tileSize),
+                ((py - this.offsetY) * this.tileSize),
                 this.tileSize,
-                (px - this.offsetX) * this.tileSize,
-                (py - this.offsetY) * this.tileSize,
-                350
+                ((px - this.offsetX) * this.tileSize),
+                ((py - this.offsetY) * this.tileSize),
+                this.tileSize * 10
             )
+            
             gradient.addColorStop(0, "rgba(255,75,0,1)")
             gradient.addColorStop(0.66, "rgba(255,75,0,0.5)")
             gradient.addColorStop(1, "rgba(255,75,0,0)")
     
             this.timeCtx.fillStyle = gradient
-            this.timeCtx.fillRect(0,0,this.width,this.height)
+            this.timeCtx.fillRect(0,0,this.width,this.width)
 
             this.timeCtx.globalCompositeOperation = 'source-out';
         }
         
         this.timeCtx.fillStyle = `rgba(${this.nightTint.r},${this.nightTint.g},${this.nightTint.b},${this.nightAlpha})`
-        this.timeCtx.fillRect(0,0,this.width,this.height)
+        this.timeCtx.fillRect(0,0,this.width,this.width)
     }
 
     roundRect(ctx:CanvasRenderingContext2D ,x: number,y: number,width: number,height: number,r:number = 5) {
@@ -340,6 +376,7 @@ class Graphics{
     }
 
     update(){
+        this.ctx.clearRect(0,0,this.width,this.height)
         this.ctxFx.clearRect(0,0,this.width,this.height)
         this.timeCtx.clearRect(0,0,this.width,this.height)
 

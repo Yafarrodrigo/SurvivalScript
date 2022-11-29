@@ -14,17 +14,7 @@ class Player{
 
     constructor(game: Game){
         this.game = game
-        let startingPos = {
-            x: Math.floor(Math.random()*game.graphics.tilesPerRow),
-            y: Math.floor(Math.random()*game.graphics.tilesPerColumn)
-        }
-        while(this.game.map.getTile(startingPos.x,startingPos.y).walkable !== true){
-            startingPos = {
-                x: Math.floor(Math.random()*game.graphics.tilesPerRow),
-                y: Math.floor(Math.random()*game.graphics.tilesPerColumn)
-            }
-        }
-        this.position = startingPos        
+        this.position = this.randomStartPos(game)
         
         this.options = [
             {actionCode: "wait",name:"wait", desc: "waiting"},
@@ -33,6 +23,22 @@ class Player{
         ]
         this.inventory = new Inventory(this.game)
         this.torchInHand = true
+    }
+
+    randomStartPos(game: Game){
+        let startingPos = {
+            x: Math.floor(Math.random() * game.graphics.tilesPerRow),
+            y: Math.floor(Math.random() * game.graphics.tilesPerColumn)
+        }
+
+        while(this.game.map.getTile(startingPos.x,startingPos.y).walkable !== true){
+            startingPos = {
+                x: Math.floor(Math.random() * game.graphics.tilesPerRow),
+                y: Math.floor(Math.random() * game.graphics.tilesPerColumn)
+            }
+        }
+
+        return startingPos
     }
 
     move(dir: "up" | "down" | "left" | "right"){
@@ -59,10 +65,8 @@ class Player{
                 if(this.game.map.getTile(x,y+1).walkable === true){
                     this.position.y += 1
                     if( (y - this.game.graphics.offsetY) >= (this.game.graphics.tilesPerColumn - 7)){
-                        this.game.graphics.offsetY += 1
-                        
-                        if(this.game.graphics.offsetY >= (this.game.map.tilesPerColumn)){
-                            this.game.graphics.offsetY = this.game.map.tilesPerColumn
+                        if(this.game.graphics.offsetY < this.game.map.tilesPerColumn - this.game.graphics.tilesPerColumn){
+                            this.game.graphics.offsetY += 1
                         }
                     }
                 }
@@ -84,9 +88,8 @@ class Player{
                 if(this.game.map.getTile(x+1,y).walkable === true){
                     this.position.x += 1
                     if( (x - this.game.graphics.offsetX) >= (this.game.graphics.tilesPerRow - 7)){
-                        this.game.graphics.offsetX += 1
-                        if(this.game.graphics.offsetX >= (this.game.map.tilesPerRow)){
-                            this.game.graphics.offsetX = this.game.map.tilesPerRow
+                        if(this.game.graphics.offsetX < this.game.map.tilesPerRow - this.game.graphics.tilesPerRow){
+                            this.game.graphics.offsetX += 1
                         }
                     }
                 }

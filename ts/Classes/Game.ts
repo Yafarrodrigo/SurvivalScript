@@ -32,8 +32,8 @@ class Game {
     clockRate: 32 | 16 | 8 | 4 | 1
  
     constructor(){
-        this.graphics = new Graphics(this, 800,600)
-        this.map = new Map(this, 3200, 2400)
+        this.graphics = new Graphics(this, 1280,720)
+        this.map = new Map(this, 6400, 3600)
         this.player = new Player(this)
         this.controls = new Controls(this)
         this.crafting = new Crafting(this)
@@ -46,8 +46,8 @@ class Game {
         this.placingBuilding = false
         this.buildingToPlace = null
 
-        this.time = 12
-        this.timeOfDay = "day"
+        this.time = 22
+        this.timeOfDay = "night"
 
         this.actions = ACTIONS
         this.graphics.update()

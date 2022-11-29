@@ -44,16 +44,32 @@ class Controls{
             const { player, ui } = this.game
             
             if (e.code == 'ArrowUp' || e.code == 'KeyW') {    // up arrow
-                player.move("up")
+                if(this.game.graphics.fullMap){
+                    this.game.graphics.moveMap("up")
+                }else{
+                    player.move("up")
+                }
             }
             else if (e.code == 'ArrowDown' || e.code == 'KeyS') {   // down arrow
-                player.move("down")     
+                if(this.game.graphics.fullMap){
+                    this.game.graphics.moveMap("down")
+                }   else{
+                    player.move("down")
+                }  
             }
             else if (e.code == 'ArrowLeft' || e.code == 'KeyA') {   // left arrow
-                player.move("left")
+                if(this.game.graphics.fullMap){
+                    this.game.graphics.moveMap("left")
+                }else{
+                    player.move("left")
+                }
             }
             else if (e.code == 'ArrowRight' || e.code == 'KeyD') {   // right arrow
-                player.move("right")
+                if(this.game.graphics.fullMap){
+                    this.game.graphics.moveMap("right")
+                }else{
+                    player.move("right")
+                }
             }
             else if (e.code == 'KeyI'){
                 ui.toggleWindow('inventory')
@@ -98,40 +114,45 @@ class Controls{
         // MOUSE
         document.onclick = (e) => {
             if(this.game.graphics.fullMap) return
-            const canvas = e.target as HTMLCanvasElement
-            if(canvas.id !== "game-canvas") return
-             
+            const target = e.target as HTMLCanvasElement | HTMLDivElement
+            
             const { player,graphics, ui, map } = this.game
             ui.hideMenus()
-
-            if(player.inventory.has(this.game.buildingToPlace!,1)){
-                if(this.game.placingBuilding){
-                    const cursorPos = this.game.cursorPos
-                    const x = cursorPos.x + graphics.offsetX
-                    const y = cursorPos.y + graphics.offsetY
-
-                    const pX = player.position.x
-                    const pY = player.position.y
-
-
-                    if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && map.getTile(x,y).type !== "woodenFloor"){
-                        map.changeTile(x,y,"woodenFloor")
-                        player.inventory.removeItem(this.game.buildingToPlace!,1)
-
-                        if(!player.inventory.has(this.game.buildingToPlace!,1)){
-                            this.cancelConstructionMode()
-        
+            
+            if(target.id === "game-canvas"){
+                if(player.inventory.has(this.game.buildingToPlace!,1)){
+                    if(this.game.placingBuilding){
+                        const cursorPos = this.game.cursorPos
+                        const x = cursorPos.x + graphics.offsetX
+                        const y = cursorPos.y + graphics.offsetY
+    
+                        const pX = player.position.x
+                        const pY = player.position.y
+    
+    
+                        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && map.getTile(x,y).type !== "woodenFloor"){
+                            map.changeTile(x,y,"woodenFloor")
+                            player.inventory.removeItem(this.game.buildingToPlace!,1)
+    
+                            if(!player.inventory.has(this.game.buildingToPlace!,1)){
+                                this.cancelConstructionMode()
+            
+                            }
                         }
-                    }
-                    else{
-                        graphics.error("can't build there !")
-                    }
-                }     
+                        else{
+                            graphics.error("can't build there !")
+                        }
+                    }     
+                }
+                else{
+                    this.cancelConstructionMode()
+                }
             }
-            else{
-                this.cancelConstructionMode()
+
+            else if(target.id === "otra cosa"){
+                console.log("blah blah");
+                
             }
-            // TESTING CON CLICK !
         }
 
         document.onmousemove = (e) => {
