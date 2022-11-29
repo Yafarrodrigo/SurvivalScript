@@ -21,6 +21,9 @@ class Inventory{
         else{
             console.log("no existe el item!");
         }
+        if(this.game.ui){
+            this.game.ui.update()
+        }
     }
 
     getItems(){
@@ -34,7 +37,9 @@ class Inventory{
                 delete this.items[itemId]
             }
         }
-        this.game.ui.update()
+        if(this.game.ui){
+            this.game.ui.update()
+        }
     }
 
     has(itemId:string, qty:number){

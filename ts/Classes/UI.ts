@@ -271,7 +271,11 @@ class UI{
                     e.preventDefault()
                     this.hideMenus()
                     if(!container.classList.contains("disabled")){
-                        this.game.actions[option.actionCode](this.game, option.desc)
+                        if(option.singleTime){
+                            this.game.actions[option.actionCode](this.game)
+                        }else{
+                            this.game.player.startGathering(option.actionCode)
+                        }
                     }
                 }
                 newItem.oncontextmenu = (e) => e.preventDefault()
@@ -295,7 +299,7 @@ class UI{
             newItem.onclick = (e) => {
                 e.preventDefault()
                 this.hideMenus()
-                this.game.actions[option.actionCode](this.game, option.desc)
+                this.game.actions[option.actionCode](this.game)
             }
             newItem.oncontextmenu = (e) => e.preventDefault()
             list.append(newItem)

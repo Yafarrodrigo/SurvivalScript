@@ -32,6 +32,7 @@ class Graphics{
     treesImg: HTMLImageElement
     playerImg: HTMLImageElement
     woodenFloorImg: HTMLImageElement
+    torchTileImg: HTMLImageElement
     messages: {x:number,y:number, text:string, timer:number, alpha:number}[]
     errors: {x:number,y:number, text:string, timer:number, alpha:number}[]
 
@@ -71,6 +72,8 @@ class Graphics{
         this.playerImg.src = "./assets/player.png"
         this.woodenFloorImg = new Image()
         this.woodenFloorImg.src = "./assets/wooden-floor.png"
+        this.torchTileImg = new Image()
+        this.torchTileImg.src = "./assets/torchTile.jpg"
 
         const newCanvas = document.createElement('canvas')
         this.canvas = newCanvas
@@ -133,6 +136,10 @@ class Graphics{
                 }
                 case "woodenFloor":{
                     img = this.woodenFloorImg
+                    break
+                }
+                case "torchTile":{
+                    img = this.torchTileImg
                     break
                 }
                 default: img = this.grassImg
@@ -311,10 +318,7 @@ class Graphics{
     }
 
     timeOfDayFilter(){
-
-        const {x:px,y:py} = this.game.player.position
-
-        
+   
         switch(this.game.timeOfDay){
             case "dawn":{
                 (this.nightAlpha - 0.001) > 0 ? this.nightAlpha -= 0.001 : this.nightAlpha = 0
@@ -334,6 +338,16 @@ class Graphics{
             }
         }
 
+        this.addLight()
+        
+        this.timeCtx.fillStyle = `rgba(${this.nightTint.r},${this.nightTint.g},${this.nightTint.b},${this.nightAlpha})`
+        this.timeCtx.fillRect(0,0,this.width,this.width)
+    }
+
+    addLight(){
+
+        const {x:px,y:py} = this.game.player.position
+
         if(this.game.player.torchInHand){
             const gradient = this.timeCtx.createRadialGradient(
                 ((px - this.offsetX) * this.tileSize),
@@ -347,15 +361,11 @@ class Graphics{
             gradient.addColorStop(0, "rgba(255,75,0,1)")
             gradient.addColorStop(0.66, "rgba(255,75,0,0.5)")
             gradient.addColorStop(1, "rgba(255,75,0,0)")
-    
+
             this.timeCtx.fillStyle = gradient
             this.timeCtx.fillRect(0,0,this.width,this.width)
-
             this.timeCtx.globalCompositeOperation = 'source-out';
         }
-        
-        this.timeCtx.fillStyle = `rgba(${this.nightTint.r},${this.nightTint.g},${this.nightTint.b},${this.nightAlpha})`
-        this.timeCtx.fillRect(0,0,this.width,this.width)
     }
 
     roundRect(ctx:CanvasRenderingContext2D ,x: number,y: number,width: number,height: number,r:number = 5) {

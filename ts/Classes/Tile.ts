@@ -9,6 +9,7 @@ class Tile{
         actionCode: string,
         name: string
         desc: string
+        singleTime: boolean
     }[]
     walkable: boolean
     visible: boolean

@@ -1,3 +1,4 @@
+import ACTIONS from "../Actions.js"
 import Game from "./Game.js"
 import Inventory from "./Inventory.js"
 
@@ -8,21 +9,63 @@ class Player{
         x:number,
         y:number
     }
-    options:{actionCode: string,name:string,desc: string}[]
+    options:{actionCode: string,name:string,desc: string, singleTime: boolean}[]
     inventory: Inventory
     torchInHand: boolean
+    gathering: boolean
+    doingAction: string | null
+    gatheringClock: ReturnType<typeof setInterval> | null
+    allTorches: {
+        x:number
+        y:number
+    }[]
 
     constructor(game: Game){
         this.game = game
         this.position = this.randomStartPos(game)
         
         this.options = [
-            {actionCode: "wait",name:"wait", desc: "waiting"},
-            {actionCode: "sit",name:"sit", desc: "siting"},
-            {actionCode: "startCampfire",name:"start campfire", desc: "starting camfire"}
+            {actionCode: "wait",name:"wait", desc: "waiting", singleTime: true},
+            {actionCode: "sit",name:"sit", desc: "siting", singleTime: true},
+            {actionCode: "startCampfire",name:"start campfire", desc: "starting camfire", singleTime: true}
         ]
         this.inventory = new Inventory(this.game)
-        this.torchInHand = true
+        this.inventory.addItem("tool_torch",1)
+        this.torchInHand = false
+        this.gathering = false
+        this.doingAction = null
+        this.gatheringClock = null
+        this.allTorches = []
+    }
+
+    startGathering(action:string){
+        if(this.doingAction === null){
+            this.gathering = true
+            this.doingAction = action
+
+            this.game.actions[this.doingAction](this.game)
+
+            this.gatheringClock = setInterval(()=>{
+                if(this.doingAction !== null){
+                    this.game.actions[this.doingAction](this.game)
+                }
+                else{
+                    if(this.gatheringClock){
+                        clearInterval(this.gatheringClock)
+                    }
+                }
+            },1000)
+        }
+    }
+
+    stopGathering(){
+        if(this.doingAction !== null){
+            this.gathering = false
+            this.doingAction = null
+            if(this.gatheringClock !== null){
+                clearInterval(this.gatheringClock)
+            }
+        }
     }
 
     randomStartPos(game: Game){
@@ -44,6 +87,8 @@ class Player{
     move(dir: "up" | "down" | "left" | "right"){
 
         if(this.game.graphics.fullMap) return
+
+        this.game.player.stopGathering()
 
         const x = this.position.x
         const y = this.position.y

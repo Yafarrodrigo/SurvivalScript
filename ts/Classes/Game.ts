@@ -23,7 +23,7 @@ class Game {
     clock: ReturnType<typeof setInterval> | null
     internalClock: number
     ui: UI
-    actions: {[key:string]: (game:Game,desc:string) => void}
+    actions: {[key:string]: (game:Game) => void}
     lastClickedTile: Tile | null
     placingBuilding: boolean
     buildingToPlace: string | null

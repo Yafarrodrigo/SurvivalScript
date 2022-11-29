@@ -78,7 +78,13 @@ class Controls{
                 ui.toggleWindow('crafting')
             }
             else if (e.code == 'KeyT'){
-                player.torchInHand === true ? player.torchInHand = false : player.torchInHand = true
+                if(this.game.player.inventory.has("tool_torch", 1)){
+                    player.torchInHand === true ? player.torchInHand = false : player.torchInHand = true
+                }
+                else{
+                    this.game.graphics.error("you need a torch!")
+                    player.torchInHand = false
+                }
             }
             else if (e.code == 'Escape'){
                 ui.closeAllWindows()
@@ -120,15 +126,17 @@ class Controls{
             ui.hideMenus()
             
             if(target.id === "game-canvas"){
+
+                const cursorPos = this.game.cursorPos
+                const x = cursorPos.x + graphics.offsetX
+                const y = cursorPos.y + graphics.offsetY
+
+                this.game.player.stopGathering()
                 if(player.inventory.has(this.game.buildingToPlace!,1)){
                     if(this.game.placingBuilding){
-                        const cursorPos = this.game.cursorPos
-                        const x = cursorPos.x + graphics.offsetX
-                        const y = cursorPos.y + graphics.offsetY
-    
+  
                         const pX = player.position.x
                         const pY = player.position.y
-    
     
                         if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && map.getTile(x,y).type !== "woodenFloor"){
                             map.changeTile(x,y,"woodenFloor")
@@ -147,11 +155,11 @@ class Controls{
                 else{
                     this.cancelConstructionMode()
                 }
-            }
 
-            else if(target.id === "otra cosa"){
-                console.log("blah blah");
-                
+                if(this.game.map.getTile(x,y).type !== "torchTile"){
+                    this.game.map.changeTile(x,y,"torchTile")
+                    this.game.player.allTorches.push({x,y})
+                }
             }
         }
 
