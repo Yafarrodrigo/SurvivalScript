@@ -338,10 +338,11 @@ class Graphics{
             }
         }
 
-        this.addLight()
-        
         this.timeCtx.fillStyle = `rgba(${this.nightTint.r},${this.nightTint.g},${this.nightTint.b},${this.nightAlpha})`
         this.timeCtx.fillRect(0,0,this.width,this.width)
+        this.timeCtx.globalCompositeOperation = 'destination-out';
+        this.addLight()
+        this.timeCtx.globalCompositeOperation = 'source-over';
     }
 
     addLight(){
@@ -349,7 +350,7 @@ class Graphics{
         const {x:px,y:py} = this.game.player.position
 
         if(this.game.player.torchInHand){
-            const gradient = this.timeCtx.createRadialGradient(
+            const playerTorchRadius = this.timeCtx.createRadialGradient(
                 ((px - this.offsetX) * this.tileSize),
                 ((py - this.offsetY) * this.tileSize),
                 this.tileSize,
@@ -358,14 +359,43 @@ class Graphics{
                 this.tileSize * 10
             )
             
-            gradient.addColorStop(0, "rgba(255,75,0,1)")
-            gradient.addColorStop(0.66, "rgba(255,75,0,0.5)")
-            gradient.addColorStop(1, "rgba(255,75,0,0)")
+            playerTorchRadius.addColorStop(0, "rgba(255,75,0,1)")
+            playerTorchRadius.addColorStop(0.66, "rgba(255,75,0,0.5)")
+            playerTorchRadius.addColorStop(1, "rgba(255,75,0,0)")
 
-            this.timeCtx.fillStyle = gradient
-            this.timeCtx.fillRect(0,0,this.width,this.width)
-            this.timeCtx.globalCompositeOperation = 'source-out';
+            this.timeCtx.fillStyle = playerTorchRadius
+            this.timeCtx.beginPath()
+            this.timeCtx.arc(
+                (px - this.offsetX) * this.tileSize,
+                (py - this.offsetY) * this.tileSize,
+                this.tileSize*10,
+                0 , Math.PI*2
+            )
+            this.timeCtx.fill()
         }
+        this.game.player.allTorches.forEach( torch => {
+            const torchLight = this.timeCtx.createRadialGradient(
+                ((torch.x - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((torch.y - this.offsetY) * this.tileSize) + this.tileSize/2,
+                this.tileSize,
+                ((torch.x - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((torch.y - this.offsetY) * this.tileSize) + this.tileSize/2,
+                this.tileSize * 5
+            )
+            
+            torchLight.addColorStop(0, "rgba(255,75,0,1)")
+            torchLight.addColorStop(1, "rgba(255,75,0,0)")
+
+            this.timeCtx.fillStyle = torchLight
+            this.timeCtx.beginPath()
+            this.timeCtx.arc(
+                ((torch.x - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((torch.y - this.offsetY) * this.tileSize) + this.tileSize/2,
+                this.tileSize*5,
+                0 , Math.PI*2
+            )
+            this.timeCtx.fill()
+        })
     }
 
     roundRect(ctx:CanvasRenderingContext2D ,x: number,y: number,width: number,height: number,r:number = 5) {
