@@ -16,7 +16,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/small-stick.png"
+        icon: "./assets/items/small-stick.png",
+        relatedTile: null
     },
     mat_wood_stick:{
         id:"mat_wood_stick",
@@ -27,7 +28,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/stick.png"
+        icon: "./assets/items/stick.png",
+        relatedTile: null
     },
     mat_wood_log:{
         id:"mat_wood_log",
@@ -38,7 +40,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/log.png"
+        icon: "./assets/items/log.png",
+        relatedTile: null
     },
     mat_stone_small_rock:{
         id:"mat_stone_small_rock",
@@ -49,7 +52,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/small-rock.png"
+        icon: "./assets/items/small-rock.png",
+        relatedTile: null
     },
     mat_stone_rock:{
         id:"mat_stone_rock",
@@ -60,7 +64,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/rock.png"
+        icon: "./assets/items/rock.png",
+        relatedTile: null
     },
     mat_grass_fiber:{
         id:"mat_grass_fiber",
@@ -71,7 +76,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/grass-fiber.png"
+        icon: "./assets/items/grass-fiber.png",
+        relatedTile: null
     },
     mat_crafted_string:{
         id:"mat_crafted_string",
@@ -82,7 +88,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/string.png"
+        icon: "./assets/items/string.png",
+        relatedTile: null
     },
     mat_crafted_rope:{
         id:"mat_crafted_rope",
@@ -93,7 +100,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/rope.png"
+        icon: "./assets/items/rope.png",
+        relatedTile: null
     },
     mat_crafted_hook:{
         id:"mat_crafted_hook",
@@ -104,7 +112,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/hook.png"
+        icon: "./assets/items/hook.png",
+        relatedTile: null
     },
     cons_bait_worm:{
         id:"cons_bait_worm",
@@ -115,7 +124,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/bait-worm.png"
+        icon: "./assets/items/bait-worm.png",
+        relatedTile: null
     },
     cons_food_fish:{
         id:"cons_food_fish",
@@ -126,7 +136,8 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/fish.png"
+        icon: "./assets/items/fish.png",
+        relatedTile: null
     },
     tool_fishingRod:{
         id:"tool_fishingRod",
@@ -143,7 +154,8 @@ const _ITEMS: ItemsDict =  {
         ],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/fishing-rod.png"
+        icon: "./assets/items/fishing-rod.png",
+        relatedTile: null
     },
     tool_hatchet:{
         id:"tool_hatchet",
@@ -158,7 +170,8 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/hatchet.png"
+        icon: "./assets/items/hatchet.png",
+        relatedTile: null
     },
     tool_stoneKnife:{
         id:"tool_stoneKnife",
@@ -172,11 +185,12 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/stone-knife.png"
+        icon: "./assets/items/stone-knife.png",
+        relatedTile: null
     },
-    tool_torch:{
-        id:"tool_torch",
-        type: "tool",
+    building_torch:{
+        id:"building_torch",
+        type: "building",
         name: "Torch",
         desc: "A torch made of a stick and strings",
         reqMats:[
@@ -186,7 +200,8 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/stick.png"    // TODO (cambiar img)
+        icon: "./assets/items/stick.png",    // TODO (cambiar img)
+        relatedTile: "torchTile"
     },
     building_wooden_floor:{
         id:"building_wooden_floor",
@@ -200,7 +215,8 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/log.png"
+        icon: "./assets/items/log.png",
+        relatedTile: "woodenFloor"
     }
 
 }

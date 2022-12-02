@@ -38,6 +38,30 @@ class Crafting{
         })
         this.game.graphics.drawGatherInfo(this.game.player.position.x, this.game.player.position.y, `+1 ${_ITEMS[itemId].name}`);
     }
+
+    build(itemId:string, x:number, y:number){
+
+        if(this.game.player.inventory.has(itemId, 1)){
+            
+            if(this.game.map.getTile(x,y).spaceAvailable === true){
+                this.game.map.changeTile(x,y,_ITEMS[itemId].relatedTile!)
+                this.game.map.getTile(x,y).spaceAvailable = false
+                this.game.player.inventory.removeItem(itemId,1)
+
+                if(_ITEMS[itemId].id === "building_torch"){
+                    this.game.player.allTorches.push({x,y, radius:125, intensity: 0.75})
+                }
+            }
+        }
+        else{
+            console.log("no hay item pa construir");
+        }
+
+        if(!this.game.player.inventory.has(itemId,1)){
+            this.game.placingBuilding = false
+            this.game.buildingToPlace = null
+        }
+    }
 }
 
 export default Crafting

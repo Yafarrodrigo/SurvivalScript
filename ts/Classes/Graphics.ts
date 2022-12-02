@@ -308,10 +308,23 @@ class Graphics{
         const pX = this.game.player.position.x
         const pY = this.game.player.position.y
 
-        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && this.game.map.getTile(x,y).type !== "woodenFloor"){
-            this.ctx.drawImage(this.woodenFloorImg ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
+        let imgToShow = this.woodenFloorImg
+
+        switch(this.game.buildingToPlace){
+            case "building_wooden_floor":{
+                imgToShow = this.woodenFloorImg
+                break
+            }
+            case "building_torch":{
+                imgToShow = this.torchTileImg
+                break
+            }
+        }
+
+        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && this.game.map.getTile(x,y).spaceAvailable === true){
+            this.ctx.drawImage(imgToShow ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
         }else{
-            this.ctx.drawImage(this.woodenFloorImg ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
+            this.ctx.drawImage(imgToShow ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
             this.ctx.fillStyle = "rgba(255,0,0,0.5)"
             this.ctx.fillRect(cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
         }
@@ -351,50 +364,54 @@ class Graphics{
 
         if(this.game.player.torchInHand){
             const playerTorchRadius = this.timeCtx.createRadialGradient(
-                ((px - this.offsetX) * this.tileSize),
-                ((py - this.offsetY) * this.tileSize),
-                this.tileSize,
-                ((px - this.offsetX) * this.tileSize),
-                ((py - this.offsetY) * this.tileSize),
-                this.tileSize * 10
+                ((px - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((py - this.offsetY) * this.tileSize) + this.tileSize/2,
+                0,
+                ((px - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((py - this.offsetY) * this.tileSize) + this.tileSize/2,
+                this.game.player.mainTorch.radius
             )
             
-            playerTorchRadius.addColorStop(0, "rgba(255,75,0,1)")
+            playerTorchRadius.addColorStop(0, `rgba(255,75,0,${this.game.player.mainTorch.intensity})`)
             playerTorchRadius.addColorStop(0.66, "rgba(255,75,0,0.5)")
             playerTorchRadius.addColorStop(1, "rgba(255,75,0,0)")
 
+            this.timeCtx.filter = "blur(15px)"
             this.timeCtx.fillStyle = playerTorchRadius
             this.timeCtx.beginPath()
             this.timeCtx.arc(
-                (px - this.offsetX) * this.tileSize,
-                (py - this.offsetY) * this.tileSize,
+                ((px - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((py - this.offsetY) * this.tileSize) + this.tileSize/2,
                 this.tileSize*10,
                 0 , Math.PI*2
             )
             this.timeCtx.fill()
+            this.timeCtx.filter = "none"
         }
         this.game.player.allTorches.forEach( torch => {
             const torchLight = this.timeCtx.createRadialGradient(
                 ((torch.x - this.offsetX) * this.tileSize) + this.tileSize/2,
                 ((torch.y - this.offsetY) * this.tileSize) + this.tileSize/2,
-                this.tileSize,
+                0,
                 ((torch.x - this.offsetX) * this.tileSize) + this.tileSize/2,
                 ((torch.y - this.offsetY) * this.tileSize) + this.tileSize/2,
-                this.tileSize * 5
+                torch.radius
             )
             
-            torchLight.addColorStop(0, "rgba(255,75,0,1)")
-            torchLight.addColorStop(1, "rgba(255,75,0,0)")
+            torchLight.addColorStop(0, `rgba(255,75,0,${torch.intensity})`)
+            torchLight.addColorStop(1, `rgba(255,75,0,0)`)
 
             this.timeCtx.fillStyle = torchLight
+            this.timeCtx.filter = "blur(15px)"
             this.timeCtx.beginPath()
             this.timeCtx.arc(
                 ((torch.x - this.offsetX) * this.tileSize) + this.tileSize/2,
                 ((torch.y - this.offsetY) * this.tileSize) + this.tileSize/2,
                 this.tileSize*5,
                 0 , Math.PI*2
-            )
-            this.timeCtx.fill()
+                )
+                this.timeCtx.fill()
+                this.timeCtx.filter = "none"
         })
     }
 

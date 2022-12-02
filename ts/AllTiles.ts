@@ -2,6 +2,7 @@ interface TilesDict {
     [key:string]: {
         type:string
         walkable:boolean
+        spaceAvailable: boolean
         options:{
             actionCode:string
             name:string
@@ -16,6 +17,7 @@ const _TILES: TilesDict = {
     water:{
         type: "water",
         walkable: false,
+        spaceAvailable: false,
         options: [
             {actionCode:"fish",name:"fish", desc: "fishing", singleTime: false},
         ]
@@ -23,11 +25,13 @@ const _TILES: TilesDict = {
     sand:{
         type: "sand",
         walkable: true,
+        spaceAvailable: true,
         options: []
     },
     grass:{
         type: "grass",
         walkable: true,
+        spaceAvailable: true,
         options: [
             {actionCode:"gatherSmallRocks",name:"gather small rocks", desc: "gathering small rocks from the ground", singleTime: false},
             {actionCode:"gatherRock",name:"gather rock", desc: "gathering rocks from the ground", singleTime: false},
@@ -39,6 +43,7 @@ const _TILES: TilesDict = {
     trees:{
         type: "trees",
         walkable: false,
+        spaceAvailable: false,
         options: [
             {actionCode:"gatherLongStick",name:"gather long stick", desc: "gathering a long stick from trees", singleTime: false},
             {actionCode:"chopDownTree",name:"chop tree down", desc: "chops the tree", singleTime: true}
@@ -47,16 +52,19 @@ const _TILES: TilesDict = {
     woodenFloor:{
         type: "woodenFloor",
         walkable: true,
+        spaceAvailable: false,
         options: []
     },
     torchTile:{
         type: "torchTile",
         walkable: false,
+        spaceAvailable: false,
         options: []
     },
     gameEdge:{
         type: "gameEdge",
         walkable: false,
+        spaceAvailable: false,
         options: []
     }
 }

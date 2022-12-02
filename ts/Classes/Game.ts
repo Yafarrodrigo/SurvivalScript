@@ -46,8 +46,8 @@ class Game {
         this.placingBuilding = false
         this.buildingToPlace = null
 
-        this.time = 22
-        this.timeOfDay = "night"
+        this.time = 12
+        this.timeOfDay = "day"
 
         this.actions = ACTIONS
         this.graphics.update()
@@ -64,6 +64,36 @@ class Game {
             clearInterval(this.clock)
             this.clock = null
         }
+    }
+
+    torchFlicker(torch:{x?:number,y?:number,intensity:number,radius:number}){
+        if(Math.random() > 0.33){
+            if((torch.intensity + 0.35) > 1){
+                torch.intensity = 1
+            }else{
+                torch.intensity += 0.35
+            }
+        }else{
+            if((torch.intensity - 0.1) < 0.35){
+                torch.intensity = 0.35
+            }else{
+                torch.intensity += 0.1
+            }
+        }
+
+        if(Math.random() > 0.33){
+            if((torch.radius + 1) > 150){
+                torch.radius = 150
+            }else{
+                torch.radius += 1
+            }
+        }else{
+            if((torch.radius - 1) < 140){
+                torch.radius = 140
+            }else{
+                torch.radius -= 1
+            }
+        } 
     }
 
     update(){
@@ -85,6 +115,9 @@ class Game {
         else if(this.time == 12) this.timeOfDay = 'day' 
         else if(this.time == 19) this.timeOfDay = 'dusk' 
         else if(this.time == 22) this.timeOfDay = 'night'
+
+        this.player.allTorches.forEach(torch => this.torchFlicker(torch))
+        this.torchFlicker(this.player.mainTorch)
         
         this.graphics.update()
     }

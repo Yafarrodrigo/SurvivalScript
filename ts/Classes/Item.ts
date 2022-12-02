@@ -17,6 +17,7 @@ class Item {
     qty: number
     crafted: boolean
     icon:string
+    relatedTile: string | null
 
     constructor(itemId:string, qty:number){
         this.id = itemId
@@ -28,6 +29,7 @@ class Item {
         this.qty =  qty
         this.crafted = _ITEMS[itemId].crafted
         this.icon = _ITEMS[itemId].icon
+        this.relatedTile = _ITEMS[itemId].relatedTile
     }
 }
 

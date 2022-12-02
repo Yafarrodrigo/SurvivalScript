@@ -12,12 +12,18 @@ class Player{
     options:{actionCode: string,name:string,desc: string, singleTime: boolean}[]
     inventory: Inventory
     torchInHand: boolean
+    mainTorch: {
+        radius:number
+        intensity:number
+    }
     gathering: boolean
     doingAction: string | null
     gatheringClock: ReturnType<typeof setInterval> | null
     allTorches: {
         x:number
         y:number
+        radius:number
+        intensity: number
     }[]
 
     constructor(game: Game){
@@ -30,8 +36,10 @@ class Player{
             {actionCode: "startCampfire",name:"start campfire", desc: "starting camfire", singleTime: true}
         ]
         this.inventory = new Inventory(this.game)
-        this.inventory.addItem("tool_torch",1)
+        this.inventory.addItem("building_torch",5)
+        this.inventory.addItem("building_wooden_floor",5)
         this.torchInHand = false
+        this.mainTorch = {radius:140,intensity:1}
         this.gathering = false
         this.doingAction = null
         this.gatheringClock = null

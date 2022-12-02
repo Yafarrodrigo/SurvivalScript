@@ -78,7 +78,7 @@ class Controls{
                 ui.toggleWindow('crafting')
             }
             else if (e.code == 'KeyT'){
-                if(this.game.player.inventory.has("tool_torch", 1)){
+                if(this.game.player.inventory.has("building_torch", 1)){
                     player.torchInHand === true ? player.torchInHand = false : player.torchInHand = true
                 }
                 else{
@@ -88,28 +88,31 @@ class Controls{
             }
             else if (e.code == 'Escape'){
                 ui.closeAllWindows()
+                this.game.placingBuilding = false
+                this.game.buildingToPlace = null
             }
             else if (e.code == 'KeyM'){
                 ui.showMap()
             }
 
-            /* 
-            
-            reworkear el building!
-            reworkear el building!
-            reworkear el building!
-            
-            */
             else if (e.code == 'KeyB'){
                 if(this.game.placingBuilding === true){
                     this.cancelConstructionMode()
                 }
-                else{
+
+                const option = prompt("1 - wooden floor \n 2 - torch")
+                if(option === "1"){
                     if(player.inventory.has('building_wooden_floor', 1)){
                         this.game.placingBuilding = true
                         this.game.buildingToPlace = 'building_wooden_floor'
                     }
-                }                
+                }
+                else if(option === "2"){
+                    if(player.inventory.has('building_torch', 1)){
+                        this.game.placingBuilding = true
+                        this.game.buildingToPlace = 'building_torch'
+                    }
+                }            
             }
 
             ui.hideMenus()
@@ -132,33 +135,20 @@ class Controls{
                 const y = cursorPos.y + graphics.offsetY
 
                 this.game.player.stopGathering()
-                if(player.inventory.has(this.game.buildingToPlace!,1)){
-                    if(this.game.placingBuilding){
-  
-                        const pX = player.position.x
-                        const pY = player.position.y
-    
-                        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && map.getTile(x,y).type !== "woodenFloor"){
-                            map.changeTile(x,y,"woodenFloor")
-                            player.inventory.removeItem(this.game.buildingToPlace!,1)
-    
-                            if(!player.inventory.has(this.game.buildingToPlace!,1)){
-                                this.cancelConstructionMode()
-            
-                            }
-                        }
-                        else{
-                            graphics.error("can't build there !")
-                        }
-                    }     
+                if(this.game.placingBuilding){
+
+                    const pX = player.position.x
+                    const pY = player.position.y
+
+                    if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2){
+                        this.game.crafting.build(this.game.buildingToPlace!, x ,y)
+                    }
+                    else{
+                        graphics.error("can't build there !")
+                    }    
                 }
                 else{
                     this.cancelConstructionMode()
-                }
-
-                if(this.game.map.getTile(x,y).type !== "torchTile"){
-                    this.game.map.changeTile(x,y,"torchTile")
-                    this.game.player.allTorches.push({x,y})
                 }
             }
         }
