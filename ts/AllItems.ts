@@ -79,6 +79,18 @@ const _ITEMS: ItemsDict =  {
         icon: "./assets/items/grass-fiber.png",
         relatedTile: null
     },
+    mat_sea_shell:{
+        id:"mat_sea_shell",
+        type: "material",
+        name: "sea shell",
+        desc: "sea shells. Can be used for crafting",
+        reqMats: [],
+        reqCons: [],
+        qty: 0,
+        crafted: false,
+        icon: "./assets/items/stick.png",
+        relatedTile: null
+    },
     mat_crafted_string:{
         id:"mat_crafted_string",
         type: "material",

@@ -24,6 +24,9 @@ const ACTIONS = {
         game.player.inventory.addItem("mat_stone_rock", 1)
         const playerQty = game.player.inventory.items["mat_stone_rock"].qty
         game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} rocks`);
+
+        const {x,y} = game.lastClickedTile!
+        game.map.changeTile(x,y, "grass")
         
     },
     gatherSticks: (game:Game) => {
@@ -31,6 +34,9 @@ const ACTIONS = {
         game.player.inventory.addItem("mat_wood_small_stick", rndQty)
         const playerQty = game.player.inventory.items["mat_wood_small_stick"].qty
         game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} small sticks`);
+
+        const {x,y} = game.lastClickedTile!
+        game.map.changeTile(x,y, "grass")
         
     },
     gatherGrassFibers: (game:Game) => {
@@ -39,6 +45,15 @@ const ACTIONS = {
         const playerQty = game.player.inventory.items["mat_grass_fiber"].qty
         game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} grass fibers`);
         
+    },
+    gatherSeaShells: (game:Game) => {
+        const rndQty = Math.floor(Math.random()*3)+1
+        game.player.inventory.addItem("mat_sea_shell", rndQty)
+        const playerQty = game.player.inventory.items["mat_sea_shell"].qty
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} sea shells`);
+        
+        const {x,y} = game.lastClickedTile!
+        game.map.changeTile(x,y, "sand")
     },
     gatherWorms: (game:Game) => {
         const rndQty = Math.floor(Math.random()*3)+1

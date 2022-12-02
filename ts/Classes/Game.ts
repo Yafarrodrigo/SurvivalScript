@@ -46,8 +46,8 @@ class Game {
         this.placingBuilding = false
         this.buildingToPlace = null
 
-        this.time = 12
-        this.timeOfDay = "day"
+        this.time = 22
+        this.timeOfDay = "night"
 
         this.actions = ACTIONS
         this.graphics.update()

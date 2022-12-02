@@ -42,10 +42,20 @@ class Crafting{
     build(itemId:string, x:number, y:number){
 
         if(this.game.player.inventory.has(itemId, 1)){
+            const oldTile = this.game.map.getTile(x,y)
             
-            if(this.game.map.getTile(x,y).spaceAvailable === true){
-                this.game.map.changeTile(x,y,_ITEMS[itemId].relatedTile!)
-                this.game.map.getTile(x,y).spaceAvailable = false
+            if(oldTile.spaceAvailable === true){
+                if(itemId === "building_torch"){
+                    if(oldTile.type === "grass"){
+                        this.game.map.changeTile(x,y,"torchGrass")
+                    }else{
+                        this.game.map.changeTile(x,y,"torchSand")
+                    }
+                }
+                else{
+                    this.game.map.changeTile(x,y,_ITEMS[itemId].relatedTile!)
+                }
+                oldTile.spaceAvailable = false
                 this.game.player.inventory.removeItem(itemId,1)
 
                 if(_ITEMS[itemId].id === "building_torch"){

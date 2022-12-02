@@ -1,4 +1,5 @@
 import _ITEMS from "../AllItems.js"
+import _TILES from "../AllTiles.js"
 import Game from "./Game.js"
 
 class Graphics{
@@ -20,19 +21,13 @@ class Graphics{
         g: number
         b: number
     }
+    images: {[key:string]:HTMLImageElement}
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
     timeCanvas: HTMLCanvasElement
     timeCtx: CanvasRenderingContext2D
     canvasFx: HTMLCanvasElement
     ctxFx: CanvasRenderingContext2D
-    grassImg: HTMLImageElement
-    waterImg: HTMLImageElement
-    sandImg: HTMLImageElement
-    treesImg: HTMLImageElement
-    playerImg: HTMLImageElement
-    woodenFloorImg: HTMLImageElement
-    torchTileImg: HTMLImageElement
     messages: {x:number,y:number, text:string, timer:number, alpha:number}[]
     errors: {x:number,y:number, text:string, timer:number, alpha:number}[]
 
@@ -51,7 +46,7 @@ class Graphics{
         this.offsetY = 0
         this.fullMapOffsetX = 0
         this.fullMapOffsetY = 0
-
+        
         this.fullMap = false
         this.nightTint = {
             r: 0,
@@ -59,21 +54,8 @@ class Graphics{
             b: 15,
         }
         this.nightAlpha = 0
-
-        this.grassImg = new Image()
-        this.grassImg.src = "./assets/grass0.jpg"
-        this.treesImg = new Image()
-        this.treesImg.src = "./assets/trees.jpg"
-        this.waterImg = new Image()
-        this.waterImg.src = "./assets/water.jpg"
-        this.sandImg = new Image()
-        this.sandImg.src = "./assets/sand.jpg"
-        this.playerImg = new Image()
-        this.playerImg.src = "./assets/player.png"
-        this.woodenFloorImg = new Image()
-        this.woodenFloorImg.src = "./assets/wooden-floor.png"
-        this.torchTileImg = new Image()
-        this.torchTileImg.src = "./assets/torchTile.jpg"
+        
+        this.images = this.preloadImages()
 
         const newCanvas = document.createElement('canvas')
         this.canvas = newCanvas
@@ -90,6 +72,19 @@ class Graphics{
         
         this.debugTilePositions = false
         this.init()
+    }
+
+    preloadImages(){
+        let dict: {[key:string]:HTMLImageElement} = {}
+        for(let tile in _TILES){
+            let newImg = new Image()
+            newImg.src = _TILES[tile].src
+            dict[tile] = newImg
+        }
+        let playerImg = new Image()
+        playerImg.src = "./assets/player.png"
+        dict["player"] = playerImg
+        return dict
     }
     
     init(){
@@ -116,37 +111,11 @@ class Graphics{
             const X = (tile.x - this.offsetX) * this.tileSize
             const Y = (tile.y - this.offsetY) * this.tileSize
             if(X < 0 || X > this.width || Y < 0 || Y > this.height) return
-            let img
-            switch(tile.type){
-                case "grass":{
-                    img = this.grassImg
-                    break
-                }
-                case "sand":{
-                    img = this.sandImg
-                    break
-                }
-                case "water":{
-                    img = this.waterImg
-                    break
-                }
-                case "trees":{
-                    img = this.treesImg
-                    break
-                }
-                case "woodenFloor":{
-                    img = this.woodenFloorImg
-                    break
-                }
-                case "torchTile":{
-                    img = this.torchTileImg
-                    break
-                }
-                default: img = this.grassImg
-            }
+            
             tile.visible = true
             tile.unknown = false
-            this.ctx.drawImage(img,X,Y,this.tileSize,this.tileSize)
+
+            this.ctx.drawImage(this.images[tile.type] ,X,Y,this.tileSize,this.tileSize)
             if(this.debugTilePositions){
                 this.ctxFx.font = "10px Arial";
                 this.ctxFx.fillStyle = `black`
@@ -161,27 +130,7 @@ class Graphics{
         this.ctx.fillRect(0,0,this.width,this.height)
         this.game.map.tiles.forEach( tile => {
             if(!tile.unknown){
-                let img
-                switch(tile.type){
-                    case "grass":{
-                        img = this.grassImg
-                        break
-                    }
-                    case "sand":{
-                        img = this.sandImg
-                        break
-                    }
-                    case "water":{
-                        img = this.waterImg
-                        break
-                    }
-                    case "trees":{
-                        img = this.treesImg
-                        break
-                    }
-                    default: img = this.grassImg
-                }
-                this.ctx.drawImage(img,((tile.x - this.fullMapOffsetX) * this.mapTileSize),((tile.y - this.fullMapOffsetY) * this.mapTileSize), this.mapTileSize, this.mapTileSize)
+                this.ctx.drawImage(this.images[tile.type] ,((tile.x - this.fullMapOffsetX) * this.mapTileSize),((tile.y - this.fullMapOffsetY) * this.mapTileSize), this.mapTileSize, this.mapTileSize)
             }
             else{
                 this.ctx.fillStyle = "#111"
@@ -222,14 +171,14 @@ class Graphics{
     drawPlayer(){
         const {x,y} = this.game.player.position
         this.ctx.drawImage(
-        this.playerImg, (x-this.offsetX) * this.tileSize, (y-this.offsetY )* this.tileSize, this.tileSize, this.tileSize)
+        this.images["player"], (x-this.offsetX) * this.tileSize, (y-this.offsetY )* this.tileSize, this.tileSize, this.tileSize)
     }
 
     drawPlayerInFullMap(){
         const {x,y} = this.game.player.position
 
         this.ctx.drawImage(
-        this.playerImg, ((x - this.fullMapOffsetX) * this.mapTileSize), ((y - this.fullMapOffsetY) * this.mapTileSize), this.tileSize, this.tileSize)
+        this.images["player"], ((x - this.fullMapOffsetX) * this.mapTileSize), ((y - this.fullMapOffsetY) * this.mapTileSize), this.tileSize, this.tileSize)
     }
 
     drawTileHover(){
@@ -308,15 +257,19 @@ class Graphics{
         const pX = this.game.player.position.x
         const pY = this.game.player.position.y
 
-        let imgToShow = this.woodenFloorImg
+        let imgToShow = this.images["woodenFloor"]
 
         switch(this.game.buildingToPlace){
             case "building_wooden_floor":{
-                imgToShow = this.woodenFloorImg
+                imgToShow = this.images["woodenFloor"]
                 break
             }
             case "building_torch":{
-                imgToShow = this.torchTileImg
+                if(this.game.map.getTile(x,y).type === "grass"){
+                    imgToShow = this.images["torchGrass"]
+                }else{
+                    imgToShow = this.images["torchSand"]
+                }
                 break
             }
         }
@@ -443,13 +396,16 @@ class Graphics{
         }
         else{
             this.drawMap()
+            
+            if(this.game.placingBuilding){
+                this.showBuildingToPlace()
+            }
+
             this.drawPlayer()
             this.drawTileHover()
             this.drawMessages()
             this.drawErrors()
-            if(this.game.placingBuilding){
-                this.showBuildingToPlace()
-            }
+            
             this.timeOfDayFilter()
         }
     }

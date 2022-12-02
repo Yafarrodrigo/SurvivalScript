@@ -57,7 +57,8 @@ class Map{
                     tileType = "trees"
                 }
 
-                let newTile = new Tile(tileType,x,y)
+                const finalTile = this.discoverTile(tileType)
+                let newTile = new Tile(finalTile,x,y)
                 newMap.push(newTile)
             }
         }
@@ -87,10 +88,34 @@ class Map{
     changeTile(x: number,y: number, tileType:string){
         const oldTile = this.getTile(x,y)
         const index = this.tiles.indexOf(oldTile)
-        
+
         const newTile = new Tile(tileType, oldTile.x ,oldTile.y)
         
         this.tiles[index] = newTile
+    }
+
+    discoverTile(type:string){
+        switch(type){
+            case "grass":{
+                let rnd = Math.random()
+                if(rnd >= 0.995){
+                    return "bush"
+                }
+                else if(rnd <= 0.025){
+                    return "stones"
+                }
+                else{
+                    return "grass"
+                }
+            }
+            case "sand":{
+                let rnd = Math.random()
+                if(rnd >= 0.9){
+                    return "seashells"
+                }
+            }
+        }
+        return type
     }
 }
 
