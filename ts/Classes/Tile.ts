@@ -3,6 +3,7 @@ import _TILES from "../AllTiles.js"
 class Tile{
 
     type: string
+    base: string | null
     x: number
     y: number
     options: {
@@ -16,7 +17,7 @@ class Tile{
     unknown: boolean
     spaceAvailable: boolean
 
-    constructor(type:string, x:number, y:number){
+    constructor(type:string, x:number, y:number, base?:string){
         this.type = type
         this.x = x
         this.y = y
@@ -25,6 +26,7 @@ class Tile{
         this.spaceAvailable = _TILES[type].spaceAvailable
         this.visible = false
         this.unknown = true
+        this.base = base || null
     }
 }
 

@@ -1,6 +1,7 @@
 import Tile from "./Tile.js"
 import { Perlin } from '../Perlin/perlin.js';
 import Game from "./Game.js";
+import _TILES, { TilesDict } from "../AllTiles.js";
 
 class Map{
     
@@ -12,7 +13,7 @@ class Map{
 
     tileSize: number
     tiles: Tile[]
-    allTileTypes:{[key:string]: Tile}
+    allTileTypes:TilesDict
     
 
     constructor(game:Game, width: number, height:number){
@@ -65,12 +66,13 @@ class Map{
         this.tiles = newMap
 
         // ALL TYPES
-        let tileTypesCount:{[key:string]: Tile} = {}
-        this.tiles.forEach( tile => {
-            if(!tileTypesCount[tile.type]){
-                tileTypesCount[tile.type] = tile
+        let tileTypesCount: TilesDict = {}
+        for(let tile in _TILES){
+            if(!tileTypesCount[_TILES[tile].type]){
+                tileTypesCount[tile] = _TILES[tile]
             }
-        })
+        }
+
         this.allTileTypes = tileTypesCount
     }
 
@@ -85,11 +87,10 @@ class Map{
         return shuffledArr[0]
     }
 
-    changeTile(x: number,y: number, tileType:string){
+    changeTile(x: number,y: number, tileType:string, base?:string){
         const oldTile = this.getTile(x,y)
         const index = this.tiles.indexOf(oldTile)
-
-        const newTile = new Tile(tileType, oldTile.x ,oldTile.y)
+        const newTile = new Tile(tileType, oldTile.x ,oldTile.y, base)
         
         this.tiles[index] = newTile
     }

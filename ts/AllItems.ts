@@ -79,6 +79,18 @@ const _ITEMS: ItemsDict =  {
         icon: "./assets/items/grass-fiber.png",
         relatedTile: null
     },
+    mat_dirt:{
+        id:"mat_dirt",
+        type: "material",
+        name: "dirt",
+        desc: "Just dirt. Can be used for crafting",
+        reqMats: [],
+        reqCons: [],
+        qty: 0,
+        crafted: false,
+        icon: "./assets/items/grass-fiber.png",
+        relatedTile: null
+    },
     mat_sea_shell:{
         id:"mat_sea_shell",
         type: "material",
@@ -214,6 +226,20 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/stick.png",    // TODO (cambiar img)
         relatedTile: "torchTile"
+    },
+    building_farmPlot:{
+        id:"building_farmPlot",
+        type: "building",
+        name: "Farm Plot",
+        desc: "A plot to grow vegetables",
+        reqMats:[
+            {id:"mat_dirt", qty: 5}
+        ],
+        reqCons:[],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/log.png",    // TODO (cambiar img)
+        relatedTile: "emptyFarmPlot"
     },
     building_wooden_floor:{
         id:"building_wooden_floor",

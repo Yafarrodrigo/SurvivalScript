@@ -1,4 +1,4 @@
-interface TilesDict {
+export interface TilesDict {
     [key:string]: {
         type:string
         walkable:boolean
@@ -51,6 +51,7 @@ const _TILES: TilesDict = {
         src: "./assets/grass0.jpg",
         base: null,
         options: [
+            {actionCode:"gatherDirt",name:"gather dirt", desc: "gathering dirt from the ground", singleTime: false},
             {actionCode:"gatherSmallRocks",name:"gather small rocks", desc: "gathering small rocks from the ground", singleTime: false},
             {actionCode:"gatherGrassFibers",name:"gather grass fibers", desc: "gathering grass fibers from the ground", singleTime: false},
             {actionCode:"gatherWorms",name:"gather worms", desc: "gathering worms from the ground", singleTime: false}
@@ -87,6 +88,30 @@ const _TILES: TilesDict = {
             {actionCode:"chopDownTree",name:"chop tree down", desc: "chops the tree", singleTime: true}
         ]
     },
+    emptyFarmPlot:{
+        type: "emptyFarmPlot",
+        walkable: true,
+        spaceAvailable: false,
+        src: "./assets/emptyFarmPlot.jpg",
+        base: null,
+        options: [{actionCode:"plantPumpkins",name:"Plant pumpkins", desc: "Plant pumpkins", singleTime: true}]
+    },
+    plantedFarmPlot:{
+        type: "plantedFarmPlot",
+        walkable: true,
+        spaceAvailable: false,
+        src: "./assets/plantedFarmPlot.jpg",
+        base: null,
+        options: []
+    },
+    pumpkinFarmPlot:{
+        type: "pumpkinFarmPlot",
+        walkable: true,
+        spaceAvailable: false,
+        src: "./assets/pumpkinFarmPlot.jpg",
+        base: null,
+        options: []
+    },
     woodenFloor:{
         type: "woodenFloor",
         walkable: true,
@@ -95,19 +120,11 @@ const _TILES: TilesDict = {
         base: null,
         options: []
     },
-    torchGrass:{
+    torchTile:{
         type: "torchTile",
         walkable: false,
         spaceAvailable: false,
-        src: "./assets/torch_grass.jpg",
-        base: null,
-        options: []
-    },
-    torchSand:{
-        type: "torchTile",
-        walkable: false,
-        spaceAvailable: false,
-        src: "./assets/torch_sand.jpg",
+        src: "./assets/torchTile.png",
         base: null,
         options: []
     },

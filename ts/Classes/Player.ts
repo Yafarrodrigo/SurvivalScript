@@ -25,6 +25,14 @@ class Player{
         radius:number
         intensity: number
     }[]
+    allCrops: {
+        x:number
+        y:number
+        days:number
+        type: string
+        grown: boolean
+        planted: boolean
+    }[]
 
     constructor(game: Game){
         this.game = game
@@ -38,12 +46,14 @@ class Player{
         this.inventory = new Inventory(this.game)
         this.inventory.addItem("building_torch",5)
         this.inventory.addItem("building_wooden_floor",5)
+        this.inventory.addItem("building_farmPlot",5)
         this.torchInHand = false
         this.mainTorch = {radius:140,intensity:1}
         this.gathering = false
         this.doingAction = null
         this.gatheringClock = null
         this.allTorches = []
+        this.allCrops = []
     }
 
     startGathering(action:string){

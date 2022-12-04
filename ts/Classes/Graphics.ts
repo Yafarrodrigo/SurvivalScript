@@ -115,7 +115,12 @@ class Graphics{
             tile.visible = true
             tile.unknown = false
 
+            if(tile.base !== null){ 
+                this.ctx.fillStyle = "none"               
+                this.ctx.drawImage(this.images[tile.base] ,X,Y,this.tileSize,this.tileSize)
+            }
             this.ctx.drawImage(this.images[tile.type] ,X,Y,this.tileSize,this.tileSize)
+
             if(this.debugTilePositions){
                 this.ctxFx.font = "10px Arial";
                 this.ctxFx.fillStyle = `black`
@@ -130,6 +135,9 @@ class Graphics{
         this.ctx.fillRect(0,0,this.width,this.height)
         this.game.map.tiles.forEach( tile => {
             if(!tile.unknown){
+                if(tile.base !== null){
+                    this.ctx.drawImage(this.images[tile.base] ,((tile.x - this.fullMapOffsetX) * this.mapTileSize),((tile.y - this.fullMapOffsetY) * this.mapTileSize), this.mapTileSize, this.mapTileSize)
+                }
                 this.ctx.drawImage(this.images[tile.type] ,((tile.x - this.fullMapOffsetX) * this.mapTileSize),((tile.y - this.fullMapOffsetY) * this.mapTileSize), this.mapTileSize, this.mapTileSize)
             }
             else{
@@ -257,25 +265,21 @@ class Graphics{
         const pX = this.game.player.position.x
         const pY = this.game.player.position.y
 
+        const targetTile = this.game.map.getTile(x,y)
+
         let imgToShow = this.images["woodenFloor"]
 
-        switch(this.game.buildingToPlace){
-            case "building_wooden_floor":{
-                imgToShow = this.images["woodenFloor"]
-                break
-            }
-            case "building_torch":{
-                if(this.game.map.getTile(x,y).type === "grass"){
-                    imgToShow = this.images["torchGrass"]
-                }else{
-                    imgToShow = this.images["torchSand"]
-                }
-                break
-            }
+        if(this.game.buildingToPlace){
+            imgToShow = this.images[_ITEMS[this.game.buildingToPlace].relatedTile!]
         }
+        else return
 
-        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && this.game.map.getTile(x,y).spaceAvailable === true){
-            this.ctx.drawImage(imgToShow ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
+        if(x >= pX-2 && x <= pX+2 && y >= pY-2 && y <= pY+2 && targetTile.spaceAvailable === true){
+            if(this.game.buildingToPlace === "building_farmPlot" && targetTile.type === "grass"){
+                this.ctx.drawImage(imgToShow ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
+            }else{
+                this.ctx.drawImage(imgToShow ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
+            }
         }else{
             this.ctx.drawImage(imgToShow ,cursorPos.x * this.tileSize,cursorPos.y * this.tileSize,this.tileSize,this.tileSize)
             this.ctx.fillStyle = "rgba(255,0,0,0.5)"

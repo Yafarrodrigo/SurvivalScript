@@ -28,6 +28,7 @@ class Game {
     placingBuilding: boolean
     buildingToPlace: string | null
     time: number
+    day: number
     timeOfDay: "dawn" | "day" | "dusk" | "night"
     clockRate: 32 | 16 | 8 | 4 | 1
  
@@ -40,14 +41,15 @@ class Game {
         this.cursorPos = {x:0,y:0}
         this.lastClickedTile = null
         this.clock = null
-        this.clockRate = 32
+        this.clockRate = 1
         this.internalClock = 0
         this.ui = new UI(this)
         this.placingBuilding = false
         this.buildingToPlace = null
 
-        this.time = 22
-        this.timeOfDay = "night"
+        this.time = 12
+        this.timeOfDay = "day"
+        this.day = 0
 
         this.actions = ACTIONS
         this.graphics.update()
@@ -101,6 +103,23 @@ class Game {
             this.internalClock = 0
             if(this.time + 1 > 23){
                 this.time = 0
+                this.day += 1
+
+                // dia a dia
+                this.player.allCrops.forEach(crop => {
+    
+                    if(!crop.planted) return
+
+                    if(crop.days < 1){
+                        crop.days += 1
+                    }
+                    else{
+                        crop.grown = true
+                        this.map.changeTile(crop.x,crop.y,"pumpkinFarmPlot")
+                        this.player.allCrops = this.player.allCrops.filter( crop => crop.grown === false)
+                    }
+                })
+
             }else{
                 this.time += 1
                 console.log(`${this.time}:00`);

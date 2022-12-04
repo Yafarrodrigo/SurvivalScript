@@ -46,21 +46,18 @@ class Crafting{
             
             if(oldTile.spaceAvailable === true){
                 if(itemId === "building_torch"){
-                    if(oldTile.type === "grass"){
-                        this.game.map.changeTile(x,y,"torchGrass")
-                    }else{
-                        this.game.map.changeTile(x,y,"torchSand")
-                    }
+                    this.game.map.changeTile(x,y,"torchTile",oldTile.type)
+                    this.game.player.allTorches.push({x,y, radius:125, intensity: 0.75})
+                }
+                else if(itemId === "building_farmPlot"){
+                    this.game.map.changeTile(x,y,_ITEMS[itemId].relatedTile!, oldTile.type)
+                    this.game.player.allCrops.push({x,y, days:0, type:"pumpkins", grown: false, planted: false})
                 }
                 else{
-                    this.game.map.changeTile(x,y,_ITEMS[itemId].relatedTile!)
+                    this.game.map.changeTile(x,y,_ITEMS[itemId].relatedTile!, oldTile.type)
                 }
                 oldTile.spaceAvailable = false
                 this.game.player.inventory.removeItem(itemId,1)
-
-                if(_ITEMS[itemId].id === "building_torch"){
-                    this.game.player.allTorches.push({x,y, radius:125, intensity: 0.75})
-                }
             }
         }
         else{

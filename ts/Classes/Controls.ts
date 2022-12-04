@@ -100,7 +100,7 @@ class Controls{
                     this.cancelConstructionMode()
                 }
 
-                const option = prompt("1 - wooden floor \n 2 - torch")
+                const option = prompt("1 - wooden floor \n 2 - torch \n 3 - farm plot")
                 if(option === "1"){
                     if(player.inventory.has('building_wooden_floor', 1)){
                         this.game.placingBuilding = true
@@ -112,7 +112,13 @@ class Controls{
                         this.game.placingBuilding = true
                         this.game.buildingToPlace = 'building_torch'
                     }
-                }            
+                }
+                else if(option === "3"){
+                    if(player.inventory.has('building_farmPlot', 1)){
+                        this.game.placingBuilding = true
+                        this.game.buildingToPlace = 'building_farmPlot'
+                    }
+                }               
             }
 
             ui.hideMenus()
@@ -133,6 +139,8 @@ class Controls{
                 const cursorPos = this.game.cursorPos
                 const x = cursorPos.x + graphics.offsetX
                 const y = cursorPos.y + graphics.offsetY
+
+                console.log(map.getTile(x,y));
 
                 this.game.player.stopGathering()
                 if(this.game.placingBuilding){

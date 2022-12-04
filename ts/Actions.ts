@@ -46,6 +46,22 @@ const ACTIONS = {
         game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} grass fibers`);
         
     },
+    gatherDirt: (game:Game) => {
+        game.player.inventory.addItem("mat_dirt", 1)
+        const playerQty = game.player.inventory.items["mat_dirt"].qty
+        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} dirt`);
+    },
+    plantPumpkins: (game:Game) => {
+        const {x,y} = game.lastClickedTile!
+        const crop = game.player.allCrops.find( crop => crop.x === x && crop.y === y)
+        if(crop){
+            crop.planted = true
+            game.map.changeTile(x,y, "plantedFarmPlot")
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `planted pumpkins!`);
+        }else{
+            game.graphics.error("crop not found")
+        }
+    },
     gatherSeaShells: (game:Game) => {
         const rndQty = Math.floor(Math.random()*3)+1
         game.player.inventory.addItem("mat_sea_shell", rndQty)
