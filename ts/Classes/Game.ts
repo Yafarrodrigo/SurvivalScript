@@ -36,7 +36,6 @@ class Game {
         this.graphics = new Graphics(this, 1280,720)
         this.map = new Map(this, 6400, 3600)
         this.player = new Player(this)
-        this.controls = new Controls(this)
         this.crafting = new Crafting(this)
         this.cursorPos = {x:0,y:0}
         this.lastClickedTile = null
@@ -44,13 +43,14 @@ class Game {
         this.clockRate = 1
         this.internalClock = 0
         this.ui = new UI(this)
+        this.controls = new Controls(this)
         this.placingBuilding = false
         this.buildingToPlace = null
-
+        
         this.time = 12
         this.timeOfDay = "day"
         this.day = 0
-
+        
         this.actions = ACTIONS
         this.graphics.update()
     }

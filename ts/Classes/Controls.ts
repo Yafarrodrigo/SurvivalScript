@@ -2,11 +2,23 @@ import Game from "./Game.js"
 
 class Controls{
     game: Game
+    mouseDown: Boolean
+    movingWindow: string | null
+    mouseOffset: {
+        x:number
+        y:number
+    }
 
     constructor(game: Game){
         this.game = game
-
+        this.mouseDown = false
+        this.movingWindow = null
+        this.mouseOffset = {
+            x: 0,
+            y: 0
+        }
         this.init()
+        
     }
 
     getMousePos(evt:MouseEvent){
@@ -25,10 +37,6 @@ class Controls{
         else if ( y > tilesPerColumn ) y = tilesPerColumn
         
         return{x,y}
-    }
-
-    updateCursorPos(newPos: {x:number, y:number}){
-        this.game.cursorPos = newPos        
     }
 
     cancelConstructionMode(){
@@ -72,12 +80,15 @@ class Controls{
                 }
             }
             else if (e.code == 'KeyI'){
+                if(this.game.graphics.fullMap) return
                 ui.toggleWindow('inventory')
             }
             else if (e.code == 'KeyC'){
+                if(this.game.graphics.fullMap) return
                 ui.toggleWindow('crafting')
             }
             else if (e.code == 'KeyT'){
+                if(this.game.graphics.fullMap) return
                 if(this.game.player.inventory.has("building_torch", 1)){
                     player.torchInHand === true ? player.torchInHand = false : player.torchInHand = true
                 }
@@ -92,10 +103,12 @@ class Controls{
                 this.game.buildingToPlace = null
             }
             else if (e.code == 'KeyM'){
+                ui.closeAllWindows()
                 ui.showMap()
             }
 
             else if (e.code == 'KeyB'){
+                if(this.game.graphics.fullMap) return
                 if(this.game.placingBuilding === true){
                     this.cancelConstructionMode()
                 }
@@ -127,7 +140,40 @@ class Controls{
         document.onkeydown = checkKey;
 
         // MOUSE
-        document.onclick = (e) => {
+        document.onmousedown = (e) => {
+            const target = e.target as HTMLDivElement
+            
+            if(target.id === "crafting-header"){
+                this.mouseDown = true
+                this.movingWindow = "crafting-panel"
+                if(this.game.ui.inventoryOpened){
+                    this.game.ui.craftingPanel!.style.zIndex = "1000"
+                    this.game.ui.inventoryPanel!.style.zIndex = "900"
+                }
+                this.mouseOffset = {
+                    x: target.offsetWidth/2,
+                    y: target.offsetHeight/2
+                } 
+            }else if(target.id === "inventory-header"){
+                this.mouseDown = true
+                this.movingWindow = "inventory-panel"
+                if(this.game.ui.craftingOpened){
+                    this.game.ui.craftingPanel!.style.zIndex = "900"
+                    this.game.ui.inventoryPanel!.style.zIndex = "1000"
+                }
+                this.mouseOffset = {
+                    x: target.offsetWidth/2,
+                    y: target.offsetHeight/2
+                } 
+            }else{
+                return
+            }
+        } 
+
+        document.onmouseup = (e) => {
+            this.mouseDown = false
+            this.movingWindow = null
+
             if(this.game.graphics.fullMap) return
             const target = e.target as HTMLCanvasElement | HTMLDivElement
             
@@ -159,12 +205,34 @@ class Controls{
                     this.cancelConstructionMode()
                 }
             }
+
         }
 
-        document.onmousemove = (e) => {
+        document.onmousemove =  (e) => {
             if(this.game.graphics.fullMap) return
             const newMousePos = this.getMousePos(e)
-            this.updateCursorPos(newMousePos)  
+            this.game.cursorPos = newMousePos
+            
+            if(this.mouseDown){
+                let mousePosition = {
+                    x : e.clientX - this.mouseOffset.x,
+                    y : e.clientY - this.mouseOffset.y
+                };
+                let div = this.game.ui.inventoryPanel
+                if(this.movingWindow === "inventory-panel"){
+                    div = this.game.ui.inventoryPanel!
+                }
+                else if(this.movingWindow === "crafting-panel"){
+                    div = this.game.ui.craftingPanel!
+                }
+                else{
+                    this.movingWindow = null
+                    return
+                }
+
+                div.style.left = mousePosition.x + 'px';
+                div.style.top  = mousePosition.y + 'px';
+            }
         }
 
         this.game.graphics.canvas.oncontextmenu = (e) => {
@@ -187,8 +255,7 @@ class Controls{
                 if(options.length) this.game.ui.showMenu(e, type, options)  
             }
         }
-    }
-    
+    }    
 }
 
 export default Controls

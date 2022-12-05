@@ -114,7 +114,8 @@ canvas{
     background-color: #222;
     width: 350px;
     height: 450px;
-    margin: 60px;
+    top: 15%;
+    left: 35%;
     border-radius: 5px;
     user-select: none;
     color: white;
@@ -136,6 +137,7 @@ canvas{
     margin-top: 5px;
     margin-left: 10px;
     text-align: left;
+    pointer-events: none;
 }
 
 #inventory-items-container{
@@ -154,7 +156,8 @@ canvas{
     background-color: #222;
     width: 650px;
     height: 450px;
-    margin: 60px;
+    top: 15%;
+    left: 15%;
     border-radius: 5px;
     user-select: none;
     color: white;
@@ -177,6 +180,7 @@ canvas{
     margin-top: 5px;
     margin-left: 10px;
     text-align: left;
+    pointer-events: none;
 }
 
 #crafting-items-container{
