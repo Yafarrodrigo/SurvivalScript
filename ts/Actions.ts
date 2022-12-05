@@ -47,9 +47,15 @@ const ACTIONS = {
         
     },
     gatherDirt: (game:Game) => {
-        game.player.inventory.addItem("mat_dirt", 1)
-        const playerQty = game.player.inventory.items["mat_dirt"].qty
-        game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} dirt`);
+        if(game.player.inventory.has("tool_shovel",1)){
+            game.player.inventory.addItem("mat_dirt", 1)
+            const playerQty = game.player.inventory.items["mat_dirt"].qty
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} dirt`);
+        }
+        else{
+            game.graphics.error("you need a shovel!")
+        }
+        
     },
     plantPumpkins: (game:Game) => {
         const {x,y} = game.lastClickedTile!

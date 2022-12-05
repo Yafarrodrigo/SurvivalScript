@@ -40,7 +40,7 @@ class Game {
         this.cursorPos = {x:0,y:0}
         this.lastClickedTile = null
         this.clock = null
-        this.clockRate = 1
+        this.clockRate = 32
         this.internalClock = 0
         this.ui = new UI(this)
         this.controls = new Controls(this)

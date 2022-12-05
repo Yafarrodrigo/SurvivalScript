@@ -197,6 +197,22 @@ const _ITEMS: ItemsDict =  {
         icon: "./assets/items/hatchet.png",
         relatedTile: null
     },
+    tool_shovel:{
+        id:"tool_shovel",
+        type: "tool",
+        name: "Shovel",
+        desc: "A small shovel. Used to gather dirt",
+        reqMats:[
+            {id:"mat_stone_rock", qty: 1},
+            {id:"mat_wood_stick", qty: 1},
+            {id:"mat_crafted_rope", qty: 1}
+        ],
+        reqCons:[],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/hatchet.png", // TODO cambiar!
+        relatedTile: null
+    },
     tool_stoneKnife:{
         id:"tool_stoneKnife",
         type: "tool",
