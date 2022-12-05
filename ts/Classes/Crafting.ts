@@ -29,6 +29,24 @@ class Crafting{
         else return true
     }
 
+    numberOfCrafts(itemId:string):number{
+        const {inventory} = this.game.player
+
+        let possibleResults:number[] = []
+        _ITEMS[itemId].reqMats.forEach( req => {
+            if(inventory.has(req.id, req.qty)){
+                let qty = Math.floor((inventory.items[req.id].qty / req.qty)) 
+                possibleResults.push(qty)
+            }else{
+                possibleResults.push(0)
+            }
+        })
+        
+        const result = Math.min(...possibleResults) || 0
+
+        return result
+    }
+
     craft(itemId:string){
         if(!this.matCheck(itemId)) return
 

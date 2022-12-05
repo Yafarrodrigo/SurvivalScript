@@ -65,7 +65,6 @@ class UI{
             if(_ITEMS[item].crafted){
                 const newItem = document.createElement('div')
                 newItem.classList.add('crafting-item')
-                let playerQty = this.game.player.inventory.items[item] ? this.game.player.inventory.items[item].qty : 0
                 !this.game.crafting.matCheck(_ITEMS[item].id) && newItem.classList.add('insufficient')
 
                 const nameDiv = document.createElement('div')
@@ -76,10 +75,10 @@ class UI{
                 newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
                 newItem.oncontextmenu = (e) => e.preventDefault()
                 newItem.id = _ITEMS[item].id
-                newItem.style.backgroundImage = `URL(${_ITEMS[item].icon})`
+                //newItem.style.backgroundImage = `URL(${_ITEMS[item].icon})`
 
                 const qtyDiv = document.createElement('div')
-                qtyDiv.textContent = `(${playerQty})`
+                qtyDiv.textContent = `x ${this.game.crafting.numberOfCrafts(_ITEMS[item].id)}`
                 qtyDiv.classList.add('crafting-item-qty')
 
                 newItem.append(qtyDiv)
@@ -154,7 +153,7 @@ class UI{
 
             newReq.oncontextmenu = (e) => e.preventDefault()
             newReq.id = "req|"+mat.id
-            newReq.style.backgroundImage = `URL(${_ITEMS[mat.id].icon})`
+            //newReq.style.backgroundImage = `URL(${_ITEMS[mat.id].icon})`
 
             const qtyDiv = document.createElement('div')
             qtyDiv.textContent = `(${mat.qty}/${playerQty})`
@@ -199,10 +198,10 @@ class UI{
             nameDiv.textContent = `${allItems[item].name}`
             nameDiv.classList.add('inventory-item-name')
             newItem.append(nameDiv)
-            newItem.style.backgroundImage = `URL(${allItems[item].icon})`
+            //newItem.style.backgroundImage = `URL(${allItems[item].icon})`
 
             const qtyDiv = document.createElement('div')
-            qtyDiv.textContent = `(${allItems[item].qty})`
+            qtyDiv.textContent = `x ${allItems[item].qty}`
             qtyDiv.classList.add('inventory-item-qty')
 
             newItem.append(qtyDiv)
@@ -223,8 +222,7 @@ class UI{
             const elem = document.getElementById(items[i].id) as HTMLDivElement
             const elemQty = elem.lastChild as HTMLDivElement
 
-            const playerQty = this.game.player.inventory.items[items[i].id] ? this.game.player.inventory.items[items[i].id].qty : 0
-            elemQty.textContent = `(${playerQty})`
+            elemQty.textContent = `x ${this.game.crafting.numberOfCrafts(items[i].id)}`
 
             if(!this.game.crafting.matCheck(items[i].id)){
                 elem.classList.add('insufficient')

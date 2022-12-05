@@ -112,7 +112,7 @@ canvas{
 #inventory-panel{
     position: absolute;
     background-color: #222;
-    width: 650px;
+    width: 350px;
     height: 450px;
     margin: 60px;
     border-radius: 5px;
@@ -144,9 +144,9 @@ canvas{
     height: 90%;
     border-radius: 5px;
     margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
 }
 
 #crafting-panel{
@@ -161,6 +161,7 @@ canvas{
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 15px 1px black;
+    
 }
 
 #crafting-header{
@@ -184,9 +185,9 @@ canvas{
     width: 415px;
     height: 100%;
     border-radius: 5px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
 }
 
 #crafting-selected-item-info{
@@ -201,9 +202,8 @@ canvas{
     margin: 5px;
     width: 208px;
     height: 250px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
 }
 
 #craft-button{
@@ -214,10 +214,9 @@ canvas{
 
 .req{
     position: relative;
-    width: 60px;
-    height: 60px;
-    margin: 4px;
-    border: 2px solid black;
+    width: 98%;
+    height: 25px;
+    margin: 5px 2px 2px 2px;
     color: white;
     background-color: #666;
     background-size: cover;
@@ -232,18 +231,15 @@ canvas{
 .req-qty{
     position: absolute;
     right: 0;
-    bottom: 0;
-    margin: 3px;
+    bottom: 5px;
     pointer-events: none;
-    background-color: #fffc;
     border-radius: 5px;
-    padding: 3px;
-    color: black;
+    color: white;
 }
 
 .insufficient{
-    background-color: #f995;
-    box-shadow: inset 0px 0px 5px 3px rgb(255, 50, 50);
+    background-color: rgba(255, 121, 121, 0.301) !important;
+    box-shadow:  0px 0px 3px 1px rgb(255, 50, 50);
 }
 
 #crafting-zone{
@@ -258,11 +254,9 @@ canvas{
 
 .crafting-item{
     position: relative;
-    width: 75px;
-    height: 75px;
-    margin: 4px;
-    padding: 3px;
-    border: 2px solid black;
+    width: 98%;
+    height: 25px;
+    margin: 5px 2px 2px 2px;
     color: white;
     cursor: pointer;
     background-color: #666;
@@ -281,19 +275,17 @@ canvas{
     bottom: 0;
     margin: 3px;
     pointer-events: none;
-    background-color: #fffc;
     border-radius: 5px;
-    padding: 3px;
-    color: black;
+    color: white;
 }
 
 
 .inventory-item{
     position: relative;
-    width: 75px;
-    height: 75px;
-    margin: 5px;
-    padding: 3px;
+    width: 98%;
+    height: 25px;
+    margin: 5px 2px 2px 2px;
+    padding: 2px;
     color: white;
     cursor: pointer;
     background-color: #666;
