@@ -16,7 +16,14 @@ class Inventory{
 
     addItem(itemId:string, qty: number){
         if(_ITEMS[itemId]){
-            this.items.hasOwnProperty(itemId) ? this.items[itemId].qty += qty : this.items[itemId] = new Item(itemId,qty)
+            if(this.items.hasOwnProperty(itemId)){
+                this.items[itemId].qty += qty
+                this.items[itemId].weight = this.items[itemId].qty * _ITEMS[itemId].weight
+                this.game.player.carryWeight = this.getWeight()
+            }
+            else{
+                this.items[itemId] = new Item(itemId,qty)
+            }
         }
         else{
             console.log("no existe el item!");
@@ -30,9 +37,19 @@ class Inventory{
         return this.items
     }
 
+    getWeight(){
+        let result = 0
+        for(let item in this.items){
+            result += this.items[item].weight
+        }
+        return result
+    }
+
     removeItem(itemId:string, qty: number){
         if(this.items[itemId]){
             this.items[itemId].qty -= qty
+            this.items[itemId].weight = this.items[itemId].qty * _ITEMS[itemId].weight
+            this.game.player.carryWeight = this.getWeight()
             if(this.items[itemId].qty <= 0){
                 delete this.items[itemId]
             }

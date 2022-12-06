@@ -45,6 +45,22 @@ class UI{
         header.append(h3)
         h3.oncontextmenu = (e) => e.preventDefault()
 
+        const span = document.createElement("h3")
+        span.id = "crafting-weight"
+        span.textContent = `${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`
+        span.style.pointerEvents = "none"
+        span.style.fontSize = "0.75rem"
+        span.style.position = "absolute"
+        span.style.top = "10px"
+        span.style.right = "5px"
+        if(this.game.player.carryWeight > this.game.player.maxCarryWeight){
+            span.style.color = "#ff7777"
+        }else{
+            span.style.color = "white"
+        }
+        header.append(span)
+        span.oncontextmenu = (e) => e.preventDefault()
+
         const middleDiv = document.createElement('div')
         middleDiv.style.display = "flex"
         middleDiv.style.marginTop = "5px"
@@ -184,6 +200,22 @@ class UI{
         header.append(h3)
         h3.oncontextmenu = (e) => e.preventDefault()
 
+        const span = document.createElement("h3")
+        span.id = "inventory-weight"
+        span.textContent = `${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`
+        span.style.pointerEvents = "none"
+        span.style.fontSize = "0.75rem"
+        span.style.position = "absolute"
+        span.style.top = "10px"
+        span.style.right = "5px"
+        if(this.game.player.carryWeight > this.game.player.maxCarryWeight){
+            span.style.color = "#ff7777"
+        }else{
+            span.style.color = "white"
+        }
+        header.append(span)
+        span.oncontextmenu = (e) => e.preventDefault()
+
         const itemsContainer = document.createElement('div')
         itemsContainer.id = "inventory-items-container"
         itemsContainer.oncontextmenu = (e) => e.preventDefault()
@@ -207,6 +239,24 @@ class UI{
             newItem.append(qtyDiv)
             newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
             newItem.oncontextmenu = (e:MouseEvent) => e.preventDefault()
+
+            const dropButton = document.createElement('button')
+            dropButton.oncontextmenu = (e:MouseEvent) => e.preventDefault()
+            dropButton.onclick = (e:MouseEvent) => {
+                e.preventDefault()
+                this.game.player.inventory.removeItem(allItems[item].id, 1)
+                this.update()
+            }
+            dropButton.style.backgroundColor = "#ff9999"
+            dropButton.style.color = "black"
+            dropButton.style.border = "none"
+            dropButton.style.width = "20px"
+            dropButton.style.height = "20px"
+            dropButton.style.cursor = "pointer"
+            dropButton.innerText = "x"
+
+            newItem.append(dropButton)
+
             itemsContainer.append(newItem)
         }
 
@@ -229,6 +279,37 @@ class UI{
             }else{
                 elem.classList.remove('insufficient')
             }
+        }
+        const weight = document.getElementById('crafting-weight')!
+        weight.innerText = `${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`
+        if(this.game.player.carryWeight < this.game.player.maxCarryWeight){
+            weight.style.color = "#ff7777"
+        }else{
+            weight.style.color = "white"
+        }
+    }
+
+    updateInventoryWindow(){
+        const items = document.getElementsByClassName('inventory-item')
+        for(let i = 0; i < items.length; i++){
+            const elem = document.getElementById(items[i].id) as HTMLDivElement
+            const elemQty = elem.childNodes[1] as HTMLDivElement
+
+            if(this.game.player.inventory.has(items[i].id , 1)){
+                elemQty.textContent = `x ${this.game.player.inventory.items[elem.id].qty}`
+            }
+            else{
+                const elemToDelete = document.getElementById(items[i].id)
+                if(elemToDelete) elemToDelete.remove()
+            }
+        }
+
+        const weight = document.getElementById('inventory-weight')!
+        weight.innerText = `${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`
+        if(this.game.player.carryWeight > this.game.player.maxCarryWeight){
+            weight.style.color = "red"
+        }else{
+            weight.style.color = "white"
         }
     }
 
@@ -386,7 +467,11 @@ class UI{
             this.updateReqs()
             this.updateCraftingWindow()
             this.updateCraftingItemInfo()
-        }  
+        }
+        
+        if(this.inventoryOpened){
+            this.updateInventoryWindow()
+        }
     }
 }
 export default UI

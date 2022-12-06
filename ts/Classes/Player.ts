@@ -33,15 +33,16 @@ class Player{
         grown: boolean
         planted: boolean
     }[]
+    carryWeight: number
+    maxCarryWeight: number
 
     constructor(game: Game){
         this.game = game
         this.position = this.randomStartPos(game)
         
         this.options = [
-            {actionCode: "wait",name:"wait", desc: "waiting", singleTime: true},
             {actionCode: "sit",name:"sit", desc: "siting", singleTime: true},
-            {actionCode: "startCampfire",name:"start campfire", desc: "starting camfire", singleTime: true}
+            {actionCode: "startCampfire",name:"start campfire", desc: "starting campfire", singleTime: true}
         ]
         this.inventory = new Inventory(this.game)
         this.inventory.addItem("building_torch",5)
@@ -54,6 +55,8 @@ class Player{
         this.gatheringClock = null
         this.allTorches = []
         this.allCrops = []
+        this.carryWeight = this.inventory.getWeight()
+        this.maxCarryWeight = 25000
     }
 
     startGathering(action:string){
@@ -104,9 +107,14 @@ class Player{
 
     move(dir: "up" | "down" | "left" | "right"){
 
+        this.game.player.stopGathering()
+
         if(this.game.graphics.fullMap) return
 
-        this.game.player.stopGathering()
+        if(this.carryWeight > this.maxCarryWeight){
+            this.game.graphics.error("too much weight!")
+            return
+        }
 
         const x = this.position.x
         const y = this.position.y

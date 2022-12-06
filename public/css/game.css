@@ -294,19 +294,18 @@ canvas{
     cursor: pointer;
     background-color: #666;
     background-size: cover;
+    display: flex;
 }
 
 .inventory-item-name{
     padding: 2px;
+    margin-right: auto;
     width: fit-content;
     pointer-events: none;
 }
 
 .inventory-item-qty{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin: 3px;
+    padding: 2px 10px;
     pointer-events: none;
 }
 

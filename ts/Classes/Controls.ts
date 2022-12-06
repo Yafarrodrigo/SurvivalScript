@@ -51,28 +51,28 @@ class Controls{
             e = e || window.event;
             const { player, ui } = this.game
             
-            if (e.code == 'ArrowUp' || e.code == 'KeyW') {    // up arrow
+            if (e.code == 'ArrowUp' || e.code == 'KeyW') { 
                 if(this.game.graphics.fullMap){
                     this.game.graphics.moveMap("up")
                 }else{
                     player.move("up")
                 }
             }
-            else if (e.code == 'ArrowDown' || e.code == 'KeyS') {   // down arrow
+            else if (e.code == 'ArrowDown' || e.code == 'KeyS') {
                 if(this.game.graphics.fullMap){
                     this.game.graphics.moveMap("down")
                 }   else{
                     player.move("down")
                 }  
             }
-            else if (e.code == 'ArrowLeft' || e.code == 'KeyA') {   // left arrow
+            else if (e.code == 'ArrowLeft' || e.code == 'KeyA') {
                 if(this.game.graphics.fullMap){
                     this.game.graphics.moveMap("left")
                 }else{
                     player.move("left")
                 }
             }
-            else if (e.code == 'ArrowRight' || e.code == 'KeyD') {   // right arrow
+            else if (e.code == 'ArrowRight' || e.code == 'KeyD') {
                 if(this.game.graphics.fullMap){
                     this.game.graphics.moveMap("right")
                 }else{
@@ -82,6 +82,8 @@ class Controls{
             else if (e.code == 'KeyI'){
                 if(this.game.graphics.fullMap) return
                 ui.toggleWindow('inventory')
+                console.log(`${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`);
+                
             }
             else if (e.code == 'KeyC'){
                 if(this.game.graphics.fullMap) return

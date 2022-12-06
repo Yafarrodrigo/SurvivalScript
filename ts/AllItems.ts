@@ -17,7 +17,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/small-stick.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_wood_stick:{
         id:"mat_wood_stick",
@@ -29,7 +30,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/stick.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_wood_log:{
         id:"mat_wood_log",
@@ -41,7 +43,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/log.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_stone_small_rock:{
         id:"mat_stone_small_rock",
@@ -53,7 +56,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/small-rock.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_stone_rock:{
         id:"mat_stone_rock",
@@ -65,7 +69,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/rock.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_grass_fiber:{
         id:"mat_grass_fiber",
@@ -77,7 +82,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/grass-fiber.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_dirt:{
         id:"mat_dirt",
@@ -89,7 +95,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/grass-fiber.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_sea_shell:{
         id:"mat_sea_shell",
@@ -101,7 +108,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/stick.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_crafted_string:{
         id:"mat_crafted_string",
@@ -113,7 +121,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/string.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_crafted_rope:{
         id:"mat_crafted_rope",
@@ -125,7 +134,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/rope.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     mat_crafted_hook:{
         id:"mat_crafted_hook",
@@ -137,7 +147,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/hook.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     cons_bait_worm:{
         id:"cons_bait_worm",
@@ -149,7 +160,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/bait-worm.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     cons_food_fish:{
         id:"cons_food_fish",
@@ -161,7 +173,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: false,
         icon: "./assets/items/fish.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     tool_fishingRod:{
         id:"tool_fishingRod",
@@ -179,7 +192,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/fishing-rod.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     tool_hatchet:{
         id:"tool_hatchet",
@@ -195,7 +209,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/hatchet.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     tool_shovel:{
         id:"tool_shovel",
@@ -211,7 +226,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/hatchet.png", // TODO cambiar!
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     tool_stoneKnife:{
         id:"tool_stoneKnife",
@@ -226,7 +242,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/stone-knife.png",
-        relatedTile: null
+        relatedTile: null,
+        weight: 1000
     },
     building_torch:{
         id:"building_torch",
@@ -241,7 +258,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/stick.png",    // TODO (cambiar img)
-        relatedTile: "torchTile"
+        relatedTile: "torchTile",
+        weight: 1000
     },
     building_farmPlot:{
         id:"building_farmPlot",
@@ -255,7 +273,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/log.png",    // TODO (cambiar img)
-        relatedTile: "emptyFarmPlot"
+        relatedTile: "emptyFarmPlot",
+        weight: 1000
     },
     building_wooden_floor:{
         id:"building_wooden_floor",
@@ -270,7 +289,8 @@ const _ITEMS: ItemsDict =  {
         qty: 0,
         crafted: true,
         icon: "./assets/items/log.png",
-        relatedTile: "woodenFloor"
+        relatedTile: "woodenFloor",
+        weight: 1000
     }
 
 }
