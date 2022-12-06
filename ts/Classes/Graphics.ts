@@ -81,9 +81,21 @@ class Graphics{
             newImg.src = _TILES[tile].src
             dict[tile] = newImg
         }
-        let playerImg = new Image()
-        playerImg.src = "./assets/player.png"
-        dict["player"] = playerImg
+        let playerDownImg = new Image()
+        playerDownImg.src = "./assets/playerDown.png"
+        dict["playerDown"] = playerDownImg
+
+        let playerUpImg = new Image()
+        playerUpImg.src = "./assets/playerUp.png"
+        dict["playerUp"] = playerUpImg
+
+        let playerLeftImg = new Image()
+        playerLeftImg.src = "./assets/playerLeft.png"
+        dict["playerLeft"] = playerLeftImg
+
+        let playerRightImg = new Image()
+        playerRightImg.src = "./assets/playerRight.png"
+        dict["playerRight"] = playerRightImg
         return dict
     }
     
@@ -178,15 +190,31 @@ class Graphics{
 
     drawPlayer(){
         const {x,y} = this.game.player.position
-        this.ctx.drawImage(
-        this.images["player"], (x-this.offsetX) * this.tileSize, (y-this.offsetY )* this.tileSize, this.tileSize, this.tileSize)
+        switch(this.game.player.orientation){
+            case "down":
+                this.ctx.drawImage(this.images["playerDown"], (x-this.offsetX) * this.tileSize, (y-this.offsetY )* this.tileSize, this.tileSize, this.tileSize)
+                break
+
+            case "up":
+                this.ctx.drawImage(this.images["playerUp"], (x-this.offsetX) * this.tileSize, (y-this.offsetY )* this.tileSize, this.tileSize, this.tileSize)
+                break
+
+            case "right":
+                this.ctx.drawImage(this.images["playerRight"], (x-this.offsetX) * this.tileSize, (y-this.offsetY )* this.tileSize, this.tileSize, this.tileSize)
+                break
+
+            case "left":
+                this.ctx.drawImage(this.images["playerLeft"], (x-this.offsetX) * this.tileSize, (y-this.offsetY )* this.tileSize, this.tileSize, this.tileSize)
+                break
+        }   
+        
     }
 
     drawPlayerInFullMap(){
         const {x,y} = this.game.player.position
 
         this.ctx.drawImage(
-        this.images["player"], ((x - this.fullMapOffsetX) * this.mapTileSize), ((y - this.fullMapOffsetY) * this.mapTileSize), this.tileSize, this.tileSize)
+        this.images["playerDown"], ((x - this.fullMapOffsetX) * this.mapTileSize), ((y - this.fullMapOffsetY) * this.mapTileSize), this.tileSize, this.tileSize)
     }
 
     drawTileHover(){

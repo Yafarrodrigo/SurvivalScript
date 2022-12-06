@@ -9,6 +9,7 @@ class Player{
         x:number,
         y:number
     }
+    orientation: "down" | "up" | "right" | "left"
     options:{actionCode: string,name:string,desc: string, singleTime: boolean}[]
     inventory: Inventory
     torchInHand: boolean
@@ -39,7 +40,8 @@ class Player{
     constructor(game: Game){
         this.game = game
         this.position = this.randomStartPos(game)
-        
+        this.orientation = "down"
+
         this.options = [
             {actionCode: "sit",name:"sit", desc: "siting", singleTime: true},
             {actionCode: "startCampfire",name:"start campfire", desc: "starting campfire", singleTime: true}
@@ -121,6 +123,7 @@ class Player{
        
         switch(dir){
             case "up":{
+                this.orientation = "up"
                 if(this.game.map.getTile(x,y-1).walkable === true){
                     this.position.y -= 1
                     if( y - this.game.graphics.offsetY <= 7 ){
@@ -133,6 +136,7 @@ class Player{
                 break
             }
             case "down":{
+                this.orientation = "down"
                 if(this.game.map.getTile(x,y+1).walkable === true){
                     this.position.y += 1
                     if( (y - this.game.graphics.offsetY) >= (this.game.graphics.tilesPerColumn - 7)){
@@ -144,6 +148,7 @@ class Player{
                 break
             }
             case "left":{
+                this.orientation = "left"
                 if(this.game.map.getTile(x-1,y).walkable === true){
                     this.position.x -= 1
                     if( x - this.game.graphics.offsetX <= 7){
@@ -156,6 +161,7 @@ class Player{
                 break
             }
             case "right":{
+                this.orientation = "right"
                 if(this.game.map.getTile(x+1,y).walkable === true){
                     this.position.x += 1
                     if( (x - this.game.graphics.offsetX) >= (this.game.graphics.tilesPerRow - 7)){
@@ -166,7 +172,6 @@ class Player{
                 }
                 break
             }
-            default: return
         }
     }
 }
