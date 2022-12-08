@@ -214,7 +214,8 @@ class UI{
             span.style.color = "white"
         }
         header.append(span)
-        span.oncontextmenu = (e) => e.preventDefault()
+
+        span.oncontextmenu = (e:MouseEvent) => e.preventDefault()
 
         const itemsContainer = document.createElement('div')
         itemsContainer.id = "inventory-items-container"
@@ -238,7 +239,42 @@ class UI{
 
             newItem.append(qtyDiv)
             newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
-            newItem.oncontextmenu = (e:MouseEvent) => e.preventDefault()
+            // ITEM OPTIONS
+            newItem.oncontextmenu = (e:MouseEvent) => {
+                e.preventDefault()
+
+                if(this.activeMenu !== null){
+                    this.activeMenu.style.display = "none"
+                    this.hideMenus()
+                }
+                else{
+                    const container = document.createElement('div')
+                    container.classList.add('context-menu')
+                    container.id = "itemMenu"
+                    container.style.display = "block"
+                    container.style.pointerEvents = "none"
+                    const {x,y} = this.game.controls.getMousePos(e)
+                    container.style.left = (x*this.game.graphics.tileSize) + 15 + "px"
+                    container.style.top = (y*this.game.graphics.tileSize) + "px"
+    
+                    const list = document.createElement('ul')
+                    list.style.pointerEvents = "none"
+                    allItems[item].options.forEach( option => {
+                        const newItem = document.createElement('li')
+                        newItem.innerText = option.name
+                        newItem.onclick = (e:MouseEvent) => {
+                            e.preventDefault()
+                            console.log(option.desc)
+                            this.hideMenus()
+                        }
+                        newItem.oncontextmenu = (e) => e.preventDefault();
+                        list.append(newItem)
+                    })
+                    container.append(list)
+                    this.gameContainer.append(container)
+                    this.activeMenu = container
+                }
+            }
 
             const dropButton = document.createElement('button')
             dropButton.oncontextmenu = (e:MouseEvent) => e.preventDefault()
@@ -390,14 +426,14 @@ class UI{
         return allMenus
     }
 
-    showMenu(e: MouseEvent, tileType: string, options:{actionCode: string,desc: string}[]){
+    showTileMenu(e: MouseEvent, tileType: string, options:{actionCode: string,desc: string}[]){
         const type = tileType+"Menu"
         this.menus[type].style.top = e.offsetY + "px"
         this.menus[type].style.left = e.offsetX + "px"
         if(this.activeMenu !== null){
             this.activeMenu.style.display = "none"
             this.hideMenus()
-            this.showMenu(e, tileType, options)
+            this.showTileMenu(e, tileType, options)
         }
         else{
             const {x,y} = this.game.cursorPos
@@ -418,6 +454,7 @@ class UI{
     hideMenus(){
         if(this.activeMenu !== null){
             this.activeMenu.style.display = "none"
+            if(this.activeMenu.id === "itemMenu") this.activeMenu.remove()
             this.activeMenu = null
         }
     }

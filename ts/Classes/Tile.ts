@@ -16,8 +16,9 @@ class Tile{
     visible: boolean
     unknown: boolean
     spaceAvailable: boolean
+    rotated: 0 | 90 | 180 | 270
 
-    constructor(type:string, x:number, y:number, base?:string){
+    constructor(type:string, x:number, y:number, base?:string, rotated?:0|90|180|270){
         this.type = type
         this.x = x
         this.y = y
@@ -27,6 +28,7 @@ class Tile{
         this.visible = false
         this.unknown = true
         this.base = base || null
+        this.rotated = rotated || 0
     }
 }
 

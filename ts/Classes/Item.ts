@@ -19,6 +19,12 @@ class Item {
     icon:string
     relatedTile: string | null
     weight: number
+    options: {
+        actionCode: string,
+        name: string
+        desc: string
+        singleTime: boolean
+    }[]
 
     constructor(itemId:string, qty:number){
         this.id = itemId
@@ -32,6 +38,7 @@ class Item {
         this.icon = _ITEMS[itemId].icon
         this.relatedTile = _ITEMS[itemId].relatedTile
         this.weight = _ITEMS[itemId].weight
+        this.options = _ITEMS[itemId].options
     }
 }
 

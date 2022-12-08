@@ -18,7 +18,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/small-stick.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_wood_stick:{
         id:"mat_wood_stick",
@@ -31,7 +34,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/stick.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_wood_log:{
         id:"mat_wood_log",
@@ -44,7 +50,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/log.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_stone_small_rock:{
         id:"mat_stone_small_rock",
@@ -57,7 +66,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/small-rock.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_stone_rock:{
         id:"mat_stone_rock",
@@ -70,7 +82,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/rock.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_grass_fiber:{
         id:"mat_grass_fiber",
@@ -83,7 +98,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/grass-fiber.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_dirt:{
         id:"mat_dirt",
@@ -96,7 +114,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/grass-fiber.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_sea_shell:{
         id:"mat_sea_shell",
@@ -109,7 +130,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/stick.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_crafted_string:{
         id:"mat_crafted_string",
@@ -122,7 +146,10 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/string.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_crafted_rope:{
         id:"mat_crafted_rope",
@@ -135,7 +162,10 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/rope.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     mat_crafted_hook:{
         id:"mat_crafted_hook",
@@ -148,7 +178,10 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/hook.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     cons_bait_worm:{
         id:"cons_bait_worm",
@@ -161,7 +194,10 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/bait-worm.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
     },
     cons_food_fish:{
         id:"cons_food_fish",
@@ -174,7 +210,11 @@ const _ITEMS: ItemsDict =  {
         crafted: false,
         icon: "./assets/items/fish.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "Drop", desc: "drops item", singleTime: true},
+            {actionCode: "eatFish", name: "Eat", desc: "eats fish", singleTime: true}
+        ]
     },
     tool_fishingRod:{
         id:"tool_fishingRod",
@@ -193,7 +233,11 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/fishing-rod.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "equipFishingRod", name: "Equip", desc: "equips fishing rod", singleTime: true}
+        ]
     },
     tool_hatchet:{
         id:"tool_hatchet",
@@ -210,7 +254,11 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/hatchet.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "equipHatchet", name: "Equip", desc: "equips hatchet", singleTime: true}
+        ]
     },
     tool_shovel:{
         id:"tool_shovel",
@@ -227,7 +275,11 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/hatchet.png", // TODO cambiar!
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "equipShovel", name: "Equip", desc: "equips shovel", singleTime: true}
+        ]
     },
     tool_stoneKnife:{
         id:"tool_stoneKnife",
@@ -243,7 +295,11 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/stone-knife.png",
         relatedTile: null,
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "equipStoneKnife", name: "Equip", desc: "equips stone knife", singleTime: true}
+        ]
     },
     building_torch:{
         id:"building_torch",
@@ -259,7 +315,12 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/stick.png",    // TODO (cambiar img)
         relatedTile: "torchTile",
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "equipTorch", name: "Equip", desc: "equips torch", singleTime: true},
+            {actionCode: "placeTorch", name: "Place", desc: "places a torch", singleTime: true}
+        ]
     },
     building_farmPlot:{
         id:"building_farmPlot",
@@ -274,7 +335,11 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/log.png",    // TODO (cambiar img)
         relatedTile: "emptyFarmPlot",
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "placeFarmPlot", name: "Place", desc: "places a farm plot", singleTime: true}
+        ]
     },
     building_wooden_floor:{
         id:"building_wooden_floor",
@@ -290,7 +355,11 @@ const _ITEMS: ItemsDict =  {
         crafted: true,
         icon: "./assets/items/log.png",
         relatedTile: "woodenFloor",
-        weight: 1000
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "placeWoodenFloor", name: "Place", desc: "places a wooden floor", singleTime: true}
+        ]
     }
 
 }

@@ -177,12 +177,12 @@ class Controls{
             this.movingWindow = null
 
             if(this.game.graphics.fullMap) return
-            const target = e.target as HTMLCanvasElement | HTMLDivElement
+            const target = e.target as HTMLCanvasElement | HTMLDivElement | HTMLLIElement
             
             const { player,graphics, ui, map } = this.game
-            ui.hideMenus()
             
             if(target.id === "game-canvas"){
+                ui.hideMenus()
 
                 const cursorPos = this.game.cursorPos
                 const x = cursorPos.x + graphics.offsetX
@@ -206,8 +206,11 @@ class Controls{
                 else{
                     this.cancelConstructionMode()
                 }
-            }
-
+            }else{
+                if(target.tagName !== "LI"){
+                    ui.hideMenus()
+                }
+            }            
         }
 
         document.onmousemove =  (e) => {
@@ -244,17 +247,13 @@ class Controls{
             const x = cursorPos.x + this.game.graphics.offsetX
             const y = cursorPos.y + this.game.graphics.offsetY
 
-            console.log(x,y);
-            
-
             this.game.lastClickedTile = this.game.map.getTile(x,y)  
                       
-
             if(x === this.game.player.position.x && y === this.game.player.position.y){
-                    this.game.ui.showMenu(e, "player", this.game.player.options)
+                    this.game.ui.showTileMenu(e, "player", this.game.player.options)
             }else{
                 const {type,options} = this.game.map.getTile(x,y)
-                if(options.length) this.game.ui.showMenu(e, type, options)  
+                if(options.length) this.game.ui.showTileMenu(e, type, options)  
             }
         }
     }    
