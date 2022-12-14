@@ -257,6 +257,13 @@ class UI{
                     container.style.left = (x*this.game.graphics.tileSize) + 15 + "px"
                     container.style.top = (y*this.game.graphics.tileSize) + "px"
     
+/* 
+
+AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
+
+*/
+
+
                     const list = document.createElement('ul')
                     list.style.pointerEvents = "none"
                     allItems[item].options.forEach( option => {

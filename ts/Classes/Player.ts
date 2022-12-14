@@ -36,6 +36,14 @@ class Player{
     }[]
     carryWeight: number
     maxCarryWeight: number
+    equipment:{
+        head: boolean
+        torso: boolean
+        hands: boolean
+        legs: boolean
+        shoes: boolean
+        back: boolean
+    }
 
     constructor(game: Game){
         this.game = game
@@ -59,6 +67,14 @@ class Player{
         this.allCrops = []
         this.carryWeight = this.inventory.getWeight()
         this.maxCarryWeight = 25000
+        this.equipment = {
+            head: false,
+            torso: false,
+            hands: false,
+            legs: false,
+            shoes: false,
+            back: false
+        }
     }
 
     startGathering(action:string){
