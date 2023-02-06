@@ -106,6 +106,12 @@ const ACTIONS = {
             game.graphics.error("must have a hatchet !");
         }
     },
+    removeTorch: (game:Game) => {
+        if(game.lastClickedTile === null) return
+        game.player.allTorches.filter(torch => torch.x === game.lastClickedTile!.x && torch.y === game.lastClickedTile!.y)
+        game.map.changeTile(game.lastClickedTile.x,game.lastClickedTile.y,game.lastClickedTile.base!)
+        game.player.inventory.addItem('building_torch', 1)
+    },
     wait: (game:Game) => {
         game.graphics.error("work in progress :(")
     },

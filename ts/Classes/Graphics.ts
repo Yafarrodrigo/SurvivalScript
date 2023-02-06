@@ -381,7 +381,6 @@ class Graphics{
             playerTorchRadius.addColorStop(0.66, "rgba(255,75,0,0.5)")
             playerTorchRadius.addColorStop(1, "rgba(255,75,0,0)")
 
-            this.timeCtx.filter = "blur(15px)"
             this.timeCtx.fillStyle = playerTorchRadius
             this.timeCtx.beginPath()
             this.timeCtx.arc(
@@ -407,7 +406,6 @@ class Graphics{
             torchLight.addColorStop(1, `rgba(255,75,0,0)`)
 
             this.timeCtx.fillStyle = torchLight
-            this.timeCtx.filter = "blur(15px)"
             this.timeCtx.beginPath()
             this.timeCtx.arc(
                 ((torch.x - this.offsetX) * this.tileSize) + this.tileSize/2,

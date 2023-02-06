@@ -126,7 +126,7 @@ const _TILES: TilesDict = {
         spaceAvailable: false,
         src: "./assets/torchTile.png",
         base: null,
-        options: []
+        options: [{actionCode:"removeTorch",name:"Remove Torch", desc: "Remove torch", singleTime: true}]
     },
     gameEdge:{
         type: "gameEdge",

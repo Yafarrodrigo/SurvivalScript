@@ -138,6 +138,9 @@ class Game {
         else if(this.time == 19) this.timeOfDay = 'dusk' 
         else if(this.time == 22) this.timeOfDay = 'night'
 
+        // ** slow **
+        //
+        //
         this.player.allTorches.forEach(torch => this.torchFlicker(torch))
         this.torchFlicker(this.player.mainTorch)
         
