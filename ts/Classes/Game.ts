@@ -30,11 +30,14 @@ class Game {
     time: number
     day: number
     timeOfDay: "dawn" | "day" | "dusk" | "night"
-    clockRate: 32 | 16 | 8 | 4 | 1
+    clockRate: 5000 | 32 | 16 | 8 | 4 | 1
  
     constructor(){
         this.graphics = new Graphics(this, 1280,720)
         this.map = new Map(this, 6400, 3600)
+
+        console.log(this.map.tiles);
+        
         this.player = new Player(this)
         this.crafting = new Crafting(this)
         this.cursorPos = {x:0,y:0}

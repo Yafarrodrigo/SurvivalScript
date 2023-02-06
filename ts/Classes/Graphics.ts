@@ -42,6 +42,9 @@ class Graphics{
         this.tilesPerRow = Math.floor(this.width / this.tileSize)
         this.tilesPerColumn = Math.floor(this.height / this.tileSize)
 
+        console.log(this.tilesPerRow,this.tilesPerColumn);
+        
+
         this.offsetX = 0
         this.offsetY = 0
         this.fullMapOffsetX = 0
@@ -114,33 +117,50 @@ class Graphics{
         document.getElementById("game-container")!.append(this.timeCanvas)
 
         this.ctx.fillStyle = "black"
-        this.ctx.fillRect(0,0,this.width,this.height)
+        this.ctx.fillRect(0,0,this.width,this.height)        
 
     }
 
     drawMap(){
-        this.game.map.tiles.forEach( tile => {
-            const X = (tile.x - this.offsetX) * this.tileSize
-            const Y = (tile.y - this.offsetY) * this.tileSize
-            if(X < 0 || X > this.width || Y < 0 || Y > this.height) return
+        
+        let x = 0
+        let y = 0
+
+        for(let i = 0; i < (this.tilesPerColumn * this.tilesPerRow)+1; i++){
+
+            let arrOffset = ((y+this.offsetY) * this.tilesPerRow) - this.tilesPerRow >= 0 ? ((y+this.offsetY) * this.game.map.tilesPerRow)-1 : 0
+            const tile = this.game.map.tiles[x+this.offsetX + arrOffset]            
+            
+            const finalX = (tile.x - this.offsetX) * this.tileSize
+            const finalY = (tile.y - this.offsetY) * this.tileSize
             
             tile.visible = true
             tile.unknown = false
 
             if(tile.base !== null){ 
-                this.ctx.fillStyle = "none"               
-                this.ctx.drawImage(this.images[tile.base] ,X,Y,this.tileSize,this.tileSize)
+                this.ctx.fillStyle = "none"
+                this.ctx.drawImage(this.images[tile.base] ,finalX,finalY,this.tileSize,this.tileSize)
             }
-            this.ctx.drawImage(this.images[tile.type] ,X,Y,this.tileSize,this.tileSize)
+            this.ctx.drawImage(this.images[tile.type] ,finalX,finalY,this.tileSize,this.tileSize)
 
             if(this.debugTilePositions){
                 this.ctxFx.font = "10px Arial";
                 this.ctxFx.fillStyle = `black`
-                this.ctxFx.fillText(`x${tile.x}`, X+7, Y+10);
-                this.ctxFx.fillText(`y${tile.y}`, X+7, Y+20);
+                this.ctxFx.fillText(`x${tile.x}`, finalX+7, finalY+10);
+                this.ctxFx.fillText(`y${tile.y}`, finalX+7, finalY+20);
             }
-        })
-    }
+
+            if(i % this.tilesPerRow === 0){
+                if(i > 0){
+                    y++
+                }
+                x = 0
+            }
+
+            x++
+        }
+
+    } 
 
     drawFullMap(){
         this.ctx.fillStyle = "black"
