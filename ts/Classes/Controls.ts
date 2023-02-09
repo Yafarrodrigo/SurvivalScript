@@ -81,16 +81,6 @@ class Controls{
                     player.move("right")
                 }
             }
-            else if (e.code == 'KeyI'){
-                if(this.game.graphics.fullMap) return
-                ui.toggleWindow('inventory')
-                console.log(`${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`);
-                
-            }
-            else if (e.code == 'KeyC'){
-                if(this.game.graphics.fullMap) return
-                ui.toggleWindow('crafting')
-            }
             else if (e.code == 'KeyT'){
                 if(this.game.graphics.fullMap) return
                 if(this.game.player.inventory.has("building_torch", 1)){
@@ -105,6 +95,26 @@ class Controls{
                 ui.closeAllWindows()
                 this.game.placingBuilding = false
                 this.game.buildingToPlace = null
+            }
+            
+
+            ui.hideMenus()
+        }
+
+        const checkKeyUI = (e:KeyboardEvent) => {
+            e = e || window.event;
+            const { player, ui } = this.game
+
+            if(this.game.ui.uiTyping === true && e.code !== 'Escape') return
+            
+            if (e.code == 'KeyI'){
+                if(this.game.graphics.fullMap) return
+                ui.toggleWindow('inventory')
+                
+            }
+            else if (e.code == 'KeyC'){
+                if(this.game.graphics.fullMap) return
+                ui.toggleWindow('crafting')
             }
             else if (e.code == 'KeyM'){
                 ui.closeAllWindows()
@@ -137,11 +147,10 @@ class Controls{
                     }
                 }               
             }
-
-            ui.hideMenus()
         }
 
-        document.onkeyup = checkKey;
+        document.onkeydown = checkKey;
+        document.onkeyup = checkKeyUI;
 
         // MOUSE
         document.onmousedown = (e) => {

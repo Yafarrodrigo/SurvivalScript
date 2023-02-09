@@ -59,7 +59,7 @@ class Map{
                 }
 
                 const finalTile = this.discoverTile(tileType)
-                let newTile = new Tile(finalTile,x,y)
+                let newTile = new Tile(finalTile,x,y,_TILES[finalTile].base)
                 newMap.push(newTile)
             }
         }

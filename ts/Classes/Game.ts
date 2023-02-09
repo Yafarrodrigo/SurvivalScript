@@ -35,8 +35,6 @@ class Game {
     constructor(){
         this.graphics = new Graphics(this, 1280,720)
         this.map = new Map(this, 6400, 3600)
-
-        console.log(this.map.tiles);
         
         this.player = new Player(this)
         this.crafting = new Crafting(this)

@@ -54,9 +54,11 @@ class UI{
         searchInput.placeholder = "search..."
         searchInput.autofocus = true
         searchInput.addEventListener('keyup', (e)=>{
-            const target = e.target as HTMLInputElement
-            this.searchingText = target.value
-            this.updateCraftingWindow()
+            if(this.uiTyping){
+                const target = e.target as HTMLInputElement
+                this.searchingText = target.value
+                this.updateCraftingWindow()
+            }
         })
         searchInput.onfocus = () => {this.uiTyping = true}
         searchInput.onblur = () => {this.uiTyping = false}
@@ -211,23 +213,25 @@ class UI{
 
         const header = document.createElement('div')
         header.id = "inventory-header"
-        container.append(header)
         header.oncontextmenu = (e) => e.preventDefault()
+        container.append(header)
 
         const h3 = document.createElement("h3")
         h3.id = "inventory-name"
         h3.textContent = "Inventory"
-        header.append(h3)
         h3.oncontextmenu = (e) => e.preventDefault()
+        header.append(h3)
 
         const searchInput = document.createElement('input')
         searchInput.type = "text"
         searchInput.placeholder = "search..."
         searchInput.autofocus = true
         searchInput.addEventListener('keyup', (e)=>{
-            const target = e.target as HTMLInputElement
-            this.searchingText = target.value
-            this.updateInventoryWindow()
+            if(this.uiTyping){
+                const target = e.target as HTMLInputElement
+                this.searchingText = target.value
+                this.updateInventoryWindow()
+            }
         })
         searchInput.onfocus = () => {this.uiTyping = true}
         searchInput.onblur = () => {this.uiTyping = false}
@@ -236,11 +240,6 @@ class UI{
         const span = document.createElement("h3")
         span.id = "inventory-weight"
         span.textContent = `${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`
-        span.style.pointerEvents = "none"
-        span.style.fontSize = "0.75rem"
-        span.style.position = "absolute"
-        span.style.top = "10px"
-        span.style.right = "5px"
         if(this.game.player.carryWeight > this.game.player.maxCarryWeight){
             span.style.color = "#ff7777"
         }else{
@@ -264,7 +263,6 @@ class UI{
             nameDiv.textContent = `${allItems[item].name}`
             nameDiv.classList.add('inventory-item-name')
             newItem.append(nameDiv)
-            //newItem.style.backgroundImage = `URL(${allItems[item].icon})`
 
             const qtyDiv = document.createElement('div')
             qtyDiv.textContent = `x ${allItems[item].qty}`
@@ -318,17 +316,12 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
 
             const dropButton = document.createElement('button')
             dropButton.oncontextmenu = (e:MouseEvent) => e.preventDefault()
+            dropButton.classList.add("inventory-drop-button")
             dropButton.onclick = (e:MouseEvent) => {
                 e.preventDefault()
                 this.game.player.inventory.removeItem(allItems[item].id, 1)
                 this.update()
             }
-            dropButton.style.backgroundColor = "#ff9999"
-            dropButton.style.color = "black"
-            dropButton.style.border = "none"
-            dropButton.style.width = "20px"
-            dropButton.style.height = "20px"
-            dropButton.style.cursor = "pointer"
             dropButton.innerText = "x"
 
             newItem.append(dropButton)

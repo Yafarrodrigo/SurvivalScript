@@ -18,7 +18,7 @@ class Tile{
     spaceAvailable: boolean
     rotated: 0 | 90 | 180 | 270
 
-    constructor(type:string, x:number, y:number, base?:string, rotated?:0|90|180|270){
+    constructor(type:string, x:number, y:number, base?:string|null, rotated?:0|90|180|270){
         this.type = type
         this.x = x
         this.y = y

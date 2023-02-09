@@ -64,7 +64,7 @@ class Crafting{
             
             if(oldTile.spaceAvailable === true){
                 if(itemId === "building_torch"){
-                    this.game.map.changeTile(x,y,"torchTile",oldTile.type)
+                    this.game.map.changeTile(x,y,"torchTile",oldTile.base || oldTile.type)
                     this.game.player.allTorches.push({x,y, radius:125, intensity: 0.75})
                 }
                 else if(itemId === "building_farmPlot"){
@@ -79,7 +79,7 @@ class Crafting{
             }
         }
         else{
-            console.log("no hay item pa construir");
+            this.game.graphics.error("faltan items");
         }
 
         if(!this.game.player.inventory.has(itemId,1)){

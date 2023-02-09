@@ -38,7 +38,7 @@ const _TILES: TilesDict = {
         type: "seashells",
         walkable: true,
         spaceAvailable: true,
-        src: "./assets/seashells.jpg",
+        src: "./assets/seashells.png",
         base: "sand",
         options: [
             {actionCode:"gatherSeaShells",name:"gather sea shells", desc: "gathering sea shells", singleTime: true}

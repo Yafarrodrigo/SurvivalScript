@@ -40,10 +40,7 @@ class Graphics{
         this.tileSize = 32
         this.mapTileSize = 10
         this.tilesPerRow = Math.floor(this.width / this.tileSize)
-        this.tilesPerColumn = Math.floor(this.height / this.tileSize)
-
-        console.log(this.tilesPerRow,this.tilesPerColumn);
-        
+        this.tilesPerColumn = Math.floor(this.height / this.tileSize)        
 
         this.offsetX = 0
         this.offsetY = 0
