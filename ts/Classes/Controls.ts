@@ -127,7 +127,7 @@ class Controls{
                     this.cancelConstructionMode()
                 }
 
-                const option = prompt("1 - wooden floor \n 2 - torch \n 3 - farm plot")
+                const option = prompt("1 - wooden floor \n 2 - torch \n 3 - farm plot \n 4 - campfire")
                 if(option === "1"){
                     if(player.inventory.has('building_wooden_floor', 1)){
                         this.game.placingBuilding = true
@@ -145,7 +145,13 @@ class Controls{
                         this.game.placingBuilding = true
                         this.game.buildingToPlace = 'building_farmPlot'
                     }
-                }               
+                }
+                else if(option === "4"){
+                    if(player.inventory.has('building_campfire', 1)){
+                        this.game.placingBuilding = true
+                        this.game.buildingToPlace = 'building_campfire'
+                    }
+                }                 
             }
         }
 

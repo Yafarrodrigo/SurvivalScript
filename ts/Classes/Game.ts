@@ -48,8 +48,8 @@ class Game {
         this.placingBuilding = false
         this.buildingToPlace = null
         
-        this.time = 12
-        this.timeOfDay = "day"
+        this.time = 22
+        this.timeOfDay = "night"
         this.day = 0
         
         this.actions = ACTIONS
@@ -99,6 +99,36 @@ class Game {
         } 
     }
 
+    campfireFlicker(campfire:{x?:number,y?:number,intensity:number,radius:number}){
+        if(Math.random() > 0.33){
+            if((campfire.intensity + 0.35) > 1){
+                campfire.intensity = 1
+            }else{
+                campfire.intensity += 0.35
+            }
+        }else{
+            if((campfire.intensity - 0.1) < 0.35){
+                campfire.intensity = 0.35
+            }else{
+                campfire.intensity += 0.1
+            }
+        }
+
+        if(Math.random() > 0.33){
+            if((campfire.radius + 1) > 250){
+                campfire.radius = 250
+            }else{
+                campfire.radius += 1
+            }
+        }else{
+            if((campfire.radius - 1) < 240){
+                campfire.radius = 240
+            }else{
+                campfire.radius -= 1
+            }
+        } 
+    }
+
     update(){
         if(this.internalClock + 1 >= 300 ){
             this.internalClock = 0
@@ -140,6 +170,7 @@ class Game {
         //
         //
         this.player.allTorches.forEach(torch => this.torchFlicker(torch))
+        this.player.allCampfires.forEach(campfire => this.campfireFlicker(campfire))
         this.torchFlicker(this.player.mainTorch)
         
         this.graphics.update()

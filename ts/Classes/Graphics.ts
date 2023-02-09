@@ -413,6 +413,30 @@ class Graphics{
                 this.timeCtx.fill()
                 this.timeCtx.filter = "none"
         })
+        this.game.player.allCampfires.forEach( campfire => {
+            const campfireLight = this.timeCtx.createRadialGradient(
+                ((campfire.x - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((campfire.y - this.offsetY) * this.tileSize) + this.tileSize/2,
+                0,
+                ((campfire.x - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((campfire.y - this.offsetY) * this.tileSize) + this.tileSize/2,
+                campfire.radius
+            )
+            
+            campfireLight.addColorStop(0, `rgba(255,75,0,${campfire.intensity})`)
+            campfireLight.addColorStop(1, `rgba(255,75,0,0)`)
+
+            this.timeCtx.fillStyle = campfireLight
+            this.timeCtx.beginPath()
+            this.timeCtx.arc(
+                ((campfire.x - this.offsetX) * this.tileSize) + this.tileSize/2,
+                ((campfire.y - this.offsetY) * this.tileSize) + this.tileSize/2,
+                this.tileSize*10,
+                0 , Math.PI*2
+                )
+                this.timeCtx.fill()
+                this.timeCtx.filter = "none"
+        })
     }
 
     roundRect(ctx:CanvasRenderingContext2D ,x: number,y: number,width: number,height: number,r:number = 5) {

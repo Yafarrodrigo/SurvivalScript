@@ -57,6 +57,17 @@ const ACTIONS = {
         }
         
     },
+    gatherSand: (game:Game) => {
+        if(game.player.inventory.has("tool_shovel",1)){
+            game.player.inventory.addItem("mat_sand", 1)
+            const playerQty = game.player.inventory.items["mat_sand"].qty
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} sand`);
+        }
+        else{
+            game.graphics.error("you need a shovel!")
+        }
+        
+    },
     plantPumpkins: (game:Game) => {
         const {x,y} = game.lastClickedTile!
         const crop = game.player.allCrops.find( crop => crop.x === x && crop.y === y)
@@ -85,7 +96,7 @@ const ACTIONS = {
         
     },
     gatherLongStick: (game:Game) => {
-        if(game.player.inventory.has('tool_stoneKnife', 1) || game.player.inventory.has('tool_hatchet', 1) ){
+        if(game.player.inventory.has('tool_stoneKnife', 1) || game.player.inventory.has('tool_hatchet', 1) || game.player.inventory.has('tool_sharpenedShell', 1)){
             game.player.inventory.addItem("mat_wood_stick", 1)
             const playerQty = game.player.inventory.items["mat_wood_stick"].qty
             game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} long sticks`);
@@ -108,9 +119,22 @@ const ACTIONS = {
     },
     removeTorch: (game:Game) => {
         if(game.lastClickedTile === null) return
-        game.player.allTorches.filter(torch => torch.x === game.lastClickedTile!.x && torch.y === game.lastClickedTile!.y)
+        game.player.removeTorchFromGame(game.lastClickedTile.x,game.lastClickedTile.y)
         game.map.changeTile(game.lastClickedTile.x,game.lastClickedTile.y,game.lastClickedTile.base!)
         game.player.inventory.addItem('building_torch', 1)
+    },
+    removeFloor: (game:Game) => {
+        if(game.lastClickedTile === null) return
+        if(game.player.inventory.has('tool_hatchet', 1)){
+            game.map.changeTile(game.lastClickedTile.x,game.lastClickedTile.y,game.lastClickedTile.base!)
+        }else{
+            game.graphics.error("you need a hatchet to destroy floor!")
+        }
+    },
+    removeCampfire: (game:Game) => {
+        if(game.lastClickedTile === null) return
+        game.player.removeCampfireFromGame(game.lastClickedTile.x,game.lastClickedTile.y)
+        game.map.changeTile(game.lastClickedTile.x,game.lastClickedTile.y,game.lastClickedTile.base!)
     },
     wait: (game:Game) => {
         game.graphics.error("work in progress :(")

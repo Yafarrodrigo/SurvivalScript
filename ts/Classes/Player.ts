@@ -26,6 +26,12 @@ class Player{
         radius:number
         intensity: number
     }[]
+    allCampfires:{
+        x:number
+        y:number
+        radius:number
+        intensity: number
+    }[]
     allCrops: {
         x:number
         y:number
@@ -58,12 +64,14 @@ class Player{
         this.inventory.addItem("building_torch",5)
         this.inventory.addItem("building_wooden_floor",5)
         this.inventory.addItem("building_farmPlot",5)
+        this.inventory.addItem("building_campfire", 1)
         this.torchInHand = false
         this.mainTorch = {radius:140,intensity:1}
         this.gathering = false
         this.doingAction = null
         this.gatheringClock = null
         this.allTorches = []
+        this.allCampfires = []
         this.allCrops = []
         this.carryWeight = this.inventory.getWeight()
         this.maxCarryWeight = 25000
@@ -75,6 +83,13 @@ class Player{
             shoes: false,
             back: false
         }
+    }
+
+    removeTorchFromGame(x:number,y:number){
+        this.allTorches = this.allTorches.filter( torch => torch.x !== x && torch.y !== y )    
+    }
+    removeCampfireFromGame(x:number,y:number){
+        this.allCampfires = this.allCampfires.filter( campfire => campfire.x !== x && campfire.y !== y )    
     }
 
     startGathering(action:string){

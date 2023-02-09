@@ -32,7 +32,9 @@ const _TILES: TilesDict = {
         spaceAvailable: true,
         src: "./assets/sand.jpg",
         base: null,
-        options: []
+        options: [
+            {actionCode:"gatherSand",name:"gather sand", desc: "gathering sand from the ground", singleTime: false},
+        ]
     },
     seashells:{
         type: "seashells",
@@ -118,7 +120,7 @@ const _TILES: TilesDict = {
         spaceAvailable: false,
         src: "./assets/wooden-floor.jpg",
         base: null,
-        options: []
+        options: [{actionCode:"removeFloor",name:"remove floor", desc: "remove floor", singleTime: true}]
     },
     torchTile:{
         type: "torchTile",
@@ -127,6 +129,14 @@ const _TILES: TilesDict = {
         src: "./assets/torchTile.png",
         base: null,
         options: [{actionCode:"removeTorch",name:"Remove Torch", desc: "Remove torch", singleTime: true}]
+    },
+    campfireTile:{
+        type: "campfireTile",
+        walkable: false,
+        spaceAvailable: false,
+        src: "./assets/campfire.png",
+        base: null,
+        options: [{actionCode:"removeCampfire",name:"Remove Campfire", desc: "Remove Campfire", singleTime: true}]
     },
     gameEdge:{
         type: "gameEdge",

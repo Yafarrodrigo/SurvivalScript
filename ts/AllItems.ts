@@ -119,6 +119,22 @@ const _ITEMS: ItemsDict =  {
             {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
         ]
     },
+    mat_sand:{
+        id:"mat_sand",
+        type: "material",
+        name: "sand",
+        desc: "Just sand. Can be used for crafting",
+        reqMats: [],
+        reqCons: [],
+        qty: 0,
+        crafted: false,
+        icon: "./assets/items/grass-fiber.png",
+        relatedTile: null,
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
+    },
     mat_sea_shell:{
         id:"mat_sea_shell",
         type: "material",
@@ -199,6 +215,25 @@ const _ITEMS: ItemsDict =  {
             {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
         ]
     },
+    cons_arrow:{
+        id:"cons_arrow",
+        type: "consumible",
+        name: "arrow",
+        desc: "An arrow, used to hunt with the bow",
+        reqMats: [
+            {id:"mat_wood_small_stick", qty: 1},
+            {id:"mat_stone_small_rock", qty: 1}
+        ],
+        reqCons: [],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/bait-worm.png",
+        relatedTile: null,
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
+    },
     cons_food_fish:{
         id:"cons_food_fish",
         type: "consumible",
@@ -237,6 +272,28 @@ const _ITEMS: ItemsDict =  {
         options:[
             {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
             {actionCode: "equipFishingRod", name: "Equip", desc: "equips fishing rod", singleTime: true}
+        ]
+    },
+    tool_woodenBow:{
+        id:"tool_woodenBow",
+        type: "tool",
+        name: "Wooden Bow",
+        desc: "A bow made of wood, used to hunt. Needs arrows",
+        reqMats:[
+            {id:"mat_wood_stick", qty: 1},
+            {id:"mat_crafted_rope", qty: 1}
+        ],
+        reqCons:[
+            {id:"cons_arrow", qty: 1}
+        ],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/fishing-rod.png",
+        relatedTile: null,
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "equipWoodenBow", name: "Equip", desc: "equips wooden bow", singleTime: true}
         ]
     },
     tool_hatchet:{
@@ -301,6 +358,26 @@ const _ITEMS: ItemsDict =  {
             {actionCode: "equipStoneKnife", name: "Equip", desc: "equips stone knife", singleTime: true}
         ]
     },
+    tool_sharpenedShell:{
+        id:"tool_sharpenedShell",
+        type: "tool",
+        name: "Sharpened Shell",
+        desc: "A sharpened shell can be used as a knife",
+        reqMats:[
+            {id:"mat_stone_small_rock", qty: 1},
+            {id:"mat_sea_shell", qty: 1}
+        ],
+        reqCons:[],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/stone-knife.png",
+        relatedTile: null,
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "equipStoneKnife", name: "Equip", desc: "equips stone knife", singleTime: true}
+        ]
+    },
     building_torch:{
         id:"building_torch",
         type: "building",
@@ -320,6 +397,28 @@ const _ITEMS: ItemsDict =  {
             {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
             {actionCode: "equipTorch", name: "Equip", desc: "equips torch", singleTime: true},
             {actionCode: "placeTorch", name: "Place", desc: "places a torch", singleTime: true}
+        ]
+    },
+    building_campfire:{
+        id:"building_campfire",
+        type: "building",
+        name: "Campfire",
+        desc: "A campfire",
+        reqMats:[
+            {id:"mat_stone_rock", qty: 5},
+            {id:"mat_wood_small_stick", qty: 5},
+            {id:"mat_grass_fiber", qty: 5}
+
+        ],
+        reqCons:[],
+        qty: 0,
+        crafted: true,
+        icon: "./assets/items/stick.png",    // TODO (cambiar img)
+        relatedTile: "campfireTile",
+        weight: 1000,
+        options:[
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
+            {actionCode: "placeCampfire", name: "Place", desc: "places a campfire", singleTime: true}
         ]
     },
     building_farmPlot:{

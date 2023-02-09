@@ -99,10 +99,10 @@ class Map{
         switch(type){
             case "grass":{
                 let rnd = Math.random()
-                if(rnd >= 0.995){
+                if(rnd >= 0.95){
                     return "bush"
                 }
-                else if(rnd <= 0.025){
+                else if(rnd <= 0.02){
                     return "stones"
                 }
                 else{
@@ -111,7 +111,7 @@ class Map{
             }
             case "sand":{
                 let rnd = Math.random()
-                if(rnd >= 0.9){
+                if(rnd >= 0.95){
                     return "seashells"
                 }
             }

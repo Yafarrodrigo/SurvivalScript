@@ -67,6 +67,10 @@ class Crafting{
                     this.game.map.changeTile(x,y,"torchTile",oldTile.base || oldTile.type)
                     this.game.player.allTorches.push({x,y, radius:125, intensity: 0.75})
                 }
+                else if(itemId === "building_campfire"){
+                    this.game.map.changeTile(x,y,"campfireTile",oldTile.base || oldTile.type)
+                    this.game.player.allCampfires.push({x,y, radius:250, intensity: 0.6})
+                }
                 else if(itemId === "building_farmPlot"){
                     this.game.map.changeTile(x,y,_ITEMS[itemId].relatedTile!, oldTile.type)
                     this.game.player.allCrops.push({x,y, days:0, type:"pumpkins", grown: false, planted: false})
