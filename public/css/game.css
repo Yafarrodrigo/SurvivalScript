@@ -186,11 +186,28 @@ canvas{
 
 #crafting-header{
     background-color: #666;
+    display: flex;
     width: 100%;
     height: 35px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom: 1px solid black;
+}
+
+#crafting-header input{
+    height: 80%;
+    width: 50%;
+    margin: auto 100px;
+    outline: none;
+    border-radius: 15px;
+    padding: 0 10px;
+    background-color: #888;
+    border: 1px solid #222;
+    color: white;
+}
+
+#crafting-header input::placeholder{
+    color: lightgrey;
 }
 
 #crafting-name{

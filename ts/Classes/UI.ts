@@ -49,6 +49,19 @@ class UI{
         header.append(h3)
         h3.oncontextmenu = (e) => e.preventDefault()
 
+        const searchInput = document.createElement('input')
+        searchInput.type = "text"
+        searchInput.placeholder = "search..."
+        searchInput.autofocus = true
+        searchInput.addEventListener('keyup', (e)=>{
+            const target = e.target as HTMLInputElement
+            this.searchingText = target.value
+            this.updateCraftingWindow()
+        })
+        searchInput.onfocus = () => {this.uiTyping = true}
+        searchInput.onblur = () => {this.uiTyping = false}
+        header.append(searchInput)
+
         const span = document.createElement("h3")
         span.id = "crafting-weight"
         span.textContent = `${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`
@@ -131,6 +144,9 @@ class UI{
         this.gameContainer.append(container)
         this.craftingPanel = container
         this.craftingOpened = true
+        searchInput.focus()
+        searchInput.value = ""
+        this.searchingText = ""
     }
 
     updateCraftingItemInfo(){
@@ -326,15 +342,25 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
         this.inventoryOpened = true
         searchInput.focus()
         searchInput.value = ""
+        this.searchingText = ""
     }
 
     updateCraftingWindow(){
         const items = document.getElementsByClassName('crafting-item')
         for(let i = 0; i < items.length; i++){
             const elem = document.getElementById(items[i].id) as HTMLDivElement
+            const elemName = elem.firstChild as HTMLDivElement
             const elemQty = elem.lastChild as HTMLDivElement
 
             elemQty.textContent = `x ${this.game.crafting.numberOfCrafts(items[i].id)}`
+
+            if(!elemName.innerText.toLowerCase().includes(this.searchingText.toLowerCase())){
+                const elemToHide = document.getElementById(items[i].id)
+                elemToHide!.style.display = "none"
+            }else{
+                const elemToShow = document.getElementById(items[i].id)
+                elemToShow!.style.display = "flex"
+            }
 
             if(!this.game.crafting.matCheck(items[i].id)){
                 elem.classList.add('insufficient')
@@ -345,9 +371,9 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
         const weight = document.getElementById('crafting-weight')!
         weight.innerText = `${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`
         if(this.game.player.carryWeight < this.game.player.maxCarryWeight){
-            weight.style.color = "#ff7777"
-        }else{
             weight.style.color = "white"
+        }else{
+            weight.style.color = "#ff7777"
         }
     }
 
