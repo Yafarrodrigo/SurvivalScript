@@ -13,6 +13,8 @@ class UI{
     craftingOpened: boolean
     craftingPanel: HTMLDivElement | null
     selectedItem: Item | null
+    uiTyping: boolean
+    searchingText: string
 
     constructor(game: Game){
         this.game = game
@@ -24,6 +26,8 @@ class UI{
         this.craftingOpened = false
         this.craftingPanel = null
         this.selectedItem = null
+        this.uiTyping = false
+        this.searchingText = ""
     }
 
     openCrafting(){
@@ -200,6 +204,19 @@ class UI{
         header.append(h3)
         h3.oncontextmenu = (e) => e.preventDefault()
 
+        const searchInput = document.createElement('input')
+        searchInput.type = "text"
+        searchInput.placeholder = "search..."
+        searchInput.autofocus = true
+        searchInput.addEventListener('keyup', (e)=>{
+            const target = e.target as HTMLInputElement
+            this.searchingText = target.value
+            this.updateInventoryWindow()
+        })
+        searchInput.onfocus = () => {this.uiTyping = true}
+        searchInput.onblur = () => {this.uiTyping = false}
+        header.append(searchInput)
+
         const span = document.createElement("h3")
         span.id = "inventory-weight"
         span.textContent = `${this.game.player.carryWeight/1000} Kg / ${this.game.player.maxCarryWeight/1000} Kg`
@@ -307,6 +324,8 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
         this.gameContainer.append(container)
         this.inventoryPanel = container
         this.inventoryOpened = true
+        searchInput.focus()
+        searchInput.value = ""
     }
 
     updateCraftingWindow(){
@@ -336,7 +355,16 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
         const items = document.getElementsByClassName('inventory-item')
         for(let i = 0; i < items.length; i++){
             const elem = document.getElementById(items[i].id) as HTMLDivElement
+            const elemName = elem.childNodes[0] as HTMLDivElement
             const elemQty = elem.childNodes[1] as HTMLDivElement
+
+            if(!elemName.innerText.toLowerCase().includes(this.searchingText.toLowerCase())){
+                const elemToHide = document.getElementById(items[i].id)
+                elemToHide!.style.display = "none"
+            }else{
+                const elemToShow = document.getElementById(items[i].id)
+                elemToShow!.style.display = "flex"
+            }
 
             if(this.game.player.inventory.has(items[i].id , 1)){
                 elemQty.textContent = `x ${this.game.player.inventory.items[elem.id].qty}`

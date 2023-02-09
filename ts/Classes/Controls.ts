@@ -50,6 +50,8 @@ class Controls{
             
             e = e || window.event;
             const { player, ui } = this.game
+
+            if(this.game.ui.uiTyping === true && e.code !== 'Escape') return
             
             if (e.code == 'ArrowUp' || e.code == 'KeyW') { 
                 if(this.game.graphics.fullMap){
@@ -139,7 +141,7 @@ class Controls{
             ui.hideMenus()
         }
 
-        document.onkeydown = checkKey;
+        document.onkeyup = checkKey;
 
         // MOUSE
         document.onmousedown = (e) => {
