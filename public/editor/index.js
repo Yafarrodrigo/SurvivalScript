@@ -1,4 +1,5 @@
 import { GameData } from "./GameData.js"
+import {createItemForm, createNewOption}  from "./createItemForm.js"
 
 const gameData = new GameData()
 
@@ -6,6 +7,69 @@ const searchBar = document.getElementById('item-search')
 searchBar.addEventListener('keyup', e => {
     updateItemList(e.target.value)
 })
+
+function prepareToPOST(form){
+    const data = new FormData(form)
+    const entries = data.entries()
+    const rawObj = {...entries}
+    for(let entry of entries){rawObj[entry[0]] = entry[1]}
+    console.log(rawObj);
+    const craftedCheckbox = document.getElementById('itemCraftedInput')
+    const crafted = craftedCheckbox.checked
+    const result = {
+        id: rawObj.itemId,
+        type: rawObj.itemType,
+        name: rawObj.itemName,
+        desc: rawObj.itemDesc,
+        relatedTile: rawObj.itemRelatedTile,
+        weigth: rawObj.itemWeight,
+        crafted
+    }
+    return result
+}
+
+function showCreateItemForm(){
+    const itemDataContainer = document.getElementById('item-data')
+    itemDataContainer.innerHTML = createItemForm
+
+    const form = document.getElementById('createItemForm')
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        const objToPOST = prepareToPOST(this)
+        console.log(objToPOST);
+    })
+
+    const selectInput = document.getElementById('itemRelatedTileInput')
+
+    const nullOption = document.createElement('option')
+    nullOption.textContent = "none"
+    nullOption.value = "none"
+    selectInput.append(nullOption)
+
+    for(let tile in gameData.tiles){
+        const newOption = document.createElement('option')
+        newOption.textContent = tile
+        newOption.value = tile
+        selectInput.append(newOption)
+    }
+
+    // item actions (options)
+    const actionsContainer = document.getElementById('optionsContainer')
+    const addActionButton = document.getElementById('addActionButton')
+    addActionButton.addEventListener('click', (e) => {
+        e.preventDefault()
+        const newAction = document.createElement('div')
+        newAction.classList.add('inputGroupActions')
+        newAction.innerHTML = createNewOption
+        actionsContainer.append(newAction)
+
+        const allRemoveButtons = document.querySelectorAll('.removeActionButton')
+        allRemoveButtons.forEach( button => button.addEventListener('click', (e) => {
+            e.preventDefault()
+            button.parentNode.remove()
+        }))
+    })
+}
 
 function showItemData(e, itemId){
     gameData.selectedItem = itemId
@@ -49,3 +113,7 @@ function updateItemList(filter = ""){
 setTimeout(()=>{
     updateItemList()
 },100)
+
+setTimeout(()=>{
+    showCreateItemForm()
+},200)
