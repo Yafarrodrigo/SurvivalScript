@@ -1,0 +1,83 @@
+*{
+    box-sizing: border-box;
+    color: white;
+}
+
+body{
+    background-color: black;
+}
+
+#main-container{
+    display: flex;
+    width: 1750px;
+    height: 900px;
+    background-color: #333;
+}
+
+#list-and-search{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 25%;
+    padding: 5px;
+}
+
+#item-search{
+    outline: none;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    background-color: #555;
+}
+
+#item-list{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    width: 100%;
+    font-size: 1.25rem;
+
+    overflow-y: scroll;
+}
+
+#item-data{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    width: 75%;
+    height: 100%;
+    font-size: 1.25rem;
+    margin-left: 5px;
+    overflow: scroll;
+    padding: 5px;
+}
+
+.item-selector{
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid grey;
+}
+
+.item-selector .nameDiv{
+    cursor: pointer;
+    height: 100%;
+    margin: 0;
+    padding: 5px 10px;
+}
+
+.item-selector .nameDiv:hover{
+    text-decoration: underline;
+}
+
+.selected-item{
+    background-color: #555;
+}
+
+.item-selector .edit-button{
+    margin-left: auto;
+    background-color: rgb(200, 130, 85);
+    width: 50px;
+    padding: 0 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
