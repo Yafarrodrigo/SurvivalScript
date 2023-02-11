@@ -4,9 +4,9 @@ const ACTIONS = {
     fish: (game:Game) => {
         if(game.player.inventory.has("tool_fishingRod",1) && game.player.inventory.has("cons_bait_worm",1)){
             game.player.inventory.removeItem("cons_bait_worm", 1)
-            game.player.inventory.addItem("cons_food_fish", 1)
-            const playerQty = game.player.inventory.items["cons_food_fish"].qty
-            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} fish`);
+            game.player.inventory.addItem("cons_food_rawFish", 1)
+            const playerQty = game.player.inventory.items["cons_food_rawFish"].qty
+            game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} raw fish`);
 
         }
         else{
@@ -183,6 +183,48 @@ const ACTIONS = {
         }
         else{
             game.graphics.error("no campfires remaining")
+        }
+    },
+    equipTorch: (game:Game) => {
+        if(game.player.inventory.has("building_torch", 1)){
+            const torchItem = game.player.inventory.items["building_torch"]
+            game.player.equipItem("hands", torchItem)
+        }else{
+            game.graphics.error("no torches in your inventory")
+        }
+    },
+    roastFish: (game:Game) => {
+        if(game.player.inventory.has("mat_wood_stick", 1)){
+            if(game.player.inventory.has("cons_food_rawFish", 1)){
+                game.player.inventory.removeItem("cons_food_rawFish",1)
+                game.player.inventory.addItem("cons_food_cookedFish",1)
+                const playerQty = game.player.inventory.items["cons_food_cookedFish"].qty
+                game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} cooked fishes`);
+            }
+            else{
+                game.graphics.error("you dont have any fish")
+            }
+        }
+        else{
+            game.graphics.error("you need a long wooden stick to roast things")
+        }
+    },
+    eatRawFish: (game:Game) => {
+        if(game.player.inventory.has("cons_food_rawFish", 1)){
+            console.log("come pescadito crudo");
+            game.player.inventory.removeItem("cons_food_rawFish", 1)
+        }
+        else{
+            game.graphics.error("no hay pescado en el inventario")
+        }
+    },
+    eatCookedFish: (game:Game) => {
+        if(game.player.inventory.has("cons_food_cookedFish", 1)){
+            console.log("come pescadito cocinado");
+            game.player.inventory.removeItem("cons_food_cookedFish", 1)
+        }
+        else{
+            game.graphics.error("no hay pescado en el inventario")
         }
     }
     

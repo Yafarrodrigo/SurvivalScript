@@ -81,16 +81,6 @@ class Controls{
                     player.move("right")
                 }
             }
-            else if (e.code == 'KeyT'){
-                if(this.game.graphics.fullMap) return
-                if(this.game.player.inventory.has("building_torch", 1)){
-                    player.torchInHand === true ? player.torchInHand = false : player.torchInHand = true
-                }
-                else{
-                    this.game.graphics.error("you need a torch!")
-                    player.torchInHand = false
-                }
-            }
             else if (e.code == 'Escape'){
                 ui.closeAllWindows()
                 this.game.placingBuilding = false
@@ -172,8 +162,6 @@ class Controls{
                 const x = cursorPos.x + graphics.offsetX
                 const y = cursorPos.y + graphics.offsetY
 
-                console.log(map.getTile(x,y));
-
                 this.game.player.stopGathering()
                 if(this.game.placingBuilding && e.button === 0){
 
@@ -192,7 +180,7 @@ class Controls{
                 if(target.tagName !== "LI"){
                     ui.hideMenus()
                 }
-            }            
+            }
         }
 
         document.onmousemove =  (e) => {
@@ -236,9 +224,7 @@ class Controls{
                 this.cancelConstructionMode()
                 return  
             }   
-            else{
-                console.log(this.game.placingBuilding);
-                
+            else{                
                 if(x === this.game.player.position.x && y === this.game.player.position.y){
                     this.game.ui.showTileMenu(e, "player", this.game.player.options)
                 }else{

@@ -13,7 +13,6 @@ function prepareToPOST(form){
     const entries = data.entries()
     const rawObj = {...entries}
     for(let entry of entries){rawObj[entry[0]] = entry[1]}
-    console.log(rawObj);
     const craftedCheckbox = document.getElementById('itemCraftedInput')
     const crafted = craftedCheckbox.checked
     const result = {
@@ -36,7 +35,6 @@ function showCreateItemForm(){
     form.addEventListener('submit', function(e){
         e.preventDefault()
         const objToPOST = prepareToPOST(this)
-        console.log(objToPOST);
     })
 
     const selectInput = document.getElementById('itemRelatedTileInput')

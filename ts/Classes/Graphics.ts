@@ -364,7 +364,7 @@ class Graphics{
 
         const {x:px,y:py} = this.game.player.position
 
-        if(this.game.player.torchInHand){
+        if(this.game.player.equipment.hands !== null && this.game.player.equipment.hands.id === "building_torch"){
             const playerTorchRadius = this.timeCtx.createRadialGradient(
                 ((px - this.offsetX) * this.tileSize) + this.tileSize/2,
                 ((py - this.offsetY) * this.tileSize) + this.tileSize/2,

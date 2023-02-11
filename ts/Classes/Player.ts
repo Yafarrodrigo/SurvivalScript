@@ -1,6 +1,7 @@
 import ACTIONS from "../Actions.js"
 import Game from "./Game.js"
 import Inventory from "./Inventory.js"
+import Item from "./Item.js"
 
 class Player{
 
@@ -12,7 +13,6 @@ class Player{
     orientation: "down" | "up" | "right" | "left"
     options:{actionCode: string,name:string,desc: string, singleTime: boolean}[]
     inventory: Inventory
-    torchInHand: boolean
     mainTorch: {
         radius:number
         intensity:number
@@ -43,12 +43,12 @@ class Player{
     carryWeight: number
     maxCarryWeight: number
     equipment:{
-        head: string
-        torso: string
-        hands: string
-        legs: string
-        shoes: string
-        back: string
+        head: null | Item
+        torso: null | Item
+        hands: null | Item
+        legs: null | Item
+        feet: null | Item
+        back: null | Item
     }
 
     constructor(game: Game){
@@ -65,7 +65,8 @@ class Player{
         this.inventory.addItem("building_wooden_floor",5)
         this.inventory.addItem("building_farmPlot",5)
         this.inventory.addItem("building_campfire", 1)
-        this.torchInHand = false
+        this.inventory.addItem("tool_fishingRod", 1)
+        this.inventory.addItem("cons_bait_worm", 3)
         this.mainTorch = {radius:140,intensity:1}
         this.gathering = false
         this.doingAction = null
@@ -76,12 +77,12 @@ class Player{
         this.carryWeight = this.inventory.getWeight()
         this.maxCarryWeight = 25000
         this.equipment = {
-            head: "none",
-            torso: "none",
-            hands: "none",
-            legs: "none",
-            shoes: "none",
-            back: "none"
+            head: null,
+            torso: null,
+            hands: null,
+            legs: null,
+            feet: null,
+            back: null
         }
 
         /* EQUIPMENT!! */
@@ -89,6 +90,14 @@ class Player{
         /* EQUIPMENT!! */
         /* EQUIPMENT!! */
         /* EQUIPMENT!! */
+    }
+
+    equipItem(slot:"head"|"torso"|"hands"|"legs"|"feet"|"back", item:Item|null){
+        this.equipment[slot] = item
+    }
+
+    removeEquipment(slot:"head"|"torso"|"hands"|"legs"|"feet"|"back"){
+        this.equipment[slot] = null
     }
 
     removeTorchFromGame(x:number,y:number){

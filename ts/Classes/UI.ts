@@ -52,7 +52,6 @@ class UI{
         const searchInput = document.createElement('input')
         searchInput.type = "text"
         searchInput.placeholder = "search..."
-        searchInput.autofocus = true
         searchInput.addEventListener('keyup', (e)=>{
             if(this.uiTyping){
                 const target = e.target as HTMLInputElement
@@ -146,7 +145,6 @@ class UI{
         this.gameContainer.append(container)
         this.craftingPanel = container
         this.craftingOpened = true
-        searchInput.focus()
         searchInput.value = ""
         this.searchingText = ""
     }
@@ -225,7 +223,6 @@ class UI{
         const searchInput = document.createElement('input')
         searchInput.type = "text"
         searchInput.placeholder = "search..."
-        searchInput.autofocus = true
         searchInput.addEventListener('keyup', (e)=>{
             if(this.uiTyping){
                 const target = e.target as HTMLInputElement
@@ -302,7 +299,6 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
                         newItem.innerText = option.name
                         newItem.onclick = (e:MouseEvent) => {
                             e.preventDefault()
-                            console.log(option.actionCode)
                             this.game.actions[option.actionCode](this.game)
                             this.hideMenus()
                         }
@@ -334,7 +330,6 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
         this.gameContainer.append(container)
         this.inventoryPanel = container
         this.inventoryOpened = true
-        searchInput.focus()
         searchInput.value = ""
         this.searchingText = ""
     }

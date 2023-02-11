@@ -46,14 +46,20 @@ class Inventory{
     }
 
     removeItem(itemId:string, qty: number){
+        const { player } = this.game
         if(this.items[itemId]){
             this.items[itemId].qty -= qty
             this.items[itemId].weight = this.items[itemId].qty * _ITEMS[itemId].weight
-            this.game.player.carryWeight = this.getWeight()
+            player.carryWeight = this.getWeight()
             if(this.items[itemId].qty <= 0){
                 delete this.items[itemId]
+
+                if(itemId === "building_torch" && player.equipment.hands !== null && player.equipment.hands.id === "building_torch"){
+                    player.removeEquipment("hands")
+                }
             }
         }
+
         if(this.game.ui){
             this.game.ui.update()
         }

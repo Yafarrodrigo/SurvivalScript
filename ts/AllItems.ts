@@ -220,11 +220,27 @@ const _ITEMS: ItemsDict =  {
             {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
         ]
     },
-    cons_food_fish:{
-        id:"cons_food_fish",
+    cons_food_rawFish:{
+        id:"cons_food_rawFish",
         type: "consumible",
-        name: "fish",
-        desc: "A fish. Can be eaten",
+        name: "Raw Fish",
+        desc: "A raw fish. Maybe I should cock it before eating it",
+        reqMats: [],
+        reqCons: [],
+        qty: 0,
+        crafted: false,
+        relatedTile: null,
+        weight: 1000,
+        options:[
+            {actionCode: "eatRawFish", name: "Eat Raw", desc: "eats raw fish", singleTime: true},
+            {actionCode: "dropItem", name: "Drop", desc: "drops item", singleTime: true}
+        ]
+    },
+    cons_food_cookedFish:{
+        id:"cons_food_cookedFish",
+        type: "consumible",
+        name: "Cooked Fish",
+        desc: "A cooked fish. A delicious fish, ready to eat",
         reqMats: [],
         reqCons: [],
         qty: 0,
@@ -233,7 +249,7 @@ const _ITEMS: ItemsDict =  {
         weight: 1000,
         options:[
             {actionCode: "dropItem", name: "Drop", desc: "drops item", singleTime: true},
-            {actionCode: "eatFish", name: "Eat", desc: "eats fish", singleTime: true}
+            {actionCode: "eatCookedFish", name: "Eat", desc: "eats fish", singleTime: true}
         ]
     },
     tool_fishingRod:{

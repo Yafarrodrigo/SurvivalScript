@@ -80,14 +80,15 @@ class Crafting{
                 }
                 oldTile.spaceAvailable = false
                 this.game.player.inventory.removeItem(itemId,1)
+
+                if(!this.game.player.inventory.has(itemId, 1)){
+                    this.game.controls.cancelConstructionMode()
+                }
             }
         }
         else{
-            this.game.graphics.error("faltan items");
-        }
-
-        if(!this.game.player.inventory.has(itemId,1)){
             this.game.controls.cancelConstructionMode()
+            this.game.graphics.error("faltan items");
         }
     }
 }

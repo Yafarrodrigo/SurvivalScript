@@ -136,7 +136,10 @@ const _TILES: TilesDict = {
         spaceAvailable: false,
         src: "./assets/campfire.png",
         base: null,
-        options: [{actionCode:"removeCampfire",name:"Destroy Campfire", desc: "Destroy Campfire", singleTime: true}]
+        options: [
+            {actionCode:"roastFish",name:"Roast Fish", desc: "Roast Fish", singleTime: false},
+            {actionCode:"removeCampfire",name:"Destroy Campfire", desc: "Destroy Campfire", singleTime: true}
+        ]
     },
     gameEdge:{
         type: "gameEdge",
