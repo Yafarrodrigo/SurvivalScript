@@ -16,7 +16,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/small-stick.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -32,7 +31,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/stick.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -48,7 +46,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/log.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -64,7 +61,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/small-rock.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -80,7 +76,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/rock.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -96,7 +91,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/grass-fiber.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -112,7 +106,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/grass-fiber.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -128,7 +121,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/grass-fiber.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -144,7 +136,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/stick.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -160,7 +151,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/string.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -176,7 +166,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/rope.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -192,7 +181,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/hook.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -208,7 +196,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/bait-worm.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -227,7 +214,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/bait-worm.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -243,7 +229,6 @@ const _ITEMS: ItemsDict =  {
         reqCons: [],
         qty: 0,
         crafted: false,
-        icon: "./assets/items/fish.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -266,7 +251,6 @@ const _ITEMS: ItemsDict =  {
         ],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/fishing-rod.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -288,7 +272,6 @@ const _ITEMS: ItemsDict =  {
         ],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/fishing-rod.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -309,7 +292,6 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/hatchet.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -330,7 +312,6 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/hatchet.png", // TODO cambiar!
         relatedTile: null,
         weight: 1000,
         options:[
@@ -350,7 +331,6 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/stone-knife.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -370,7 +350,6 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/stone-knife.png",
         relatedTile: null,
         weight: 1000,
         options:[
@@ -390,13 +369,12 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/stick.png",    // TODO (cambiar img)
         relatedTile: "torchTile",
         weight: 1000,
         options:[
-            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
             {actionCode: "equipTorch", name: "Equip", desc: "equips torch", singleTime: true},
-            {actionCode: "placeTorch", name: "Place", desc: "places a torch", singleTime: true}
+            {actionCode: "placeTorch", name: "Place", desc: "places a torch", singleTime: true},
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
         ]
     },
     building_campfire:{
@@ -413,12 +391,11 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/stick.png",    // TODO (cambiar img)
         relatedTile: "campfireTile",
         weight: 1000,
         options:[
-            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
-            {actionCode: "placeCampfire", name: "Place", desc: "places a campfire", singleTime: true}
+            {actionCode: "placeCampfire", name: "Place", desc: "places a campfire", singleTime: true},
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
         ]
     },
     building_farmPlot:{
@@ -432,12 +409,11 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/log.png",    // TODO (cambiar img)
         relatedTile: "emptyFarmPlot",
         weight: 1000,
         options:[
-            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
-            {actionCode: "placeFarmPlot", name: "Place", desc: "places a farm plot", singleTime: true}
+            {actionCode: "placeFarmPlot", name: "Place", desc: "places a farm plot", singleTime: true},
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
         ]
     },
     building_wooden_floor:{
@@ -452,12 +428,11 @@ const _ITEMS: ItemsDict =  {
         reqCons:[],
         qty: 0,
         crafted: true,
-        icon: "./assets/items/log.png",
         relatedTile: "woodenFloor",
         weight: 1000,
         options:[
-            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true},
-            {actionCode: "placeWoodenFloor", name: "Place", desc: "places a wooden floor", singleTime: true}
+            {actionCode: "placeWoodenFloor", name: "Place", desc: "places a wooden floor", singleTime: true},
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
         ]
     }
 

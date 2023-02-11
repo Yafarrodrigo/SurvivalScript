@@ -43,12 +43,12 @@ class Player{
     carryWeight: number
     maxCarryWeight: number
     equipment:{
-        head: boolean
-        torso: boolean
-        hands: boolean
-        legs: boolean
-        shoes: boolean
-        back: boolean
+        head: string
+        torso: string
+        hands: string
+        legs: string
+        shoes: string
+        back: string
     }
 
     constructor(game: Game){
@@ -76,13 +76,19 @@ class Player{
         this.carryWeight = this.inventory.getWeight()
         this.maxCarryWeight = 25000
         this.equipment = {
-            head: false,
-            torso: false,
-            hands: false,
-            legs: false,
-            shoes: false,
-            back: false
+            head: "none",
+            torso: "none",
+            hands: "none",
+            legs: "none",
+            shoes: "none",
+            back: "none"
         }
+
+        /* EQUIPMENT!! */
+        /* EQUIPMENT!! */
+        /* EQUIPMENT!! */
+        /* EQUIPMENT!! */
+        /* EQUIPMENT!! */
     }
 
     removeTorchFromGame(x:number,y:number){

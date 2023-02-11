@@ -16,7 +16,6 @@ class Item {
     }[]
     qty: number
     crafted: boolean
-    icon:string
     relatedTile: string | null
     weight: number
     options: {
@@ -35,7 +34,6 @@ class Item {
         this.reqCons =  _ITEMS[itemId].reqCons
         this.qty =  qty
         this.crafted = _ITEMS[itemId].crafted
-        this.icon = _ITEMS[itemId].icon
         this.relatedTile = _ITEMS[itemId].relatedTile
         this.weight = _ITEMS[itemId].weight
         this.options = _ITEMS[itemId].options

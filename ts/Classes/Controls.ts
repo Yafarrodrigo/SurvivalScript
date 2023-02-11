@@ -103,7 +103,7 @@ class Controls{
 
         const checkKeyUI = (e:KeyboardEvent) => {
             e = e || window.event;
-            const { player, ui } = this.game
+            const { ui } = this.game
 
             if(this.game.ui.uiTyping === true && e.code !== 'Escape') return
             
@@ -119,39 +119,6 @@ class Controls{
             else if (e.code == 'KeyM'){
                 ui.closeAllWindows()
                 ui.showMap()
-            }
-
-            else if (e.code == 'KeyB'){
-                if(this.game.graphics.fullMap) return
-                if(this.game.placingBuilding === true){
-                    this.cancelConstructionMode()
-                }
-
-                const option = prompt("1 - wooden floor \n 2 - torch \n 3 - farm plot \n 4 - campfire")
-                if(option === "1"){
-                    if(player.inventory.has('building_wooden_floor', 1)){
-                        this.game.placingBuilding = true
-                        this.game.buildingToPlace = 'building_wooden_floor'
-                    }
-                }
-                else if(option === "2"){
-                    if(player.inventory.has('building_torch', 1)){
-                        this.game.placingBuilding = true
-                        this.game.buildingToPlace = 'building_torch'
-                    }
-                }
-                else if(option === "3"){
-                    if(player.inventory.has('building_farmPlot', 1)){
-                        this.game.placingBuilding = true
-                        this.game.buildingToPlace = 'building_farmPlot'
-                    }
-                }
-                else if(option === "4"){
-                    if(player.inventory.has('building_campfire', 1)){
-                        this.game.placingBuilding = true
-                        this.game.buildingToPlace = 'building_campfire'
-                    }
-                }                 
             }
         }
 
@@ -208,7 +175,7 @@ class Controls{
                 console.log(map.getTile(x,y));
 
                 this.game.player.stopGathering()
-                if(this.game.placingBuilding){
+                if(this.game.placingBuilding && e.button === 0){
 
                     const pX = player.position.x
                     const pY = player.position.y
@@ -220,9 +187,7 @@ class Controls{
                         graphics.error("can't build there !")
                     }    
                 }
-                else{
-                    this.cancelConstructionMode()
-                }
+                
             }else{
                 if(target.tagName !== "LI"){
                     ui.hideMenus()
@@ -260,18 +225,28 @@ class Controls{
         this.game.graphics.canvas.oncontextmenu = (e) => {
             e.preventDefault();
             if(this.game.graphics.fullMap) return
+
             const cursorPos = this.game.cursorPos
             const x = cursorPos.x + this.game.graphics.offsetX
             const y = cursorPos.y + this.game.graphics.offsetY
 
             this.game.lastClickedTile = this.game.map.getTile(x,y)  
-                      
-            if(x === this.game.player.position.x && y === this.game.player.position.y){
+
+            if(this.game.placingBuilding === true){
+                this.cancelConstructionMode()
+                return  
+            }   
+            else{
+                console.log(this.game.placingBuilding);
+                
+                if(x === this.game.player.position.x && y === this.game.player.position.y){
                     this.game.ui.showTileMenu(e, "player", this.game.player.options)
-            }else{
-                const {type,options} = this.game.map.getTile(x,y)
-                if(options.length) this.game.ui.showTileMenu(e, type, options)  
+                }else{
+                    const {type,options} = this.game.map.getTile(x,y)
+                    if(options.length) this.game.ui.showTileMenu(e, type, options)  
+                }  
             }
+              
         }
     }    
 }

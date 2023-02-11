@@ -302,7 +302,8 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
                         newItem.innerText = option.name
                         newItem.onclick = (e:MouseEvent) => {
                             e.preventDefault()
-                            console.log(option.desc)
+                            console.log(option.actionCode)
+                            this.game.actions[option.actionCode](this.game)
                             this.hideMenus()
                         }
                         newItem.oncontextmenu = (e) => e.preventDefault();

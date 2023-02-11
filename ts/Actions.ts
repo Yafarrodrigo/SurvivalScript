@@ -144,6 +144,46 @@ const ACTIONS = {
     },
     startCampfire: (game:Game) => {
         game.graphics.error("work in progress :(")
+    },
+    placeWoodenFloor: (game:Game) => {
+        if(game.player.inventory.has('building_wooden_floor', 1)){
+            game.placingBuilding = true
+            game.buildingToPlace = 'building_wooden_floor'
+            game.ui.closeAllWindows()
+        }
+        else{
+            game.graphics.error("no wooden floors remaining")
+        }
+    },
+    placeTorch: (game:Game) => {
+        if(game.player.inventory.has('building_torch', 1)){
+            game.placingBuilding = true
+            game.buildingToPlace = 'building_torch'
+            game.ui.closeAllWindows()
+        }
+        else{
+            game.graphics.error("no torches remaining")
+        }
+    },
+    placeFarmPlot: (game:Game) => {
+        if(game.player.inventory.has('building_farmPlot', 1)){
+            game.placingBuilding = true
+            game.buildingToPlace = 'building_farmPlot'
+            game.ui.closeAllWindows()
+        }
+        else{
+            game.graphics.error("no farm plots remaining")
+        }
+    },
+    placeCampfire: (game:Game) => {
+        if(game.player.inventory.has('building_campfire', 1)){
+            game.placingBuilding = true
+            game.buildingToPlace = 'building_campfire'
+            game.ui.closeAllWindows()
+        }
+        else{
+            game.graphics.error("no campfires remaining")
+        }
     }
     
 }

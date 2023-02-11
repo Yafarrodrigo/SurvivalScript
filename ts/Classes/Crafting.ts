@@ -87,8 +87,7 @@ class Crafting{
         }
 
         if(!this.game.player.inventory.has(itemId,1)){
-            this.game.placingBuilding = false
-            this.game.buildingToPlace = null
+            this.game.controls.cancelConstructionMode()
         }
     }
 }
