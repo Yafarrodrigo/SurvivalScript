@@ -16,7 +16,8 @@ const tools: ItemsDict = {
         reqCons:[
             {id:"cons_bait_worm", qty: 1}
         ],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: null,
         weight: 1000,
@@ -37,7 +38,8 @@ const tools: ItemsDict = {
         reqCons:[
             {id:"cons_arrow", qty: 1}
         ],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: null,
         weight: 1000,
@@ -57,7 +59,8 @@ const tools: ItemsDict = {
             {id:"mat_crafted_rope", qty: 1}
         ],
         reqCons:[],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: null,
         weight: 1000,
@@ -77,7 +80,8 @@ const tools: ItemsDict = {
             {id:"mat_crafted_rope", qty: 1}
         ],
         reqCons:[],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: null,
         weight: 1000,
@@ -96,7 +100,8 @@ const tools: ItemsDict = {
             {id:"mat_stone_rock", qty: 1}
         ],
         reqCons:[],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: null,
         weight: 1000,
@@ -115,12 +120,51 @@ const tools: ItemsDict = {
             {id:"mat_sea_shell", qty: 1}
         ],
         reqCons:[],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: null,
         weight: 1000,
         options:[
             {actionCode: "equipSsharpenedShell", name: "Equip", desc: "equips sharpened shell", singleTime: true},
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
+    },
+    tool_emptyBucket:{
+        id:"tool_emptyBucket",
+        type: "tool",
+        name: "empty bucket",
+        desc: "A wooden bucket made of planks. Used to collect water from the rivers or catch rain",
+        reqMats:[
+            {id:"mat_wood_plank", qty: 10},
+            {id:"mat_crafted_rope", qty: 2}
+        ],
+        reqCons:[],
+        reqTools: [],
+        qty: 1,
+        crafted: true,
+        relatedTile: null,
+        weight: 1000,
+        options:[
+            {actionCode: "equipEmptyBucket", name: "Equip", desc: "equips bucket", singleTime: true},
+            {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
+        ]
+    },
+    tool_waterBucket:{
+        id:"tool_waterBucket",
+        type: "tool",
+        name: "water bucket",
+        desc: "A water filled wooden bucket. Used to collect water from the rivers or catch rain",
+        reqMats:[],
+        reqCons:[],
+        reqTools: [],
+        qty: 1,
+        crafted: false,
+        relatedTile: null,
+        weight: 1000,
+        options:[
+            {actionCode: "equipWaterBucket", name: "Equip", desc: "equips bucket", singleTime: true},
+            {actionCode: "emptyBucket", name: "Empty", desc: "empties bucket", singleTime: true},
             {actionCode: "dropItem", name: "drop", desc: "drops item", singleTime: true}
         ]
     }

@@ -16,7 +16,8 @@ const buildings: ItemsDict = {
             {id:"mat_wood_stick", qty: 1}
         ],
         reqCons:[],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: "torchTile",
         weight: 1000,
@@ -38,7 +39,8 @@ const buildings: ItemsDict = {
 
         ],
         reqCons:[],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: "campfireTile",
         weight: 1000,
@@ -56,7 +58,8 @@ const buildings: ItemsDict = {
             {id:"mat_dirt", qty: 5}
         ],
         reqCons:[],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: "emptyFarmPlot",
         weight: 1000,
@@ -75,7 +78,8 @@ const buildings: ItemsDict = {
             {id:"mat_crafted_rope", qty: 2}
         ],
         reqCons:[],
-        qty: 0,
+        reqTools: [],
+        qty: 1,
         crafted: true,
         relatedTile: "woodenFloor",
         weight: 1000,

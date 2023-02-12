@@ -14,6 +14,10 @@ class Item {
         id: string
         qty: number
     }[]
+    reqTools: {
+        id: string
+        qty: number
+    }[]
     qty: number
     crafted: boolean
     relatedTile: string | null
@@ -32,6 +36,7 @@ class Item {
         this.desc = _ITEMS[itemId].desc
         this.reqMats =  _ITEMS[itemId].reqMats
         this.reqCons =  _ITEMS[itemId].reqCons
+        this.reqTools =  _ITEMS[itemId].reqTools
         this.qty =  qty
         this.crafted = _ITEMS[itemId].crafted
         this.relatedTile = _ITEMS[itemId].relatedTile

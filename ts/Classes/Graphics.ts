@@ -466,11 +466,18 @@ class Graphics{
     }
 
     drawRain(){
-        const {rainData} = this.game
+        const {rainData, stoppingRain} = this.game.weather
         
         rainData.drops.forEach( drop => {
             let rndYPos = Math.floor(Math.random() * (-1000))
-            if(drop.y >= (this.height-40)) drop.y = rndYPos
+            if(drop.y >= (this.height-40)){
+                if(!stoppingRain){
+                    drop.y = rndYPos
+                }
+                else{
+                    drop.y = this.height+100
+                }
+            }
             else{
                 drop.y += rainData.speed
                 if(Math.random() > 0.8){
@@ -488,30 +495,65 @@ class Graphics{
         })
     }
 
-    drawSnow(){
-        const {snowData} = this.game
-        
-        snowData.drops.forEach( drop => {
-            let rndYPos = Math.floor(Math.random() * (-250))
-            if(drop.y >= (this.height-40)) drop.y = rndYPos
-            else{
-                drop.y += snowData.speed
-                if(Math.random() > 0.8){
-                    if(Math.random() > 0.5){
-                        drop.x += 1
-                    }
-                    else{
-                        drop.x -= 1
-                    }
-                }
+    
+    torchFlicker(torch:{x?:number,y?:number,intensity:number,radius:number}){
+        if(Math.random() > 0.33){
+            if((torch.intensity + 0.35) > 1){
+                torch.intensity = 1
+            }else{
+                torch.intensity += 0.35
             }
-            
-            this.rainCtx.fillStyle = "lightgrey"
-            this.rainCtx.beginPath()
-            this.rainCtx.arc(drop.x,drop.y,2,0,2*Math.PI)
-            this.rainCtx.closePath()
-            this.rainCtx.fill()
-        })
+        }else{
+            if((torch.intensity - 0.1) < 0.35){
+                torch.intensity = 0.35
+            }else{
+                torch.intensity += 0.1
+            }
+        }
+
+        if(Math.random() > 0.33){
+            if((torch.radius + 1) > 150){
+                torch.radius = 150
+            }else{
+                torch.radius += 1
+            }
+        }else{
+            if((torch.radius - 1) < 140){
+                torch.radius = 140
+            }else{
+                torch.radius -= 1
+            }
+        } 
+    }
+
+    campfireFlicker(campfire:{x?:number,y?:number,intensity:number,radius:number}){
+        if(Math.random() > 0.33){
+            if((campfire.intensity + 0.35) > 1){
+                campfire.intensity = 1
+            }else{
+                campfire.intensity += 0.35
+            }
+        }else{
+            if((campfire.intensity - 0.1) < 0.35){
+                campfire.intensity = 0.35
+            }else{
+                campfire.intensity += 0.1
+            }
+        }
+
+        if(Math.random() > 0.33){
+            if((campfire.radius + 1) > 250){
+                campfire.radius = 250
+            }else{
+                campfire.radius += 1
+            }
+        }else{
+            if((campfire.radius - 1) < 240){
+                campfire.radius = 240
+            }else{
+                campfire.radius -= 1
+            }
+        } 
     }
 
     update(){
@@ -536,12 +578,8 @@ class Graphics{
             this.drawMessages()
             this.drawErrors()
             
-            if(this.game.rainData.active === true){
+            if(this.game.weather.rainData.active === true){
                 this.drawRain()
-            }
-
-            if(this.game.snowData.active === true){
-                this.drawSnow()
             }
             
             this.timeOfDayFilter()

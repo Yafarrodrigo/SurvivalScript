@@ -250,6 +250,10 @@ canvas{
     overflow-y: scroll;
 }
 
+#selected-item-name{
+    text-decoration: underline;
+}
+
 #crafting-selected-item-info{
     background-color: #666;
     margin: 3px;

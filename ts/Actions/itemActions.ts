@@ -120,7 +120,10 @@ const itemActions = {
         if(game.player.inventory.has(item, 1)){
             game.player.inventory.removeAll(item)
         }
-    }
+    },
+    equipBucket: (game:Game) => {
+        console.log("equips bucket!");
+    },
 }
 
 export default itemActions

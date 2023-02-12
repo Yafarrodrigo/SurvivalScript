@@ -112,10 +112,9 @@ class UI{
                 newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
                 newItem.oncontextmenu = (e) => e.preventDefault()
                 newItem.id = _ITEMS[item].id
-                //newItem.style.backgroundImage = `URL(${_ITEMS[item].icon})`
 
                 const qtyDiv = document.createElement('div')
-                qtyDiv.textContent = `x ${this.game.crafting.numberOfCrafts(_ITEMS[item].id)}`
+                qtyDiv.textContent = `can craft: ${this.game.crafting.numberOfCrafts(_ITEMS[item].id)}`
                 qtyDiv.classList.add('crafting-item-qty')
 
                 newItem.append(qtyDiv)
@@ -192,10 +191,9 @@ class UI{
 
             newReq.oncontextmenu = (e) => e.preventDefault()
             newReq.id = "req|"+mat.id
-            //newReq.style.backgroundImage = `URL(${_ITEMS[mat.id].icon})`
 
             const qtyDiv = document.createElement('div')
-            qtyDiv.textContent = `(${mat.qty}/${playerQty})`
+            qtyDiv.textContent = `(${playerQty} / ${mat.qty})`
             qtyDiv.classList.add('req-qty')
 
             newReq.append(qtyDiv)
@@ -344,7 +342,7 @@ class UI{
             const elemName = elem.firstChild as HTMLDivElement
             const elemQty = elem.lastChild as HTMLDivElement
 
-            elemQty.textContent = `x ${this.game.crafting.numberOfCrafts(items[i].id)}`
+            elemQty.textContent = `can craft:  ${this.game.crafting.numberOfCrafts(items[i].id)}`
 
             if(!elemName.innerText.toLowerCase().includes(this.searchingText.toLowerCase())){
                 const elemToHide = document.getElementById(items[i].id)
@@ -370,28 +368,6 @@ class UI{
     }
 
     updateInventoryWindow(){
-        /* const items = document.getElementsByClassName('inventory-item')
-        for(let i = 0; i < items.length; i++){
-            const elem = document.getElementById(items[i].id) as HTMLDivElement
-            const elemName = elem.childNodes[0] as HTMLDivElement
-            const elemQty = elem.childNodes[1] as HTMLDivElement
-
-            if(!elemName.innerText.toLowerCase().includes(this.searchingText.toLowerCase())){
-                const elemToHide = document.getElementById(items[i].id)
-                elemToHide!.style.display = "none"
-            }else{
-                const elemToShow = document.getElementById(items[i].id)
-                elemToShow!.style.display = "flex"
-            }
-
-            if(this.game.player.inventory.has(items[i].id , 1)){
-                elemQty.textContent = `x ${this.game.player.inventory.items[elem.id].qty}`
-            }
-            else{
-                const elemToDelete = document.getElementById(items[i].id)
-                if(elemToDelete) elemToDelete.remove()
-            }
-        } */
         const itemsContainer = document.getElementById("inventory-items-container") as HTMLDivElement
         itemsContainer.innerHTML = ""
         const allItems = this.game.player.inventory.items

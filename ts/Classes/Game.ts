@@ -6,6 +6,7 @@ import UI from './UI.js'
 import ACTIONS from '../Actions.js'
 import Tile from './Tile.js'
 import Crafting from './Crafting.js'
+import Weather from './Weather.js'
 
 class Game {
     width: number = 800
@@ -15,6 +16,7 @@ class Game {
     player: Player
     controls: Controls
     crafting: Crafting
+    weather: Weather
     cursorPos: {
         x: number,
         y: number
@@ -30,18 +32,7 @@ class Game {
     day: number
     timeOfDay: "dawn" | "day" | "dusk" | "night"
     clockRate: 5000 | 32 | 16 | 8 | 4 | 1
-    rainData:{
-        active: boolean
-        dropsQty: number
-        drops:{x: number, y:number}[]
-        speed: number
-    }
-    snowData:{
-        active: boolean
-        dropsQty: number
-        drops:{x: number, y:number}[]
-        speed: number
-    }
+    
  
     constructor(){
         this.graphics = new Graphics(this, 1280,736)
@@ -49,6 +40,7 @@ class Game {
         
         this.player = new Player(this)
         this.crafting = new Crafting(this)
+        this.weather = new Weather(this)
         this.cursorPos = {x:0,y:0}
         this.lastClickedTile = null
         this.clock = null
@@ -63,39 +55,6 @@ class Game {
         this.timeOfDay = "day"
         this.day = 0
 
-        this.rainData = {
-            active: true,
-            dropsQty: 500,
-            drops: [],
-            speed: 15
-        }
-
-        for(let i = 0; i < this.rainData.dropsQty; i++){
-            let rndYPos = (Math.floor(Math.random() * 1000))*(-1)
-            const newDrop = {
-                x: Math.floor(Math.random()*this.graphics.canvas.width),
-                y: rndYPos
-            }
-            this.rainData.drops.push(newDrop)
-        }
-
-        this.snowData = {
-            active: false,
-            dropsQty: 250,
-            drops: [],
-            speed: 10
-        }
-
-        for(let i = 0; i < this.snowData.dropsQty; i++){
-            let rndYPos = (Math.floor(Math.random() * 1250))*(-1)
-            const newDrop = {
-                x: Math.floor(Math.random()*this.graphics.canvas.width),
-                y: rndYPos
-            }
-            this.snowData.drops.push(newDrop)
-        }
-        
-        
         this.actions = ACTIONS
         this.graphics.update()
     }
@@ -113,81 +72,29 @@ class Game {
         }
     }
 
-    startRain(){
-        this.rainData.active = true
-    }
-
-    stopRain(){
-        this.rainData.active = false
-    }
-
-    torchFlicker(torch:{x?:number,y?:number,intensity:number,radius:number}){
-        if(Math.random() > 0.33){
-            if((torch.intensity + 0.35) > 1){
-                torch.intensity = 1
-            }else{
-                torch.intensity += 0.35
-            }
-        }else{
-            if((torch.intensity - 0.1) < 0.35){
-                torch.intensity = 0.35
-            }else{
-                torch.intensity += 0.1
-            }
-        }
-
-        if(Math.random() > 0.33){
-            if((torch.radius + 1) > 150){
-                torch.radius = 150
-            }else{
-                torch.radius += 1
-            }
-        }else{
-            if((torch.radius - 1) < 140){
-                torch.radius = 140
-            }else{
-                torch.radius -= 1
-            }
-        } 
-    }
-
-    campfireFlicker(campfire:{x?:number,y?:number,intensity:number,radius:number}){
-        if(Math.random() > 0.33){
-            if((campfire.intensity + 0.35) > 1){
-                campfire.intensity = 1
-            }else{
-                campfire.intensity += 0.35
-            }
-        }else{
-            if((campfire.intensity - 0.1) < 0.35){
-                campfire.intensity = 0.35
-            }else{
-                campfire.intensity += 0.1
-            }
-        }
-
-        if(Math.random() > 0.33){
-            if((campfire.radius + 1) > 250){
-                campfire.radius = 250
-            }else{
-                campfire.radius += 1
-            }
-        }else{
-            if((campfire.radius - 1) < 240){
-                campfire.radius = 240
-            }else{
-                campfire.radius -= 1
-            }
-        } 
-    }
-
     update(){
+        // CADA HORA
         if(this.internalClock + 1 >= 300 ){
+            
+            if(this.weather.rainData.active){
+                if(Math.random() > 0.80){
+                    this.weather.stopRain()
+                    console.log("stop raining",this.time);
+                }
+            }else{
+                if(Math.random() > 0.9725){
+                    this.weather.startRain()
+                    console.log("start raining",this.time);
+                    
+                }
+            }
+            
             this.internalClock = 0
             if(this.time + 1 > 23){
                 this.time = 0
                 this.day += 1
-
+                console.log(this.day);
+                
                 // dia a dia
                 this.player.allCrops.forEach(crop => {
     
@@ -204,9 +111,7 @@ class Game {
                 })
 
             }else{
-                this.time += 1
-                console.log(`${this.time}:00`);
-                
+                this.time += 1                
             }
         }
         else{
@@ -218,12 +123,9 @@ class Game {
         else if(this.time == 19) this.timeOfDay = 'dusk' 
         else if(this.time == 22) this.timeOfDay = 'night'
 
-        // ** slow **
-        //
-        //
-        this.player.allTorches.forEach(torch => this.torchFlicker(torch))
-        this.player.allCampfires.forEach(campfire => this.campfireFlicker(campfire))
-        this.torchFlicker(this.player.mainTorch)
+        this.player.allTorches.forEach(torch => this.graphics.torchFlicker(torch))
+        this.player.allCampfires.forEach(campfire => this.graphics.campfireFlicker(campfire))
+        this.graphics.torchFlicker(this.player.mainTorch)
         
         this.graphics.update()
     }

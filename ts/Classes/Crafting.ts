@@ -29,6 +29,26 @@ class Crafting{
         else return true
     }
 
+    toolCheck(itemId: string){
+        if(!_ITEMS[itemId]){
+            console.log("no existe ese item")
+            return
+        }
+        if(!_ITEMS[itemId].reqTools.length) return true
+
+        let fails:number = 0
+        _ITEMS[itemId].reqTools.forEach( tool => {
+            if(!this.game.player.inventory.has(tool.id, tool.qty)){
+                fails++
+            }
+        })
+        
+        if(fails > 0){
+            return false
+        }
+        else return true
+    }
+
     numberOfCrafts(itemId:string):number{
         const {inventory} = this.game.player
 
@@ -48,13 +68,16 @@ class Crafting{
     }
 
     craft(itemId:string){
-        if(!this.matCheck(itemId)) return
+        if(!this.matCheck(itemId) || !this.toolCheck(itemId)){
+            this.game.graphics.error("no mats or tool to craft it")
+            return
+        }
 
-        this.game.player.inventory.addItem(itemId, 1)
+        this.game.player.inventory.addItem(itemId, _ITEMS[itemId].qty)
         _ITEMS[itemId].reqMats.forEach( req => {
             this.game.player.inventory.removeItem(req.id, req.qty)
         })
-        this.game.graphics.drawGatherInfo(this.game.player.position.x, this.game.player.position.y, `+1 ${_ITEMS[itemId].name}`);
+        this.game.graphics.drawGatherInfo(this.game.player.position.x, this.game.player.position.y, `+${_ITEMS[itemId].qty} ${_ITEMS[itemId].name}`);
     }
 
     build(itemId:string, x:number, y:number){
