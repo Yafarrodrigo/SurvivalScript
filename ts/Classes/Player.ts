@@ -1,7 +1,8 @@
-import ACTIONS from "../Actions.js"
 import Game from "./Game.js"
 import Inventory from "./Inventory.js"
 import Item from "./Item.js"
+
+export type equipmentSlots = "head" | "torso" | "hands" | "legs" | "feet" | "back"
 
 class Player{
 
@@ -42,14 +43,7 @@ class Player{
     }[]
     carryWeight: number
     maxCarryWeight: number
-    equipment:{
-        head: null | Item
-        torso: null | Item
-        hands: null | Item
-        legs: null | Item
-        feet: null | Item
-        back: null | Item
-    }
+    equipment:{[slot in equipmentSlots]: Item | null}
 
     constructor(game: Game){
         this.game = game
@@ -67,6 +61,7 @@ class Player{
         this.inventory.addItem("building_campfire", 1)
         this.inventory.addItem("tool_fishingRod", 1)
         this.inventory.addItem("cons_bait_worm", 3)
+        this.inventory.addItem("tool_hatchet", 1)
         this.mainTorch = {radius:140,intensity:1}
         this.gathering = false
         this.doingAction = null
@@ -84,25 +79,26 @@ class Player{
             feet: null,
             back: null
         }
-
-        /* EQUIPMENT!! */
-        /* EQUIPMENT!! */
-        /* EQUIPMENT!! */
-        /* EQUIPMENT!! */
-        /* EQUIPMENT!! */
     }
 
-    equipItem(slot:"head"|"torso"|"hands"|"legs"|"feet"|"back", item:Item|null){
+    equipItem(slot:"head"|"torso"|"hands"|"legs"|"feet"|"back", item:Item){
         this.equipment[slot] = item
+        const equipmentElem = document.getElementById("equipment-"+slot) as HTMLHeadingElement
+        equipmentElem.textContent = `${slot}: ${item.name}`
+        equipmentElem.style.color = "green"
     }
 
     removeEquipment(slot:"head"|"torso"|"hands"|"legs"|"feet"|"back"){
         this.equipment[slot] = null
+        const equipmentElem = document.getElementById("equipment-"+slot) as HTMLHeadingElement
+        equipmentElem.textContent = `${slot}: nothing`
+        equipmentElem.style.color = "white"
     }
 
     removeTorchFromGame(x:number,y:number){
         this.allTorches = this.allTorches.filter( torch => torch.x !== x && torch.y !== y )    
     }
+
     removeCampfireFromGame(x:number,y:number){
         this.allCampfires = this.allCampfires.filter( campfire => campfire.x !== x && campfire.y !== y )    
     }

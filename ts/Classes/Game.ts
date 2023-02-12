@@ -6,7 +6,6 @@ import UI from './UI.js'
 import ACTIONS from '../Actions.js'
 import Tile from './Tile.js'
 import Crafting from './Crafting.js'
-import Item from './Item.js'
 
 class Game {
     width: number = 800
@@ -31,10 +30,22 @@ class Game {
     day: number
     timeOfDay: "dawn" | "day" | "dusk" | "night"
     clockRate: 5000 | 32 | 16 | 8 | 4 | 1
+    rainData:{
+        active: boolean
+        dropsQty: number
+        drops:{x: number, y:number}[]
+        speed: number
+    }
+    snowData:{
+        active: boolean
+        dropsQty: number
+        drops:{x: number, y:number}[]
+        speed: number
+    }
  
     constructor(){
-        this.graphics = new Graphics(this, 1280,720)
-        this.map = new Map(this, 6400, 3600)
+        this.graphics = new Graphics(this, 1280,736)
+        this.map = new Map(this, 6400, 3680)
         
         this.player = new Player(this)
         this.crafting = new Crafting(this)
@@ -51,6 +62,39 @@ class Game {
         this.time = 12
         this.timeOfDay = "day"
         this.day = 0
+
+        this.rainData = {
+            active: true,
+            dropsQty: 500,
+            drops: [],
+            speed: 15
+        }
+
+        for(let i = 0; i < this.rainData.dropsQty; i++){
+            let rndYPos = (Math.floor(Math.random() * 1000))*(-1)
+            const newDrop = {
+                x: Math.floor(Math.random()*this.graphics.canvas.width),
+                y: rndYPos
+            }
+            this.rainData.drops.push(newDrop)
+        }
+
+        this.snowData = {
+            active: false,
+            dropsQty: 250,
+            drops: [],
+            speed: 10
+        }
+
+        for(let i = 0; i < this.snowData.dropsQty; i++){
+            let rndYPos = (Math.floor(Math.random() * 1250))*(-1)
+            const newDrop = {
+                x: Math.floor(Math.random()*this.graphics.canvas.width),
+                y: rndYPos
+            }
+            this.snowData.drops.push(newDrop)
+        }
+        
         
         this.actions = ACTIONS
         this.graphics.update()
@@ -67,6 +111,14 @@ class Game {
             clearInterval(this.clock)
             this.clock = null
         }
+    }
+
+    startRain(){
+        this.rainData.active = true
+    }
+
+    stopRain(){
+        this.rainData.active = false
     }
 
     torchFlicker(torch:{x?:number,y?:number,intensity:number,radius:number}){

@@ -26,6 +26,8 @@ class Graphics{
     ctx: CanvasRenderingContext2D
     timeCanvas: HTMLCanvasElement
     timeCtx: CanvasRenderingContext2D
+    rainCanvas: HTMLCanvasElement
+    rainCtx: CanvasRenderingContext2D
     canvasFx: HTMLCanvasElement
     ctxFx: CanvasRenderingContext2D
     messages: {x:number,y:number, text:string, timer:number, alpha:number}[]
@@ -66,6 +68,9 @@ class Graphics{
         const newCanvasFx = document.createElement('canvas')
         this.canvasFx = newCanvasFx
         this.ctxFx = newCanvasFx.getContext('2d')!
+        const rainCanvas = document.createElement('canvas')
+        this.rainCanvas = rainCanvas
+        this.rainCtx = rainCanvas.getContext('2d')!
 
         this.messages = []
         this.errors = []
@@ -103,14 +108,18 @@ class Graphics{
         this.canvas.width = this.width
         this.canvasFx.width = this.width
         this.timeCanvas.width = this.width
+        this.rainCanvas.width = this.width
         this.canvas.height = this.height
         this.canvasFx.height = this.height
         this.timeCanvas.height = this.height
+        this.rainCanvas.height = this.height
         this.canvas.id = 'game-canvas'
         this.canvasFx.id = 'game-canvas-fx'
         this.timeCanvas.id = 'game-canvas-time'
+        this.rainCanvas.id = 'game-canvas-rain'
         document.getElementById("game-container")!.append(this.canvas)
         document.getElementById("game-container")!.append(this.canvasFx)
+        document.getElementById("game-container")!.append(this.rainCanvas)
         document.getElementById("game-container")!.append(this.timeCanvas)
 
         this.ctx.fillStyle = "black"
@@ -456,10 +465,60 @@ class Graphics{
         ctx.fill();
     }
 
+    drawRain(){
+        const {rainData} = this.game
+        
+        rainData.drops.forEach( drop => {
+            let rndYPos = Math.floor(Math.random() * (-1000))
+            if(drop.y >= (this.height-40)) drop.y = rndYPos
+            else{
+                drop.y += rainData.speed
+                if(Math.random() > 0.8){
+                    if(Math.random() > 0.5){
+                        drop.x += 1
+                    }
+                    else{
+                        drop.x -= 1
+                    }
+                }
+            }
+            
+            this.rainCtx.fillStyle = "rgba(0,0,150,0.3)"
+            this.roundRect(this.rainCtx,drop.x, drop.y, 2.5, 25, 2)
+        })
+    }
+
+    drawSnow(){
+        const {snowData} = this.game
+        
+        snowData.drops.forEach( drop => {
+            let rndYPos = Math.floor(Math.random() * (-250))
+            if(drop.y >= (this.height-40)) drop.y = rndYPos
+            else{
+                drop.y += snowData.speed
+                if(Math.random() > 0.8){
+                    if(Math.random() > 0.5){
+                        drop.x += 1
+                    }
+                    else{
+                        drop.x -= 1
+                    }
+                }
+            }
+            
+            this.rainCtx.fillStyle = "lightgrey"
+            this.rainCtx.beginPath()
+            this.rainCtx.arc(drop.x,drop.y,2,0,2*Math.PI)
+            this.rainCtx.closePath()
+            this.rainCtx.fill()
+        })
+    }
+
     update(){
         this.ctx.clearRect(0,0,this.width,this.height)
         this.ctxFx.clearRect(0,0,this.width,this.height)
         this.timeCtx.clearRect(0,0,this.width,this.height)
+        this.rainCtx.clearRect(0,0,this.width,this.height)
 
         if(this.fullMap === true){
             this.drawFullMap()
@@ -476,6 +535,14 @@ class Graphics{
             this.drawTileHover()
             this.drawMessages()
             this.drawErrors()
+            
+            if(this.game.rainData.active === true){
+                this.drawRain()
+            }
+
+            if(this.game.snowData.active === true){
+                this.drawSnow()
+            }
             
             this.timeOfDayFilter()
         }

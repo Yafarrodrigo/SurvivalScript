@@ -33,6 +33,11 @@ canvas{
     pointer-events: none;
 }
 
+#game-canvas-rain{
+    position: absolute;
+    pointer-events: none;
+}
+
 #game-container{
     display: flex;
     width: 1100px;

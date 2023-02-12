@@ -13,6 +13,7 @@ class UI{
     craftingOpened: boolean
     craftingPanel: HTMLDivElement | null
     selectedItem: Item | null
+    lastItemActionClicked: HTMLLIElement | null
     uiTyping: boolean
     searchingText: string
 
@@ -26,6 +27,7 @@ class UI{
         this.craftingOpened = false
         this.craftingPanel = null
         this.selectedItem = null
+        this.lastItemActionClicked = null
         this.uiTyping = false
         this.searchingText = ""
     }
@@ -33,6 +35,7 @@ class UI{
     openCrafting(){
 
         if(this.craftingOpened) return
+        this.closeAllWindows()
 
         const container = document.createElement('div')
         container.id = "crafting-panel"
@@ -204,6 +207,7 @@ class UI{
     openInventory(){
 
         if(this.inventoryOpened) return
+        this.closeAllWindows()
 
         const container = document.createElement('div')
         container.id = "inventory-panel"
@@ -284,22 +288,21 @@ class UI{
                     const {x,y} = this.game.controls.getMousePos(e)
                     container.style.left = (x*this.game.graphics.tileSize) + 15 + "px"
                     container.style.top = (y*this.game.graphics.tileSize) + "px"
-    
-/* 
-
-AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
-
-*/
-
 
                     const list = document.createElement('ul')
                     list.style.pointerEvents = "none"
                     allItems[item].options.forEach( option => {
                         const newItem = document.createElement('li')
+                        newItem.id = `drop-${item}`
                         newItem.innerText = option.name
                         newItem.onclick = (e:MouseEvent) => {
                             e.preventDefault()
-                            this.game.actions[option.actionCode](this.game)
+                            this.lastItemActionClicked = e.target as HTMLLIElement
+                            if(option.actionCode !== "dropItem"){
+                                this.game.actions[option.actionCode](this.game)
+                            }else{
+                                this.game.actions[option.actionCode](this.game)
+                            }
                             this.hideMenus()
                         }
                         newItem.oncontextmenu = (e) => e.preventDefault();
@@ -367,7 +370,7 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
     }
 
     updateInventoryWindow(){
-        const items = document.getElementsByClassName('inventory-item')
+        /* const items = document.getElementsByClassName('inventory-item')
         for(let i = 0; i < items.length; i++){
             const elem = document.getElementById(items[i].id) as HTMLDivElement
             const elemName = elem.childNodes[0] as HTMLDivElement
@@ -388,6 +391,81 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
                 const elemToDelete = document.getElementById(items[i].id)
                 if(elemToDelete) elemToDelete.remove()
             }
+        } */
+        const itemsContainer = document.getElementById("inventory-items-container") as HTMLDivElement
+        itemsContainer.innerHTML = ""
+        const allItems = this.game.player.inventory.items
+        for(let item in allItems){
+            const newItem = document.createElement('div')
+            newItem.classList.add('inventory-item')
+            newItem.id = allItems[item].id
+            const nameDiv = document.createElement('div')
+            nameDiv.textContent = `${allItems[item].name}`
+            nameDiv.classList.add('inventory-item-name')
+            newItem.append(nameDiv)
+
+            const qtyDiv = document.createElement('div')
+            qtyDiv.textContent = `x ${allItems[item].qty}`
+            qtyDiv.classList.add('inventory-item-qty')
+
+            newItem.append(qtyDiv)
+            newItem.onclick = (e:MouseEvent) => {e.preventDefault(); this.selectedItem = _ITEMS[(e.target as HTMLDivElement).id]; this.update()}
+            // ITEM OPTIONS
+            newItem.oncontextmenu = (e:MouseEvent) => {
+                e.preventDefault()
+
+                if(this.activeMenu !== null){
+                    this.activeMenu.style.display = "none"
+                    this.hideMenus()
+                }
+                else{
+                    const container = document.createElement('div')
+                    container.classList.add('context-menu')
+                    container.id = "itemMenu"
+                    container.style.display = "block"
+                    container.style.pointerEvents = "none"
+                    const {x,y} = this.game.controls.getMousePos(e)
+                    container.style.left = (x*this.game.graphics.tileSize) + 15 + "px"
+                    container.style.top = (y*this.game.graphics.tileSize) + "px"
+
+                    const list = document.createElement('ul')
+                    list.style.pointerEvents = "none"
+                    allItems[item].options.forEach( option => {
+                        const newItem = document.createElement('li')
+                        newItem.id = `drop-${item}`
+                        newItem.innerText = option.name
+                        newItem.onclick = (e:MouseEvent) => {
+                            e.preventDefault()
+                            this.lastItemActionClicked = e.target as HTMLLIElement
+                            if(option.actionCode !== "dropItem"){
+                                this.game.actions[option.actionCode](this.game)
+                            }else{
+                                this.game.actions[option.actionCode](this.game)
+                            }
+                            this.hideMenus()
+                        }
+                        newItem.oncontextmenu = (e) => e.preventDefault();
+                        list.append(newItem)
+                    })
+                    container.append(list)
+                    this.gameContainer.append(container)
+                    this.activeMenu = container
+                }
+            }
+
+            const dropButton = document.createElement('button')
+            dropButton.oncontextmenu = (e:MouseEvent) => e.preventDefault()
+            dropButton.classList.add("inventory-drop-button")
+            dropButton.onclick = (e:MouseEvent) => {
+                e.preventDefault()
+                this.game.player.inventory.removeItem(allItems[item].id, 1)
+                this.update()
+            }
+            dropButton.innerText = "x"
+
+            newItem.append(dropButton)
+
+            itemsContainer.append(newItem)
         }
 
         const weight = document.getElementById('inventory-weight')!
@@ -404,7 +482,7 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
             this.gameContainer.removeChild(this.inventoryPanel)
             this.inventoryPanel = null
             this.inventoryOpened = false
-            this.selectedItem = null
+            //this.selectedItem = null
         }
     }
 
@@ -413,7 +491,7 @@ AGREGAR ACTIONS EN LOS ITEMS DE MENU Y Q FUNQUEN
             this.gameContainer.removeChild(this.craftingPanel)
             this.craftingPanel = null
             this.craftingOpened = false
-            this.selectedItem = null
+            //this.selectedItem = null
         }
     }
 

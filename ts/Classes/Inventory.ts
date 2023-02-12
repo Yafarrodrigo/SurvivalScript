@@ -1,6 +1,7 @@
 import _ITEMS from "../AllItems.js"
 import Game from "./Game.js"
 import Item from "./Item.js"
+import { equipmentSlots } from "./Player.js"
 
 class Inventory{
 
@@ -54,9 +55,27 @@ class Inventory{
             if(this.items[itemId].qty <= 0){
                 delete this.items[itemId]
 
-                if(itemId === "building_torch" && player.equipment.hands !== null && player.equipment.hands.id === "building_torch"){
-                    player.removeEquipment("hands")
+                for(let slot in player.equipment){
+                    const itemInSlot = player.equipment[slot as equipmentSlots]
+                    if( itemInSlot !== null && itemInSlot.id === itemId){
+                        player.removeEquipment(slot as equipmentSlots)
+                    }
                 }
+   
+            }
+        }
+
+        if(this.game.ui){
+            this.game.ui.update()
+        }
+    }
+
+    removeAll(itemId:string){
+        if(!this.has(itemId, 1)) return
+
+        while(this.items[itemId] && this.items[itemId].qty > 0){
+            if(this.has(itemId, 1)){
+                this.removeItem(itemId, 1)
             }
         }
 

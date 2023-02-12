@@ -25,9 +25,9 @@ class Map{
         this.tilesPerColumn = Math.floor(this.height / this.tileSize)
         // MAP GEN
         const perlin = new Perlin(0.5,0.5)
-        const n1 = Math.floor(Math.random()*50)+100         //  tweak for map gen
-        const n2 = Math.floor(Math.random()*50)+25         //  tweak for map gen
-        const seed =  Math.floor(Math.random()*1000)
+        const n1 = 118      //Math.floor(Math.random()*50)+100         //  tweak for map gen
+        const n2 = 67       //Math.floor(Math.random()*50)+25         //  tweak for map gen
+        const seed =  276   //Math.floor(Math.random()*1000)
         perlin.setSeed(seed)    //  tweak for map gen
 
         console.table({
