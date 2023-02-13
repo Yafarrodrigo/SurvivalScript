@@ -121,8 +121,21 @@ const itemActions = {
             game.player.inventory.removeAll(item)
         }
     },
-    equipBucket: (game:Game) => {
-        console.log("equips bucket!");
+    equipEmptyBucket: (game:Game) => {
+        if(game.player.inventory.has("tool_emptyBucket", 1)){
+            const emptyBucket = game.player.inventory.items["tool_emptyBucket"]
+            game.player.equipItem("hands", emptyBucket)
+        }else{
+            game.graphics.error("no empty bucket in your inventory")
+        }
+    },
+    equipWaterBucket: (game:Game) => {
+        if(game.player.inventory.has("tool_waterBucket", 1)){
+            const waterBucket = game.player.inventory.items["tool_waterBucket"]
+            game.player.equipItem("hands", waterBucket)
+        }else{
+            game.graphics.error("no water filled bucket in your inventory")
+        }
     },
 }
 

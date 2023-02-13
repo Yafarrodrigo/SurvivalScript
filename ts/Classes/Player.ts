@@ -1,12 +1,14 @@
 import Game from "./Game.js"
+import Health from "./Health.js"
 import Inventory from "./Inventory.js"
 import Item from "./Item.js"
 
 export type equipmentSlots = "head" | "torso" | "hands" | "legs" | "feet" | "back"
 
 class Player{
-
+    
     game: Game
+    health: Health
     position: {
         x:number,
         y:number
@@ -55,6 +57,7 @@ class Player{
             {actionCode: "startCampfire",name:"start campfire", desc: "starting campfire", singleTime: true}
         ]
         this.inventory = new Inventory(this.game)
+        this.health = new Health(this.game)
         this.inventory.addItem("building_torch",5)
         this.inventory.addItem("building_wooden_floor",5)
         this.inventory.addItem("building_farmPlot",5)
@@ -71,14 +74,7 @@ class Player{
         this.allCrops = []
         this.carryWeight = this.inventory.getWeight()
         this.maxCarryWeight = 25000
-        this.equipment = {
-            head: null,
-            torso: null,
-            hands: null,
-            legs: null,
-            feet: null,
-            back: null
-        }
+        this.equipment = {head: null,torso: null,hands: null,legs: null,feet: null,back: null}
     }
 
     equipItem(slot:"head"|"torso"|"hands"|"legs"|"feet"|"back", item:Item){

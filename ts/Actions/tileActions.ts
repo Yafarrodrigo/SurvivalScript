@@ -48,7 +48,7 @@ const tileActions = {
         
     },
     gatherDirt: (game:Game) => {
-        if(game.player.inventory.has("tool_shovel",1)){
+        if(CHECKS.canGatherSandOrDirt(game.player)){
             game.player.inventory.addItem("mat_dirt", 1)
             const playerQty = game.player.inventory.items["mat_dirt"].qty
             game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} dirt`);
@@ -59,7 +59,7 @@ const tileActions = {
         
     },
     gatherSand: (game:Game) => {
-        if(game.player.inventory.has("tool_shovel",1)){
+        if(CHECKS.canGatherSandOrDirt(game.player)){
             game.player.inventory.addItem("mat_sand", 1)
             const playerQty = game.player.inventory.items["mat_sand"].qty
             game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} sand`);
@@ -97,12 +97,12 @@ const tileActions = {
         
     },
     gatherLongStick: (game:Game) => {
-        if(game.player.inventory.has('tool_stoneKnife', 1) || game.player.inventory.has('tool_hatchet', 1) || game.player.inventory.has('tool_sharpenedShell', 1)){
+        if(CHECKS.canGatherLongSticks(game.player)){
             game.player.inventory.addItem("mat_wood_stick", 1)
             const playerQty = game.player.inventory.items["mat_wood_stick"].qty
             game.graphics.drawGatherInfo(game.player.position.x, game.player.position.y, `${playerQty} long sticks`);
         }else{
-            game.graphics.error("must have a hatchet or a knife !");
+            game.graphics.error("must have a hatchet, knife or sharpened shell equipped!");
         }
         
     },

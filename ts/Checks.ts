@@ -6,6 +6,16 @@ const CHECKS = {
         if(player.equipment.hands !== null && toolsToChop.includes(player.equipment.hands.id)) return true
         else return false
     },
+    canGatherLongSticks: (player:Player) => {
+        const toolsToGatherLongSticks = ['tool_stoneKnife','tool_hatchet','tool_sharpenedShell']
+        if(player.equipment.hands !== null && toolsToGatherLongSticks.includes(player.equipment.hands.id)) return true
+        else return false
+    },
+    canGatherSandOrDirt: (player: Player) => {
+        const toolsGatherSandOrDirt = ["tool_shovel"]
+        if(player.equipment.hands !== null && toolsGatherSandOrDirt.includes(player.equipment.hands.id)) return true
+        else return false
+    },
     canFish: (player:Player) => {
         const toolsToFish = ["tool_fishingRod"]
         if(player.equipment.hands !== null && toolsToFish.includes(player.equipment.hands.id) &&
@@ -14,8 +24,6 @@ const CHECKS = {
         }else{
             return false
         }
-        
-
     },
 }
 
