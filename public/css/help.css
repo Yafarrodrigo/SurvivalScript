@@ -24,6 +24,7 @@
     display: flex;
     margin: 5px;
     background-color: #555;
+    align-items: center;
 }
 
 #help-secment-1 ul li span{

@@ -372,6 +372,11 @@ class UI{
         itemsContainer.innerHTML = ""
         const allItems = this.game.player.inventory.items
         for(let item in allItems){
+
+            if(!item.toLowerCase().includes(this.searchingText.toLowerCase())){
+                continue
+            }
+
             const newItem = document.createElement('div')
             newItem.classList.add('inventory-item')
             newItem.id = allItems[item].id
