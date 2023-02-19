@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index.js",
+    "build": "npx tsc",
     "ts": "npx tsc -watch"
   },
   "keywords": [],
