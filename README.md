@@ -1,6 +1,6 @@
 # SurvivalScript
 
-Juego de supervivencia hecho a puro javascript. 
+Juego de supervivencia hecho con Typescript.
 
 Deploy: https://gorgeous-alpaca-372cbb.netlify.app/
 
