@@ -6,13 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SurvivalScript</title>
     <link rel="stylesheet" href="./css/game.css">
+    <script defer src="help.js"></script>
+    <link rel="stylesheet" href="./css/help.css">
     <script type="module" defer src="js/index.js"></script>
 </head>
 <body>
-    <div id="game-container">
+    <div id="all-container" style="display: flex; gap: 180px;">
+        <div id="game-container">
         
+        </div>
+        <div id="help-container">
+            <div id="help-secment-1" class="help-secment">
+                <ul>
+                    <li>
+                        <img class="hotkey-image" src="./assets/help/I.png" alt="hotkey for inventory">
+                        <span>Press I to open/close the inventory window</span>
+                    </li>
+                    <li>
+                        <img class="hotkey-image" src="./assets/help/C.png" alt="hotkey for crafting">
+                        <span>Press C to open/close the crafting window</span>
+                    </li>
+                    <li>
+                        <img class="hotkey-image" src="./assets/help/M.png" alt="hotkey for map">
+                        <span>Press M to open/close the map</span>
+                    </li>
+                    <li>
+                        <img class="hotkey-image" src="./assets/help/ESC.png" alt="hotkey for closing windows">
+                        <span>Press ESC to close all the windows</span>
+                    </li>
+                    <li>
+                        <img class="hotkey-image-extra" src="./assets/help/WASD.png" alt="hotkey for moving">
+                        <span>Press W A S D to move in all four directions</span>
+                    </li>
+                    <li>
+                        <img class="hotkey-image-extra" src="./assets/help/ARROWS.png" alt="hotkey for moving (alternative)">
+                        <span>Press ← → ↑ ↓ to move in all four directions</span>
+                    </li>
+                </ul>
+            </div>
+            <div id="help-secment-2" class="help-secment">
+                <h2>some tips: </h2>
+                <ul>
+                    <li> to perform some actions you'll need a tool equipped </li>
+                    <li> to place a building use the right click and select "place"</li>
+                    <li> craft torches to see at night</li>
+                    <li> get worms from the ground to use as bait and fish</li>
+                    <li> build wooden floors to pass thorugh water</li>
+                </ul>
+            </div>
+            <div id="help-secment-3" class="help-secment">
+                <h2>Equippment slots: </h2>
+                <ul>
+                    <li id="equipment-head">head: nothing</li>
+                    <li id="equipment-torso">torso: nothing</li>
+                    <li id="equipment-hands">hands: nothing</li>
+                    <li id="equipment-legs">legs: nothing</li>
+                    <li id="equipment-feet">feet: nothing</li>
+                    <li id="equipment-back">back: nothing</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div id="controls">
+    
+   <!--  <div id="controls">
         <h1 style="color: white;">Press "I" to open Inventory</h1>
         <h1 style="color: white;">Press "C" to open Crafting</h1>
         <h1 style="color: white;">Press "M" to open Map</h1>
@@ -22,20 +78,8 @@
         <br>
         <hr>
         <div style="color:white">
-            <h1>EQUIPMENT: </h1>
-            <br>
-            <h3 id="equipment-head">head: nothing</h3>
-            <br>
-            <h3 id="equipment-torso">torso: nothing</h3>
-            <br>
-            <h3 id="equipment-hands">hands: nothing</h3>
-            <br>
-            <h3 id="equipment-legs">legs: nothing</h3>
-            <br>
-            <h3 id="equipment-feet">feet: nothing</h3>
-            <br>
-            <h3 id="equipment-back">back: nothing</h3>
+            
         </div>
-    </div>
+    </div> -->
 </body>
 </html>
