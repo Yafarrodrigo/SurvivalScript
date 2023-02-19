@@ -2,9 +2,9 @@
 
 Juego de supervivencia hecho a puro javascript. 
 
-Deploy: https://survivalscript-production.up.railway.app/
+Deploy: https://gorgeous-alpaca-372cbb.netlify.app/
 
-## Algunas im·genes:
+## Algunas im√°genes:
 
 ![image info](./survival1.jpg)
 
