@@ -1,8 +1,12 @@
 # SurvivalScript
 
-Juego de supervivencia hecho con Typescript. Todavía esta muy verde pero creo haberlo estructurado de tal forma que será facil agregar contenido :smirk:
-
-Deploy: https://gorgeous-alpaca-372cbb.netlify.app/
+Base para juego de supervivencia hecho usando Typescript.
+Algunas de las features:
+ * Inventory
+ * Crafting
+ * Gather resources
+ * Discovered / unknown parts of the map
+ * day/night cycle & weather (only rain)
 
 ## Algunas imágenes:
 
